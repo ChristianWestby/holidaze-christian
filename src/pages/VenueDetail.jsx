@@ -26,19 +26,26 @@ export default function VenueDetail() {
   }
 
   return (
-    <div className="p-4">
-      <Link to="/" className="text-blue-600 underline text-sm">
+    <div className="venue-detail">
+      <Link to="/" className="venue-detail__back-link">
         Tilbake til oversikt
       </Link>
-      <h1 className="text-2xl font-bold mb-2">{venue.name}</h1>
+
+      <h1 className="venue-detail__title">{venue.name}</h1>
+
       {venue.media?.[0] && (
         <img
           src={venue.media[0]}
           alt={venue.name}
-          className="w-full max-w-xl rounded mb-4"
+          className="venue-detail__image"
         />
       )}
-      <p>{venue.description}</p>
+
+      <p className="venue-detail__description">{venue.description}</p>
+
+      <button className="venue-detail__book-button">
+        Book nå
+      </button>
     </div>
   );
 }
