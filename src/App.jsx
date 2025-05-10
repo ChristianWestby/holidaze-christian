@@ -1,17 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import About from "./pages/About";
 
 export default function App() {
   return (
     <BrowserRouter>
-      <nav className="p-4 bg-gray-100 flex gap-4">
-        <a href="/" className="text-blue-600 underline">Hjem</a>
-        <a href="/about" className="text-blue-600 underline">Om</a>
-      </nav>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="about" element={<About />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
