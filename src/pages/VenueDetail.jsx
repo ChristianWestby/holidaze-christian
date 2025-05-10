@@ -1,5 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Loader from "../components/Loader"; 
 
 export default function VenueDetail() {
   const { id } = useParams();
@@ -22,7 +23,7 @@ export default function VenueDetail() {
   }, [id]);
 
   if (!venue) {
-    return <p>Laster detaljer...</p>;
+    return <Loader/>;
   }
 
   return (
