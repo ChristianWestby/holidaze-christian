@@ -1,18 +1,15 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import About from "./pages/About";
+import { Outlet, Link } from 'react-router-dom';
 
-export default function App() {
+export default function Layout() {
   return (
-    <BrowserRouter>
-      <nav className="p-4 bg-gray-100 flex gap-4">
-        <a href="/" className="text-blue-600 underline">Hjem</a>
-        <a href="/about" className="text-blue-600 underline">Om</a>
+    <>
+      <nav className="layout__navbar p-4 bg-gray-100 flex gap-4">
+        <Link to="/" className="layout__link text-blue-600 underline">Hjem</Link>
+        <Link to="/about" className="layout__link text-blue-600 underline">Om</Link>
       </nav>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-      </Routes>
-    </BrowserRouter>
+      <main className="layout__main p-4">
+        <Outlet />
+      </main>
+    </>
   );
 }
