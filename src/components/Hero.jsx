@@ -11,6 +11,8 @@ export default function Hero() {
         <source src="/intro.mp4" type="video/mp4" />
         Din nettleser støtter ikke video.
       </video>
+
+      {/* Hero-tekst */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full bg-black bg-opacity-40 text-center px-4">
         <h1 className="text-4xl md:text-6xl font-bold text-gray-200 mb-4">
           Velkommen til Holidaze
