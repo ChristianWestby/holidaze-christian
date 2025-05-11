@@ -1,85 +1,24 @@
-import { useState } from "react";
-
 export default function BookingModal({ venue, onClose }) {
-  const [dateFrom, setDateFrom] = useState("");
-  const [dateTo, setDateTo] = useState("");
-  const [error, setError] = useState(null);
-  const token = localStorage.getItem("token"); // Forutsetter at token er lagret ved innlogging
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-
-    try {
-      const response = await fetch("https://api.noroff.dev/api/v1/holidaze/bookings", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          dateFrom,
-          dateTo,
-          venueId: venue.id,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Noe gikk galt med bookingen.");
-      }
-
-      const data = await response.json();
-      console.log("Booking vellykket:", data);
-      onClose();
-    } catch (err) {
-      console.error(err);
-      setError(err.message);
-    }
-  }
+  if (!venue) return null;
 
   return (
-    <div className="booking-modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="booking-modal__content bg-white p-6 rounded shadow-lg w-full max-w-md">
-        <h2 className="text-xl font-bold mb-4">Book: {venue.name}</h2>
-        <form onSubmit={handleSubmit}>
-          <label className="block mb-2">
-            Fra:
-            <input
-              type="date"
-              value={dateFrom}
-              onChange={(e) => setDateFrom(e.target.value)}
-              className="w-full p-2 border rounded mt-1"
-              required
-            />
-          </label>
-          <label className="block mb-4">
-            Til:
-            <input
-              type="date"
-              value={dateTo}
-              onChange={(e) => setDateTo(e.target.value)}
-              className="w-full p-2 border rounded mt-1"
-              required
-            />
-          </label>
-
-          {error && <p className="text-red-600 mb-2">{error}</p>}
-
-          <div className="flex justify-end gap-2">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 bg-gray-300 rounded"
-            >
-              Avbryt
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded"
-            >
-              Send booking
-            </button>
-          </div>
-        </form>
+    <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50 transition">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg mx-auto p-6 relative animate-fade-in">
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-2xl"
+          aria-label="Lukk"
+        >
+          &times;
+        </button>
+        <h2 className="text-2xl font-bold mb-4 text-gray-800">{venue.name}</h2>
+        <p className="text-gray-700 mb-6">{venue.description || "Ingen beskrivelse tilgjengelig."}</p>
+        <button
+          onClick={onClose}
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+        >
+          Bekreft booking (demo)
+        </button>
       </div>
     </div>
   );
