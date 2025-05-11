@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loader from "../components/Loader";
 import BookingModal from "../components/BookingModal";
+import { Users, MapPin, Wallet } from "lucide-react";
 
 export default function VenueDetail() {
   const { id } = useParams();
@@ -39,8 +40,24 @@ export default function VenueDetail() {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="relative z-10 w-full h-full bg-black bg-opacity-40 flex items-center justify-center px-4">
-          <h1 className="text-white text-4xl md:text-6xl font-bold text-center">{venue.name}</h1>
+        <div className="relative z-10 w-full h-full bg-black bg-opacity-40 flex flex-col justify-end">
+          <div className="p-4 text-white">
+            <h1 className="text-4xl md:text-6xl font-bold text-center mb-4">{venue.name}</h1>
+            <div className="flex justify-center gap-6 text-sm md:text-base bg-white bg-opacity-10 backdrop-blur-md p-4 rounded-md">
+              <div className="flex items-center gap-2">
+                <Users size={20} />
+                <span>{venue.maxGuests} gjester</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Wallet size={20} />
+                <span>{venue.price} NOK/natt</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <MapPin size={20} />
+                <span>{venue.location?.city || "Ukjent"}</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
