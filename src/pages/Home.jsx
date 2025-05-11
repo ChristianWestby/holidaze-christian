@@ -1,5 +1,5 @@
-import Hero from "../components/Hero";
 import { useEffect, useState } from "react";
+import Hero from "../components/Hero";
 import VenueCard from "../components/VenueCard";
 import Loader from "../components/Loader";
 

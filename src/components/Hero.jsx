@@ -11,10 +11,13 @@ export default function Hero() {
         <source src="/intro.mp4" type="video/mp4" />
         Din nettleser støtter ikke video.
       </video>
-      <div className="relative z-10 flex items-center justify-center h-full bg-black bg-opacity-40">
-        <h1 className="text-4xl md:text-6xl font-bold text-gray-200 text-center px-4">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full bg-black bg-opacity-40 text-center px-4">
+        <h1 className="text-4xl md:text-6xl font-bold text-gray-200 mb-4">
           Velkommen til Holidaze
         </h1>
+        <p className="text-lg text-gray-200 max-w-xl">
+          Finn og book unike ferieboliger i hele verden – direkte fra lokale verter.
+        </p>
       </div>
     </section>
   );

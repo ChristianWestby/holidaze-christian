@@ -4,7 +4,7 @@ import BookingModal from "./BookingModal";
 
 export default function VenueCard({ venue }) {
   const [isOpen, setIsOpen] = useState(false);
-  const image = venue.media?.[0];
+  const image = venue.media?.[0] || "https://placehold.co/400x300";
 
   function handleOpen() {
     setIsOpen(true);
@@ -17,15 +17,13 @@ export default function VenueCard({ venue }) {
   return (
     <>
       <div className="p-4 bg-white rounded shadow hover:shadow-lg transition-shadow duration-300">
-        {image && (
-          <div className="overflow-hidden rounded mb-2">
-            <img
-              src={image}
-              alt={venue.name}
-              className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
-            />
-          </div>
-        )}
+        <div className="overflow-hidden rounded mb-2">
+          <img
+            src={image}
+            alt={venue.name}
+            className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+          />
+        </div>
         <h2 className="text-lg font-semibold mb-1">{venue.name}</h2>
         <p className="text-sm text-gray-600 mb-2">
           {venue.description?.substring(0, 100)}...
