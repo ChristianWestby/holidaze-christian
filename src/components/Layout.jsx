@@ -1,15 +1,16 @@
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 export default function Layout() {
   return (
     <>
-      <nav className="layout__navbar p-4 bg-gray-100 flex gap-4">
-        <Link to="/" className="layout__link text-blue-600 underline">Hjem</Link>
-        <Link to="/about" className="layout__link text-blue-600 underline">Om</Link>
-      </nav>
-      <main className="layout__main p-4">
+      <Navbar />
+      <main className="">
         <Outlet />
       </main>
+      <footer className="bg-gray-100 text-center text-sm text-gray-600 py-4 mt-12">
+        &copy; {new Date().getFullYear()} Holidaze. Alle rettigheter reservert.
+      </footer>
     </>
   );
 }
