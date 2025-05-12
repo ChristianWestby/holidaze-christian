@@ -1,19 +1,18 @@
 import { useState } from "react";
+import CalenderRange from "./CalenderRange";
 
 export default function BookingModal({ venue, onClose }) {
-  const [dateFrom, setDateFrom] = useState("");
-  const [dateTo, setDateTo] = useState("");
-  const [guests, setGuests] = useState(1);
+  const [dateRange, setDateRange] = useState({ start: null, end: null, guests: 1 });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
+    const { start, end, guests } = dateRange;
 
-    // Validering
-    if (!dateFrom || !dateTo) return setError("Datoene må fylles ut.");
-    if (new Date(dateFrom) >= new Date(dateTo)) return setError("Utsjekksdato må være etter innsjekksdato.");
+    if (!start || !end) return setError("Datoene må fylles ut.");
+    if (start >= end) return setError("Utsjekksdato må være etter innsjekksdato.");
     if (guests < 1 || guests > (venue.maxGuests || 10)) {
       return setError(`Antall gjester må være mellom 1 og ${venue.maxGuests || 10}.`);
     }
@@ -21,16 +20,15 @@ export default function BookingModal({ venue, onClose }) {
     setError("");
     setLoading(true);
 
-    const token = localStorage.getItem("token");
-
+    const token = localStorage.getItem("accessToken");
     if (!token) {
       setLoading(false);
       return setError("Du må være logget inn for å booke.");
     }
 
     const bookingData = {
-      dateFrom,
-      dateTo,
+      dateFrom: start.toISOString(),
+      dateTo: end.toISOString(),
       venueId: venue.id,
       guests: Number(guests),
     };
@@ -80,48 +78,19 @@ export default function BookingModal({ venue, onClose }) {
         {success ? (
           <p className="text-green-600 text-center font-medium">Takk for booking!</p>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm text-gray-700 mb-1">Fra dato</label>
-              <input
-                type="date"
-                value={dateFrom}
-                onChange={(e) => setDateFrom(e.target.value)}
-                required
-                className="w-full border rounded px-3 py-2"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm text-gray-700 mb-1">Til dato</label>
-              <input
-                type="date"
-                value={dateTo}
-                onChange={(e) => setDateTo(e.target.value)}
-                required
-                className="w-full border rounded px-3 py-2"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm text-gray-700 mb-1">Antall gjester</label>
-              <input
-                type="number"
-                min="1"
-                max={venue.maxGuests || 10}
-                value={guests}
-                onChange={(e) => setGuests(e.target.value)}
-                required
-                className="w-full border rounded px-3 py-2"
-              />
-            </div>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <CalenderRange
+              dateRange={dateRange}
+              onDateChange={setDateRange}
+              maxGuests={venue.maxGuests}
+            />
 
             {error && <p className="text-red-600 text-sm">{error}</p>}
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition disabled:opacity-50"
+              className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition disabled:opacity-50"
             >
               {loading ? "Sender..." : "Bekreft booking"}
             </button>

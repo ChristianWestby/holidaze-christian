@@ -1,3 +1,20 @@
+/* Tailwind layers */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* React Datepicker tilpasning */
+.react-datepicker__day--selected {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+.react-datepicker__day:hover {
+  background-color: #e5e5e5 !important;
+  color: #000 !important;
+}
+
+/* Tilpasset global stil (eksempel på cursor eller font) */
+/* body {
+  cursor: url('/custom-cursor.svg'), auto;
+} */
