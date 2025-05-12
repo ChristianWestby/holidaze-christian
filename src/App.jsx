@@ -3,8 +3,8 @@ import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import VenueDetail from "./pages/VenueDetail"; 
-import Login from "./auth/Login";
-import Register from "./auth/Register";
+import Login from "../auth/Login";
+import Register from "../auth/Register";
 
 export default function App() {
   return (
