@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; 
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { setUser } = useAuth(); // henter setter fra context
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -23,9 +25,20 @@ export default function Login() {
       }
 
       const data = await response.json();
+
+      // lagre i localStorage
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("userName", data.name);
       localStorage.setItem("userEmail", data.email);
+      localStorage.setItem("venueManager", data.venueManager);
+
+      // oppdater global auth state
+      setUser({
+        accessToken: data.accessToken,
+        name: data.name,
+        email: data.email,
+        venueManager: data.venueManager,
+      });
 
       navigate("/");
     } catch (err) {
@@ -34,7 +47,7 @@ export default function Login() {
   }
 
   return (
-    <div className="max-w-md mx-auto mt-12 bg-white p-6 rounded shadow">
+    <div className="max-w-md mx-auto mt-[120px] bg-white p-6 rounded shadow">
       <h1 className="text-2xl font-bold mb-4 text-center">Logg inn</h1>
       {error && <p className="text-red-600 mb-4 text-center">{error}</p>}
       <form onSubmit={handleLogin} className="space-y-4">
@@ -58,7 +71,10 @@ export default function Login() {
             className="w-full border px-3 py-2 rounded"
           />
         </div>
-        <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
+        <button
+          type="submit"
+          className="text-sm bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition"
+        >
           Logg inn
         </button>
       </form>

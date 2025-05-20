@@ -41,7 +41,7 @@ export default function Register() {
   }
 
   return (
-    <div className="max-w-md mx-auto mt-12 bg-white p-6 rounded shadow">
+    <div className="max-w-md mx-auto mt-[120px] bg-white p-6 rounded shadow">
       <h1 className="text-2xl font-bold mb-4 text-center">Registrer bruker</h1>
       {error && <p className="text-red-600 mb-4 text-center">{error}</p>}
       <form onSubmit={handleRegister} className="space-y-4">
