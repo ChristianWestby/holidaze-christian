@@ -1,14 +1,21 @@
-import { useParams } from "react-router-dom";
+// Fullstendig VenueDetail.jsx med:
+// - Zoomende hero
+// - Lokasjon, stramt hovedbilde med navigasjon og thumbnails
+// - BookModal direkte i komponenten
+// - Dark carousel med beige bakgrunn
+// - Ekstra seksjon med "fiktiv reportasje"
+
+import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Loader from "../components/Loader";
+import FrontpageCarousel from "../components/FrontpageCarousel";
+import FrontpageCarouselAll from "../components/FrontpageCarouselAll";
 import BookingModal from "../components/BookingModal";
-import { Users, MapPin, Wallet } from "lucide-react";
 
 export default function VenueDetail() {
   const { id } = useParams();
   const [venue, setVenue] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [activeImage, setActiveImage] = useState(null);
+  const [mainImageIndex, setMainImageIndex] = useState(1);
+  const [showBooking, setShowBooking] = useState(false);
 
   useEffect(() => {
     async function fetchVenue() {
@@ -24,112 +31,163 @@ export default function VenueDetail() {
     fetchVenue();
   }, [id]);
 
-  if (!venue) return <Loader />;
+  const handleThumbnailClick = (index) => {
+    setMainImageIndex(index);
+  };
 
-  const heroImage = activeImage || venue.media?.[0] || "https://placehold.co/1200x600";
-  const otherImages = venue.media?.filter((img) => img !== heroImage) || [];
+  const handlePrevImage = () => {
+    if (!venue?.media) return;
+    setMainImageIndex((prevIndex) =>
+      prevIndex === 1 ? venue.media.length - 1 : prevIndex - 1
+    );
+  };
+
+  const handleNextImage = () => {
+    if (!venue?.media) return;
+    setMainImageIndex((prevIndex) =>
+      prevIndex === venue.media.length - 1 ? 1 : prevIndex + 1
+    );
+  };
+
+  if (!venue) {
+    return <p>Laster detaljer...</p>;
+  }
 
   return (
-    <>
-      {/* Hero */}
-      <section className="relative w-full h-[90vh] overflow-hidden mb-6">
-        <div className="absolute inset-0 transform scale-[1.75] animate-zoom-slow z-0 transition-transform duration-500">
+    <div className="venue-detail">
+      {/* HERO */}
+      {venue.media && venue.media[0] && (
+        <div className="relative h-[70vh] overflow-hidden">
           <img
-            src={heroImage}
-            alt={venue.name}
-            className="w-full h-full object-cover"
+            src={venue.media[0]}
+            alt="Hero"
+            className="w-full h-full object-cover scale-100 hover:scale-105 transition-transform duration-1000"
           />
-        </div>
-        <div className="relative z-10 w-full h-full bg-black bg-opacity-40 flex flex-col justify-end">
-          <div className="p-4 text-white">
-            <h1 className="text-4xl md:text-6xl font-bold text-center mb-4">{venue.name}</h1>
-            <div className="flex justify-center gap-6 text-sm md:text-base bg-white bg-opacity-10 backdrop-blur-md p-4 rounded-md">
-              <div className="flex items-center gap-2">
-                <Users size={20} />
-                <span>{venue.maxGuests} gjester</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Wallet size={20} />
-                <span>{venue.price} NOK/natt</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <MapPin size={20} />
-                <span>{venue.location?.city || "Ukjent"}</span>
-              </div>
-            </div>
+          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+            <h1 className="text-white text-4xl sm:text-5xl font-semibold drop-shadow-lg text-center px-4">
+              {venue.name}
+            </h1>
           </div>
-        </div>
-      </section>
-
-      {/* Thumbnail Grid */}
-      {otherImages.length > 0 && (
-        <div className="max-w-5xl mx-auto px-4 mb-12">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
-            {otherImages.slice(0, 4).map((img, index) => (
-              <button
-                key={index}
-                onClick={() => setActiveImage(img)}
-                className="aspect-video overflow-hidden rounded hover:opacity-80 transition"
-              >
-                <img
-                  src={img}
-                  alt={`Bilde ${index + 1}`}
-                  className="w-full h-full object-cover"
-                />
-              </button>
-            ))}
-          </div>
-
-          {otherImages.length > 4 && (
-            <div className="overflow-x-auto">
-              <div className="flex gap-4 pb-2">
-                {otherImages.slice(4).map((img, index) => (
-                  <button
-                    key={`extra-${index}`}
-                    onClick={() => setActiveImage(img)}
-                    className="w-40 h-24 flex-shrink-0 overflow-hidden rounded hover:opacity-80 transition"
-                  >
-                    <img
-                      src={img}
-                      alt={`Ekstra bilde ${index + 5}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       )}
 
-      {/* Innhold */}
-      <main className="max-w-4xl mx-auto px-4 py-8">
-        <p className="text-gray-700 text-lg mb-4">{venue.description || "Ingen beskrivelse tilgjengelig."}</p>
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-6 mt-8">
+          <h2 className="text-xl sm:text-2xl font-medium text-gray-700">
+            {venue.location.city}, {venue.location.country}
+          </h2>
+        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        {/* Hovedbilde */}
+        {venue.media && venue.media[mainImageIndex] && (
+          <div className="relative max-w-3xl mx-auto mb-6">
+            <img
+              src={venue.media[mainImageIndex]}
+              alt="Hovedbilde"
+              className="w-full h-auto rounded-sm shadow-lg"
+            />
+            <button
+              onClick={handlePrevImage}
+              className="absolute -left-6 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white px-3 py-1 rounded-r-xl shadow"
+            >
+              ◀
+            </button>
+            <button
+              onClick={handleNextImage}
+              className="absolute -right-6 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white px-3 py-1 rounded-l-xl shadow"
+            >
+              ▶
+            </button>
+          </div>
+        )}
+
+        {/* Thumbnails */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+          {venue.media &&
+            venue.media.slice(1).map((url, index) => (
+              <img
+                key={index + 1}
+                src={url}
+                alt={`Thumbnail ${index + 1}`}
+                className={`w-full h-auto rounded-sm cursor-pointer p-1 transition ${
+                  mainImageIndex === index + 1 ? "ring-2 ring-black" : ""
+                }`}
+                onClick={() => handleThumbnailClick(index + 1)}
+              />
+            ))}
+        </div>
+
+        {/* Beskrivelse */}
+        <p className="text-gray-600 text-lg mb-6">{venue.description}</p>
+
+        {/* Ekstrainformasjon */}
+        <div className="grid sm:grid-cols-2 gap-4 mb-6 text-sm text-gray-700">
           <div>
-            <h3 className="text-sm text-gray-500">Sted</h3>
-            <p className="text-gray-800">{venue.location?.city || "Ukjent"}</p>
+            <p><span className="font-semibold">Pris:</span> {venue.price} NOK / natt</p>
+            <p><span className="font-semibold">Maks gjester:</span> {venue.maxGuests}</p>
           </div>
           <div>
-            <h3 className="text-sm text-gray-500">Pris per natt</h3>
-            <p className="text-gray-800">{venue.price} NOK</p>
-          </div>
-          <div>
-            <h3 className="text-sm text-gray-500">Maks gjester</h3>
-            <p className="text-gray-800">{venue.maxGuests}</p>
+            <p><span className="font-semibold">Wifi:</span> {venue.meta.wifi ? "Ja" : "Nei"}</p>
+            <p><span className="font-semibold">Parkering:</span> {venue.meta.parking ? "Ja" : "Nei"}</p>
+            <p><span className="font-semibold">Frokost:</span> {venue.meta.breakfast ? "Ja" : "Nei"}</p>
+            <p><span className="font-semibold">Kjæledyr tillatt:</span> {venue.meta.pets ? "Ja" : "Nei"}</p>
           </div>
         </div>
 
+        {/* Book knapp */}
         <button
-          onClick={() => setShowModal(true)}
-          className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition"
+          onClick={() => setShowBooking(true)}
+          className="inline-block px-4 py-2 border border-black text-black text-sm uppercase tracking-wide hover:bg-black hover:text-white transition"
         >
           Book nå
         </button>
-      </main>
 
-      {showModal && <BookingModal venue={venue} onClose={() => setShowModal(false)} />}
-    </>
+        {/* Modal */}
+        {showBooking && (
+          <BookingModal venueId={venue.id} onClose={() => setShowBooking(false)} />
+        )}
+
+        {/* Tilbake-lenke */}
+        <div className="mt-12 mb-4">
+          <Link to="/" className="text-sm text-gray-500 underline hover:text-black">
+            ← Tilbake til forside
+          </Link>
+        </div>
+
+        {/* Karusell med beige bakgrunn */}
+        <div className="bg-[#f4f1ea] py-10 px-4 rounded-lg shadow-inner">
+          <FrontpageCarouselAll />
+        </div>
+
+        {/* Reportasjeseksjon */}
+        <div className="mt-12 bg-white border-t border-gray-200 py-10 px-4 sm:px-6">
+          <div className="max-w-3xl mx-auto text-center">
+            <img
+              src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
+              alt="Reportasje"
+              className="w-full h-auto rounded-md shadow mb-6"
+            />
+            <h3 className="text-2xl font-semibold mb-2">Magiske minner fra Bali</h3>
+            <p className="text-gray-600 mb-4">
+              Bli med bak kulissene på en av våre mest eksklusive reiser, der tropiske netter og
+              eventyrlige opplevelser møtes.
+            </p>
+
+            <Link
+            to="/stories/bali"
+            className="inline-block border border-black px-4 py-2 text-sm uppercase tracking-wide hover:bg-black hover:text-white transition"
+          >
+            Les reportasjen
+          </Link>
+           
+
+             {/* Karusell med beige bakgrunn */}
+        <div className="bg-[#f4f1ea] py-10 px-4 rounded-lg shadow-inner">
+          <FrontpageCarousel />
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

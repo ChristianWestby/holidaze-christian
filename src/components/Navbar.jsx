@@ -66,19 +66,49 @@ export default function Navbar() {
       </div>
 
       {/* Logo */}
-      <div className="flex items-center gap-4 flex-1 justify-center">
-        <div className="flex items-center gap-2">
-          <div className="h-[1px] w-12 bg-white relative">
-            <div className="absolute left-0 top-[-2px] h-[4px] w-[1px] bg-white"></div>
-            <div className="absolute right-0 top-[-2px] h-[4px] w-[1px] bg-white"></div>
-          </div>
-          <h1 className="text-3xl font-bold tracking-wide font-[Playfair Display] text-white">H</h1>
-          <div className="h-[1px] w-12 bg-white relative">
-            <div className="absolute left-0 top-[-2px] h-[4px] w-[1px] bg-white"></div>
-            <div className="absolute right-0 top-[-2px] h-[4px] w-[1px] bg-white"></div>
-          </div>
-        </div>
-      </div>
+<div className="flex items-center gap-4 flex-1 justify-center">
+  <div className="flex items-center gap-2">
+    <div
+      className={`h-[1px] w-12 relative transition-colors duration-300 ${
+        scrolled ? "bg-black" : "bg-white"
+      }`}
+    >
+      <div
+        className={`absolute left-0 top-[-2px] h-[4px] w-[1px] transition-colors duration-300 ${
+          scrolled ? "bg-black" : "bg-white"
+        }`}
+      ></div>
+      <div
+        className={`absolute right-0 top-[-2px] h-[4px] w-[1px] transition-colors duration-300 ${
+          scrolled ? "bg-black" : "bg-white"
+        }`}
+      ></div>
+    </div>
+    <h1
+      className={`text-3xl font-bold tracking-wide font-[Playfair Display] transition-colors duration-300 ${
+        scrolled ? "text-black" : "text-white"
+      }`}
+    >
+      H
+    </h1>
+    <div
+      className={`h-[1px] w-12 relative transition-colors duration-300 ${
+        scrolled ? "bg-black" : "bg-white"
+      }`}
+    >
+      <div
+        className={`absolute left-0 top-[-2px] h-[4px] w-[1px] transition-colors duration-300 ${
+          scrolled ? "bg-black" : "bg-white"
+        }`}
+      ></div>
+      <div
+        className={`absolute right-0 top-[-2px] h-[4px] w-[1px] transition-colors duration-300 ${
+          scrolled ? "bg-black" : "bg-white"
+        }`}
+      ></div>
+    </div>
+  </div>
+</div>
 
       {/* Høyre brukerikon */}
       <div className="flex items-center gap-4 text-sm" ref={dropdownRef}>

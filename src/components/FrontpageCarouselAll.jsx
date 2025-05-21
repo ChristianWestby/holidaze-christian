@@ -1,34 +1,22 @@
-// FrontpageCarousel.jsx – med hardkodede venues, kontrastbakgrunn og stilige piler
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const FEATURED_VENUE_IDS = [
-  "9ba26c7e-2d71-4248-a3d8-14a62bf00c29",
-  "de04932b-8515-43df-8a14-dccc114738b1",
-  "d52b51c9-fd3c-4281-aaff-d7ed93ce4f73",
-  "5179b541-2193-405c-9067-6db164a2102f",
-  "c444b50f-a06d-47d3-a5d7-cd1972157dbd"
-];
-
-export default function FrontpageCarousel() {
+export default function FrontpageCarouselAll() {
   const [venues, setVenues] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    async function fetchVenues() {
+    async function fetchAllVenues() {
       try {
-        const fetched = await Promise.all(
-          FEATURED_VENUE_IDS.map((id) =>
-            fetch(`https://api.noroff.dev/api/v1/holidaze/venues/${id}`).then((res) => res.json())
-          )
-        );
-        setVenues(fetched);
+        const res = await fetch("https://api.noroff.dev/api/v1/holidaze/venues");
+        const data = await res.json();
+        setVenues(data);
       } catch (err) {
-        console.error("Feil ved henting av featured venues:", err);
+        console.error("Feil ved henting av alle venues:", err);
       }
     }
-    fetchVenues();
+    fetchAllVenues();
   }, []);
 
   function prevSlide() {
@@ -47,34 +35,31 @@ export default function FrontpageCarousel() {
     : current.media?.[0]?.url;
 
   return (
-    <section className="bg-[#1c1c1c] text-white py-16 px-6 rounded-lg shadow-inner relative max-w-6xl mx-auto">
-      <h2 className="text-2xl font-semibold text-center mb-10 tracking-wide uppercase text-white">NYTT FRA HOLIDAZE</h2>
-
-      {/* Piler */}
+    <section className="max-w-6xl mx-auto px-6 relative">
+      {/* Navigasjonsknapper */}
       <button
         onClick={prevSlide}
-        className="absolute -left-14 top-1/2 -translate-y-1/2 z-10 bg-black text-white border border-black w-10 h-16 flex items-center justify-center hover:bg-white hover:text-black transition hover:scale-110"
+        className="absolute -left-12 top-1/2 -translate-y-1/2 z-10 bg-white border border-black w-10 h-16 flex items-center justify-center hover:bg-black hover:text-white"
       >
-        <ChevronLeft className="w-7 h-7 stroke-[1.3]" />
+        <ChevronLeft className="w-6 h-6" />
       </button>
-
       <button
         onClick={nextSlide}
-        className="absolute -right-14 top-1/2 -translate-y-1/2 z-10 bg-black text-white border border-black w-10 h-16 flex items-center justify-center hover:bg-white hover:text-black transition hover:scale-110"
+        className="absolute -right-12 top-1/2 -translate-y-1/2 z-10 bg-white border border-black w-10 h-16 flex items-center justify-center hover:bg-black hover:text-white"
       >
-        <ChevronRight className="w-7 h-7 stroke-[1.3]" />
+        <ChevronRight className="w-6 h-6" />
       </button>
 
       <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
         <div className="md:w-1/2 text-center md:text-left">
-          <h3 className="uppercase text-sm tracking-widest text-gray-300 mb-1">Utvalgt</h3>
+          <h3 className="uppercase text-sm tracking-widest text-gray-500 mb-1">Utforsk</h3>
           <h1 className="text-2xl font-bold mb-3 leading-snug">{current.name}</h1>
-          <p className="text-gray-400 text-sm mb-4">
+          <p className="text-gray-600 text-sm mb-4">
             {current.description.slice(0, 160)}...
           </p>
           <Link
             to={`/venues/${current.id}`}
-            className="inline-block px-4 py-2 border border-white text-white text-sm uppercase tracking-wide hover:bg-white hover:text-black transition"
+            className="inline-block px-4 py-2 border border-black text-black text-sm uppercase tracking-wide hover:bg-black hover:text-white transition"
           >
             Utforsk stedet
           </Link>
@@ -87,14 +72,13 @@ export default function FrontpageCarousel() {
               className="w-full rounded-sm shadow-lg object-cover h-[300px] md:h-[400px]"
             />
           )}
-
           {/* Indikatorer */}
           <div className="flex justify-center gap-2 mt-4">
             {venues.map((_, i) => (
               <div
                 key={i}
                 className={`w-5 h-1 rounded-sm transition-all duration-300 ${
-                  i === currentIndex ? "bg-white" : "bg-white/30"
+                  i === currentIndex ? "bg-black" : "bg-gray-300"
                 }`}
               ></div>
             ))}

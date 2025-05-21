@@ -4,6 +4,7 @@ import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import VenueDetail from "./pages/VenueDetail";
+import Stories from "./pages/Stories";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -18,7 +19,8 @@ export default function App() {
   <Route path="/" element={<Layout />}>
     <Route index element={<Home />} />
     <Route path="about" element={<About />} />
-    <Route path="venue/:id" element={<VenueDetail />} />
+    <Route path="venues/:id" element={<VenueDetail />} />
+    <Route path="/stories/bali" element={<Stories />} />
     <Route path="login" element={<Login />} />
     <Route path="register" element={<Register />} />
     <Route path="profile" element={
