@@ -8,6 +8,7 @@ import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import BookingPage from "./pages/BookingPage";
 import CreateVenue from "./pages/CreateVenue";
 
 export default function App() {
@@ -38,6 +39,13 @@ export default function App() {
        </ProtectedRoute>
    } 
  />
+    <Route path="booking" element={
+        <ProtectedRoute>
+          <BookingPage />
+        </ProtectedRoute>
+      }
+    />
+    <Route path="*" element={<h1>404 - Page not found</h1>} />
   </Route>
 </Routes>
     </Router>

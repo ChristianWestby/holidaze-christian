@@ -67,11 +67,20 @@ export default function Profile() {
     <div className="max-w-5xl mx-auto px-6 py-12 mt-[120px] bg-white shadow-md rounded-lg font-sans">
       {/* Profilinfo */}
       <section className="flex items-center gap-8 mb-8">
-        <img
-          src={profile.avatar || "https://placehold.co/120x120"}
-          alt={profile.name}
-          className="w-28 h-28 rounded-full object-cover border border-gray-300 shadow-sm"
-        />
+        <div className="relative">
+          <img
+            src={profile.avatar || "https://placehold.co/120x120"}
+            alt={profile.name}
+            className={`w-28 h-28 rounded-full object-cover shadow-sm border-4 ${
+              profile.venueManager ? "border-orange-600" : "border-gray-300"
+            }`}
+          />
+          {profile.venueManager && (
+            <span className="absolute bottom-0 right-0 bg-orange-600 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow">
+              Venue Manager
+            </span>
+          )}
+        </div>
         <div>
           <h1 className="text-3xl font-bold tracking-wide">{profile.name}</h1>
           {profile.bio && <p className="text-gray-600 mt-1">{profile.bio}</p>}
@@ -88,18 +97,27 @@ export default function Profile() {
           Endre profil
         </button>
 
-        <button
-          onClick={() => navigate("/create")}
-          className="inline-block text-sm tracking-wide uppercase border px-6 py-2 rounded-full transition-all duration-300 border-black text-black hover:bg-black hover:text-white"
-        >
-          Bli venue manager
-        </button>
+        {profile.venueManager && (
+          <button
+            onClick={() => navigate("/create")}
+            className="inline-block text-sm tracking-wide uppercase border px-6 py-2 rounded-full transition-all duration-300 border-black text-black hover:bg-black hover:text-white"
+          >
+            Opprett nytt venue
+          </button>
+        )}
 
         <button
           onClick={() => navigate("/")}
           className="inline-block text-sm tracking-wide uppercase border px-6 py-2 rounded-full transition-all duration-300 border-black text-black hover:bg-black hover:text-white"
         >
           Til forsiden
+        </button>
+
+        <button
+          onClick={() => navigate("/booking")}
+          className="inline-block text-sm tracking-wide uppercase border px-6 py-2 rounded-full transition-all duration-300 border-black text-black hover:bg-black hover:text-white"
+        >
+          Booking
         </button>
       </section>
 

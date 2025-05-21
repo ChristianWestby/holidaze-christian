@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useState, useEffect, useContext, useCallback } from "react";
 
 export const AuthContext = createContext();
 
@@ -17,26 +17,26 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
- function login(data) {
-  localStorage.setItem("accessToken", data.accessToken);
-  localStorage.setItem("userName", data.name);
-  localStorage.setItem("userEmail", data.email);
-  localStorage.setItem("venueManager", data.venueManager);
-  localStorage.setItem("avatar", data.avatar || "");
+  const login = useCallback((data) => {
+    localStorage.setItem("accessToken", data.accessToken);
+    localStorage.setItem("userName", data.name);
+    localStorage.setItem("userEmail", data.email);
+    localStorage.setItem("venueManager", data.venueManager);
+    localStorage.setItem("avatar", data.avatar || "");
 
-  setUser({
-    accessToken: data.accessToken,
-    name: data.name,
-    email: data.email,
-    venueManager: data.venueManager,
-    avatar: data.avatar || "",
-  });
-}
+    setUser({
+      accessToken: data.accessToken,
+      name: data.name,
+      email: data.email,
+      venueManager: data.venueManager,
+      avatar: data.avatar || "",
+    });
+  }, []);
 
-  function logout() {
+  const logout = useCallback(() => {
     localStorage.clear();
     setUser(null);
-  }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
@@ -45,7 +45,7 @@ export function AuthProvider({ children }) {
   );
 }
 
-// Dette gjør at vi kan importere useAuth() fra samme fil:
+// Tilgang via custom hook
 export function useAuth() {
   return useContext(AuthContext);
 }
