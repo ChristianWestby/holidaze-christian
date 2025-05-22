@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const videos = ["/intro.mp4", "/feterewawes.mp4"];
+const videos = ["/public/intro.mp4", "/feterewawes.mp4"];
 
 export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
