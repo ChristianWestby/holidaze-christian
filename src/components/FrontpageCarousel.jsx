@@ -1,15 +1,10 @@
-// FrontpageCarousel.jsx – med hardkodede venues, kontrastbakgrunn og stilige piler
+// FrontpageCarousel.jsx – viser 15 manuelt valgte venues basert på ID
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Indicators from "./CarouselIndicators";
 
-const FEATURED_VENUE_IDS = [
-  "9ba26c7e-2d71-4248-a3d8-14a62bf00c29",
-  "de04932b-8515-43df-8a14-dccc114738b1",
-  "d52b51c9-fd3c-4281-aaff-d7ed93ce4f73",
-  "5179b541-2193-405c-9067-6db164a2102f",
-  "c444b50f-a06d-47d3-a5d7-cd1972157dbd"
-];
+import adminVenueIds from "../data/AdminVenuesId";
 
 export default function FrontpageCarousel() {
   const [venues, setVenues] = useState([]);
@@ -19,13 +14,13 @@ export default function FrontpageCarousel() {
     async function fetchVenues() {
       try {
         const fetched = await Promise.all(
-          FEATURED_VENUE_IDS.map((id) =>
+          adminVenueIds.map((id) =>
             fetch(`https://api.noroff.dev/api/v1/holidaze/venues/${id}`).then((res) => res.json())
           )
         );
         setVenues(fetched);
       } catch (err) {
-        console.error("Feil ved henting av featured venues:", err);
+        console.error("Feil ved henting av venues:", err);
       }
     }
     fetchVenues();
@@ -50,7 +45,6 @@ export default function FrontpageCarousel() {
     <section className="bg-[#1c1c1c] text-white py-16 px-6 rounded-lg shadow-inner relative max-w-6xl mx-auto">
       <h2 className="text-2xl font-semibold text-center mb-10 tracking-wide uppercase text-white">NYTT FRA HOLIDAZE</h2>
 
-      {/* Piler */}
       <button
         onClick={prevSlide}
         className="absolute -left-14 top-1/2 -translate-y-1/2 z-10 bg-black text-white border border-black w-10 h-16 flex items-center justify-center hover:bg-white hover:text-black transition hover:scale-110"
@@ -87,18 +81,7 @@ export default function FrontpageCarousel() {
               className="w-full rounded-sm shadow-lg object-cover h-[300px] md:h-[400px]"
             />
           )}
-
-          {/* Indikatorer */}
-          <div className="flex justify-center gap-2 mt-4">
-            {venues.map((_, i) => (
-              <div
-                key={i}
-                className={`w-5 h-1 rounded-sm transition-all duration-300 ${
-                  i === currentIndex ? "bg-white" : "bg-white/30"
-                }`}
-              ></div>
-            ))}
-          </div>
+          <Indicators total={venues.length} currentIndex={currentIndex} />
         </div>
       </div>
     </section>

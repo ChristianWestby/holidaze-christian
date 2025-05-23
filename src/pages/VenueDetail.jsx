@@ -144,7 +144,7 @@ export default function VenueDetail() {
 
         {/* Modal */}
         {showBooking && (
-          <BookingModal venueId={venue.id} onClose={() => setShowBooking(false)} />
+          <BookingModal venue={venue} onClose={() => setShowBooking(false)} />
         )}
 
         {/* Tilbake-lenke */}
