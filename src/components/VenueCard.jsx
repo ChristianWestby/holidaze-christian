@@ -1,6 +1,4 @@
-// components/VenueCard.jsx
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import BookingModal from "./BookingModal";
 import VenueImage from "./VenueImage";
 import VenueInfo from "./VenueInfo";
@@ -18,16 +16,14 @@ export default function VenueCard({ venue }) {
   }
 
   return (
-    <>
-      <div className="bg-black text-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col">
-        <VenueImage image={venue.media?.[0]} alt={venue.name} />
-        <div className="p-5 flex flex-col justify-between gap-3 h-full">
-          <VenueInfo name={venue.name} description={venue.description} />
-          <VenueButtons venueId={venue.id} onBook={handleOpen} />
-        </div>
+    <div className="bg-black text-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col">
+      <VenueImage image={venue.media?.[0] || "/fallback.jpg"} alt={venue.name} />
+      <div className="p-5 flex flex-col justify-between gap-3 h-full">
+        <VenueInfo name={venue.name} description={venue.description} />
+        <VenueButtons venueId={venue.id} onBook={handleOpen} />
       </div>
 
       {isOpen && <BookingModal venue={venue} onClose={handleClose} />}
-    </>
+    </div>
   );
 }

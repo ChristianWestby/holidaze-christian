@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Indicators from "./CarouselIndicators";
-
 import adminVenueIds from "../data/AdminVenuesId";
 
 export default function FrontpageCarousel() {
   const [venues, setVenues] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+
 
   useEffect(() => {
     async function fetchVenues() {

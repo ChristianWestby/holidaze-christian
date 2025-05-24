@@ -1,8 +1,8 @@
-export default function VenueImage({ src, alt }) {
+export default function VenueImage({ image, alt }) {
   return (
     <img
-      src={src}
-      alt={alt}
+      src={image || "/fallback.jpg"}
+      alt={alt || "Bilde mangler"}
       className="w-full h-48 object-cover"
     />
   );

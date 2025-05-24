@@ -1,10 +1,3 @@
-// Fullstendig VenueDetail.jsx med:
-// - Zoomende hero
-// - Lokasjon, stramt hovedbilde med navigasjon og thumbnails
-// - BookModal direkte i komponenten
-// - Dark carousel med beige bakgrunn
-// - Ekstra seksjon med "fiktiv reportasje"
-
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import FrontpageCarousel from "../components/FrontpageCarousel";
@@ -31,23 +24,22 @@ export default function VenueDetail() {
     fetchVenue();
   }, [id]);
 
-  const handleThumbnailClick = (index) => {
-    setMainImageIndex(index);
-  };
+  // Nullstill states og scroll til topp ved venue-bytte
+  useEffect(() => {
+    setMainImageIndex(1);
+    setShowBooking(false);
+    window.scrollTo(0, 0);
+  }, [id]);
 
-  const handlePrevImage = () => {
-    if (!venue?.media) return;
-    setMainImageIndex((prevIndex) =>
-      prevIndex === 1 ? venue.media.length - 1 : prevIndex - 1
+  const handleThumbnailClick = (index) => setMainImageIndex(index);
+  const handlePrevImage = () =>
+    setMainImageIndex((prev) =>
+      prev === 1 ? venue.media.length - 1 : prev - 1
     );
-  };
-
-  const handleNextImage = () => {
-    if (!venue?.media) return;
-    setMainImageIndex((prevIndex) =>
-      prevIndex === venue.media.length - 1 ? 1 : prevIndex + 1
+  const handleNextImage = () =>
+    setMainImageIndex((prev) =>
+      prev === venue.media.length - 1 ? 1 : prev + 1
     );
-  };
 
   if (!venue) {
     return <p>Laster detaljer...</p>;
@@ -55,8 +47,8 @@ export default function VenueDetail() {
 
   return (
     <div className="venue-detail">
-      {/* HERO */}
-      {venue.media && venue.media[0] && (
+      {/* Hero */}
+      {venue.media?.[0] && (
         <div className="relative h-[70vh] overflow-hidden">
           <img
             src={venue.media[0]}
@@ -79,7 +71,7 @@ export default function VenueDetail() {
         </div>
 
         {/* Hovedbilde */}
-        {venue.media && venue.media[mainImageIndex] && (
+        {venue.media?.[mainImageIndex] && (
           <div className="relative max-w-3xl mx-auto mb-6">
             <img
               src={venue.media[mainImageIndex]}
@@ -103,24 +95,22 @@ export default function VenueDetail() {
 
         {/* Thumbnails */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-          {venue.media &&
-            venue.media.slice(1).map((url, index) => (
-              <img
-                key={index + 1}
-                src={url}
-                alt={`Thumbnail ${index + 1}`}
-                className={`w-full h-auto rounded-sm cursor-pointer p-1 transition ${
-                  mainImageIndex === index + 1 ? "ring-2 ring-black" : ""
-                }`}
-                onClick={() => handleThumbnailClick(index + 1)}
-              />
-            ))}
+          {venue.media.slice(1).map((url, index) => (
+            <img
+              key={index + 1}
+              src={url}
+              alt={`Thumbnail ${index + 1}`}
+              className={`w-full h-auto rounded-sm cursor-pointer p-1 transition ${
+                mainImageIndex === index + 1 ? "ring-2 ring-black" : ""
+              }`}
+              onClick={() => handleThumbnailClick(index + 1)}
+            />
+          ))}
         </div>
 
-        {/* Beskrivelse */}
         <p className="text-gray-600 text-lg mb-6">{venue.description}</p>
 
-        {/* Ekstrainformasjon */}
+        {/* Ekstra info */}
         <div className="grid sm:grid-cols-2 gap-4 mb-6 text-sm text-gray-700">
           <div>
             <p><span className="font-semibold">Pris:</span> {venue.price} NOK / natt</p>
@@ -130,11 +120,10 @@ export default function VenueDetail() {
             <p><span className="font-semibold">Wifi:</span> {venue.meta.wifi ? "Ja" : "Nei"}</p>
             <p><span className="font-semibold">Parkering:</span> {venue.meta.parking ? "Ja" : "Nei"}</p>
             <p><span className="font-semibold">Frokost:</span> {venue.meta.breakfast ? "Ja" : "Nei"}</p>
-            <p><span className="font-semibold">Kjæledyr tillatt:</span> {venue.meta.pets ? "Ja" : "Nei"}</p>
+            <p><span className="font-semibold">Kjæledyr:</span> {venue.meta.pets ? "Ja" : "Nei"}</p>
           </div>
         </div>
 
-        {/* Book knapp */}
         <button
           onClick={() => setShowBooking(true)}
           className="inline-block px-4 py-2 border border-black text-black text-sm uppercase tracking-wide hover:bg-black hover:text-white transition"
@@ -142,24 +131,20 @@ export default function VenueDetail() {
           Book nå
         </button>
 
-        {/* Modal */}
         {showBooking && (
           <BookingModal venue={venue} onClose={() => setShowBooking(false)} />
         )}
 
-        {/* Tilbake-lenke */}
         <div className="mt-12 mb-4">
           <Link to="/" className="text-sm text-gray-500 underline hover:text-black">
             ← Tilbake til forside
           </Link>
         </div>
 
-        {/* Karusell med beige bakgrunn */}
         <div className="bg-[#f4f1ea] py-10 px-4 rounded-lg shadow-inner">
           <FrontpageCarouselAll />
         </div>
 
-        {/* Reportasjeseksjon */}
         <div className="mt-12 bg-white border-t border-gray-200 py-10 px-4 sm:px-6">
           <div className="max-w-3xl mx-auto text-center">
             <img
@@ -172,20 +157,18 @@ export default function VenueDetail() {
               Bli med bak kulissene på en av våre mest eksklusive reiser, der tropiske netter og
               eventyrlige opplevelser møtes.
             </p>
-
             <Link
-            to="/stories/bali"
-            className="inline-block border border-black px-4 py-2 text-sm uppercase tracking-wide hover:bg-black hover:text-white transition"
-          >
-            Les reportasjen
-          </Link>
-           
+              to="/stories/bali"
+              className="inline-block border border-black px-4 py-2 text-sm uppercase tracking-wide hover:bg-black hover:text-white transition"
+            >
+              Les reportasjen
+            </Link>
+          </div>
+        </div>
 
-             {/* Karusell med beige bakgrunn */}
+        {/* Karusell med beige bakgrunn */}
         <div className="bg-[#f4f1ea] py-10 px-4 rounded-lg shadow-inner">
           <FrontpageCarousel />
-        </div>
-          </div>
         </div>
       </div>
     </div>

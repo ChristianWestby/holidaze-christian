@@ -7,16 +7,34 @@ export default function FrontpageCarouselAll() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    async function fetchAllVenues() {
+    async function fetchUserVenues() {
+      const token = localStorage.getItem("accessToken");
+      const userName = localStorage.getItem("userName");
+
+      if (!token || !userName) return;
+
       try {
-        const res = await fetch("https://api.noroff.dev/api/v1/holidaze/venues");
+        const res = await fetch(
+          `https://api.noroff.dev/api/v1/holidaze/profiles/${userName}/venues`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!res.ok) {
+          throw new Error("Klarte ikke hente dine venues");
+        }
+
         const data = await res.json();
         setVenues(data);
       } catch (err) {
-        console.error("Feil ved henting av alle venues:", err);
+        console.error("Feil ved henting av brukerens venues:", err);
       }
     }
-    fetchAllVenues();
+
+    fetchUserVenues();
   }, []);
 
   function prevSlide() {
@@ -27,12 +45,10 @@ export default function FrontpageCarouselAll() {
     setCurrentIndex((prev) => (prev === venues.length - 1 ? 0 : prev + 1));
   }
 
-  if (venues.length === 0) return null;
+  if (venues.length === 0 || !venues[currentIndex]) return null;
 
   const current = venues[currentIndex];
-  const image = typeof current.media?.[0] === "string"
-    ? current.media[0]
-    : current.media?.[0]?.url;
+  const image = current?.media?.[0];
 
   return (
     <section className="max-w-6xl mx-auto px-6 relative">
@@ -55,7 +71,7 @@ export default function FrontpageCarouselAll() {
           <h3 className="uppercase text-sm tracking-widest text-gray-500 mb-1">Utforsk</h3>
           <h1 className="text-2xl font-bold mb-3 leading-snug">{current.name}</h1>
           <p className="text-gray-600 text-sm mb-4">
-            {current.description.slice(0, 160)}...
+            {current.description?.slice(0, 160)}...
           </p>
           <Link
             to={`/venues/${current.id}`}

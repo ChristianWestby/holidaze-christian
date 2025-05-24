@@ -14,13 +14,6 @@ const adminVenueIds = [
   "8baee31a-7388-468a-9fb7-569b51c00a53",
   "bc8f37a3-27b1-4cea-9e1d-d9be24365ce1",
   "73d51541-dcfd-4313-a374-c8237c701a9f",
-  "a0cb41af-2ff2-45dc-848d-753601340696",
-  "75bb7e9d-8a8e-41e1-9abe-ff56e3dd973f",
-  "9c557502-5c33-47f5-bea8-36e79aced17f",
-  "122d9a58-78c8-4c01-8647-607686effc9e",
-  "f5774e07-f17e-4ab1-ac9a-a4461a21e4bf",
-  "ceeeed3e-0ce9-4a2c-8bf9-d27a6d232dd1",
-  "e21aae33-bfab-4f9c-9e38-b9d2ded0e6d3"
 ];
 
 export default adminVenueIds;
