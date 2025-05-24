@@ -3,6 +3,7 @@ import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import VenueDetail from "./pages/VenueDetail";
+import HighlightedVenues from "./components/HighlightedVenues";
 import Stories from "./pages/Stories";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
@@ -11,7 +12,8 @@ import ProtectedRoute from "./utils/ProtectedRoute";
 import BookingPage from "./pages/BookingPage";
 import CreateVenue from "./pages/CreateVenue";
 import Settings from "./pages/Settings";
-import AllVenues from "./pages/AllVenues"; // 👈 ADD THIS
+import AllVenues from "./pages/AllVenues"; 
+
 
 export default function App() {
   return (
@@ -20,7 +22,8 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
-          <Route path="venues" element={<AllVenues />} /> 
+          <Route path="venues" element={<AllVenues />} />
+          <Route path="venues/highlighted" element={<HighlightedVenues />} /> 
           <Route path="venues/:id" element={<VenueDetail />} />
           <Route path="/stories/bali" element={<Stories />} />
           <Route path="login" element={<Login />} />

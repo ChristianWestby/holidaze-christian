@@ -2,11 +2,16 @@ import { Link } from "react-router-dom";
 import FrontpageCarousel from "../components/FrontpageCarousel";
 import FrontpageCarouselAll from "../components/FrontpageCarouselAll";
 import Hero from "../components/Hero"; // <-- Legg til dette
+import { useEffect } from "react";
 
 export default function Home() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
-      <Hero /> {/* <-- Bruk den riktige Hero-komponenten her */}
+      <Hero /> 
 
       {/* Karusell */}
       <section className="bg-[#f4f1ea] py-10 px-4 rounded-lg shadow-inner mt-12">

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import CalenderRange from "./CalenderRange";
+import PrimaryButton from "./PrimaryButton";
 
 export default function BookingModal({ venue, onClose }) {
   const [dateRange, setDateRange] = useState({ start: null, end: null, guests: 1 });
@@ -64,19 +65,20 @@ export default function BookingModal({ venue, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 relative">
+      <div className="bg-[#f4f1ea] text-black rounded-xl shadow-xl max-w-md w-full p-6 relative">
+        {/* Lukkeknapp */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-2xl"
+          className="absolute top-3 right-4 text-gray-700 hover:text-black text-2xl"
           aria-label="Lukk"
         >
           &times;
         </button>
 
-        <h2 className="text-2xl font-bold mb-4 text-gray-800">{venue.name}</h2>
+        <h2 className="text-xl font-semibold mb-4 text-center">{venue.name}</h2>
 
         {success ? (
-          <p className="text-green-600 text-center font-medium">Takk for booking!</p>
+          <p className="text-green-700 text-center font-medium">Takk for booking! Du blir videresendt...</p>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
             <CalenderRange
@@ -85,15 +87,14 @@ export default function BookingModal({ venue, onClose }) {
               maxGuests={venue.maxGuests}
             />
 
-            {error && <p className="text-red-600 text-sm">{error}</p>}
+            {error && <p className="text-red-600 text-sm text-center">{error}</p>}
 
-            <button
+            <PrimaryButton
+              text={loading ? "Sender..." : "Bekreft booking"}
               type="submit"
+              full
               disabled={loading}
-              className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition disabled:opacity-50"
-            >
-              {loading ? "Sender..." : "Bekreft booking"}
-            </button>
+            />
           </form>
         )}
       </div>
