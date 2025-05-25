@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import FrontpageCarousel from "../components/FrontpageCarousel";
-import FrontpageCarouselAll from "../components/FrontpageCarouselAll";
-import Hero from "../components/Hero"; // <-- Legg til dette
+import FrontpageCarousel from "../components/common/carousel/FrontpageCarousel";
+import FrontpageCarouselAll from "../components/common/carousel/FrontpageCarouselAll";
+import Hero from "../components/layout/Hero"; 
 import { useEffect } from "react";
 
 export default function Home() {

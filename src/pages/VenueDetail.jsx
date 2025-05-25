@@ -1,30 +1,37 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import FrontpageCarousel from "../components/FrontpageCarousel";
-import FrontpageCarouselAll from "../components/FrontpageCarouselAll";
-import BookingModal from "../components/BookingModal";
+import FrontpageCarousel from "../components/common/carousel/FrontpageCarousel";
+import FrontpageCarouselAll from "../components/common/carousel/FrontpageCarouselAll";
+import BookingModal from "../components/common/booking/BookingModal";
+import PrimaryButton from "../components/common/ui/buttons/PrimaryButton";
 
 export default function VenueDetail() {
   const { id } = useParams();
   const [venue, setVenue] = useState(null);
+  const [bookings, setBookings] = useState([]); // <-- Ny
   const [mainImageIndex, setMainImageIndex] = useState(1);
   const [showBooking, setShowBooking] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    async function fetchVenue() {
+    async function fetchVenueAndBookings() {
       try {
-        const response = await fetch(`https://api.noroff.dev/api/v1/holidaze/venues/${id}`);
-        const data = await response.json();
-        setVenue(data);
+        const [venueRes, bookingsRes] = await Promise.all([
+          fetch(`https://api.noroff.dev/api/v1/holidaze/venues/${id}`),
+          fetch(`https://api.noroff.dev/api/v1/holidaze/venues/${id}/bookings`)
+        ]);
+        const venueData = await venueRes.json();
+        const bookingsData = await bookingsRes.json();
+        setVenue(venueData);
+        setBookings(bookingsData);
       } catch (error) {
-        console.error("Feil ved henting av venue:", error);
+        console.error("Feil ved henting av venue eller bookings:", error);
       }
     }
 
-    fetchVenue();
+    fetchVenueAndBookings();
   }, [id]);
 
-  // Nullstill states og scroll til topp ved venue-bytte
   useEffect(() => {
     setMainImageIndex(1);
     setShowBooking(false);
@@ -32,18 +39,10 @@ export default function VenueDetail() {
   }, [id]);
 
   const handleThumbnailClick = (index) => setMainImageIndex(index);
-  const handlePrevImage = () =>
-    setMainImageIndex((prev) =>
-      prev === 1 ? venue.media.length - 1 : prev - 1
-    );
-  const handleNextImage = () =>
-    setMainImageIndex((prev) =>
-      prev === venue.media.length - 1 ? 1 : prev + 1
-    );
+  const handlePrevImage = () => setMainImageIndex((prev) => (prev === 1 ? venue.media.length - 1 : prev - 1));
+  const handleNextImage = () => setMainImageIndex((prev) => (prev === venue.media.length - 1 ? 1 : prev + 1));
 
-  if (!venue) {
-    return <p>Laster detaljer...</p>;
-  }
+  if (!venue) return <p>Laster detaljer...</p>;
 
   return (
     <div className="venue-detail">
@@ -55,10 +54,14 @@ export default function VenueDetail() {
             alt="Hero"
             className="w-full h-full object-cover scale-100 hover:scale-105 transition-transform duration-1000"
           />
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-            <h1 className="text-white text-4xl sm:text-5xl font-semibold drop-shadow-lg text-center px-4">
+          <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-center px-4">
+            <h1 className="text-white text-4xl sm:text-5xl font-semibold drop-shadow-lg inline-block border-b-2 border-white pb-2 tracking-wide">
               {venue.name}
             </h1>
+            <div className="mt-4 text-white text-sm sm:text-base">
+              <span className="tracking-tight">{venue.location.city}, </span>
+              <span className="font-semibold">{venue.location.country}</span>
+            </div>
           </div>
         </div>
       )}
@@ -70,7 +73,6 @@ export default function VenueDetail() {
           </h2>
         </div>
 
-        {/* Hovedbilde */}
         {venue.media?.[mainImageIndex] && (
           <div className="relative max-w-3xl mx-auto mb-6">
             <img
@@ -78,31 +80,31 @@ export default function VenueDetail() {
               alt="Hovedbilde"
               className="w-full h-auto rounded-sm shadow-lg"
             />
-            <button
-              onClick={handlePrevImage}
-              className="absolute -left-6 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white px-3 py-1 rounded-r-xl shadow"
-            >
-              ◀
-            </button>
-            <button
-              onClick={handleNextImage}
-              className="absolute -right-6 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white px-3 py-1 rounded-l-xl shadow"
-            >
-              ▶
-            </button>
+          <button
+  onClick={handlePrevImage}
+  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-black text-white w-10 h-10 flex items-center justify-center rounded-full shadow hover:bg-gray-800 transition"
+  aria-label="Forrige bilde"
+>
+  &larr;
+</button>
+
+<button
+  onClick={handleNextImage}
+  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-black text-white w-10 h-10 flex items-center justify-center rounded-full shadow hover:bg-gray-800 transition"
+  aria-label="Neste bilde"
+>
+  &rarr;
+</button>
           </div>
         )}
 
-        {/* Thumbnails */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
           {venue.media.slice(1).map((url, index) => (
             <img
               key={index + 1}
               src={url}
               alt={`Thumbnail ${index + 1}`}
-              className={`w-full h-auto rounded-sm cursor-pointer p-1 transition ${
-                mainImageIndex === index + 1 ? "ring-2 ring-black" : ""
-              }`}
+              className={`w-full h-auto rounded-sm cursor-pointer p-1 transition ${mainImageIndex === index + 1 ? "ring-2 ring-black" : ""}`}
               onClick={() => handleThumbnailClick(index + 1)}
             />
           ))}
@@ -110,7 +112,6 @@ export default function VenueDetail() {
 
         <p className="text-gray-600 text-lg mb-6">{venue.description}</p>
 
-        {/* Ekstra info */}
         <div className="grid sm:grid-cols-2 gap-4 mb-6 text-sm text-gray-700">
           <div>
             <p><span className="font-semibold">Pris:</span> {venue.price} NOK / natt</p>
@@ -124,16 +125,21 @@ export default function VenueDetail() {
           </div>
         </div>
 
-        <button
-          onClick={() => setShowBooking(true)}
-          className="inline-block px-4 py-2 border border-black text-black text-sm uppercase tracking-wide hover:bg-black hover:text-white transition"
-        >
-          Book nå
-        </button>
+        <div className="flex gap-4 flex-wrap items-center mb-12">
+          <PrimaryButton
+            text="Book nå"
+            onClick={() => navigate(`/booking/${venue.id}`)}
+            variant="secondary"
+          />
+        </div>
 
         {showBooking && (
-          <BookingModal venue={venue} onClose={() => setShowBooking(false)} />
-        )}
+  <BookingModal
+    venue={venue}
+    bookings={bookings}
+    onClose={() => setShowBooking(false)}
+  />
+)}
 
         <div className="mt-12 mb-4">
           <Link to="/" className="text-sm text-gray-500 underline hover:text-black">
@@ -154,8 +160,7 @@ export default function VenueDetail() {
             />
             <h3 className="text-2xl font-semibold mb-2">Magiske minner fra Bali</h3>
             <p className="text-gray-600 mb-4">
-              Bli med bak kulissene på en av våre mest eksklusive reiser, der tropiske netter og
-              eventyrlige opplevelser møtes.
+              Bli med bak kulissene på en av våre mest eksklusive reiser, der tropiske netter og eventyrlige opplevelser møtes.
             </p>
             <Link
               to="/stories/bali"
@@ -166,7 +171,6 @@ export default function VenueDetail() {
           </div>
         </div>
 
-        {/* Karusell med beige bakgrunn */}
         <div className="bg-[#f4f1ea] py-10 px-4 rounded-lg shadow-inner">
           <FrontpageCarousel />
         </div>

@@ -1,75 +1,113 @@
 import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import CalenderRange from "../components/common/booking/CalenderRange";
+import PrimaryButton from "../components/common/ui/buttons/PrimaryButton";
 
 export default function BookingPage() {
-  const [bookings, setBookings] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const token = localStorage.getItem("accessToken");
-  const name = localStorage.getItem("userName");
+  const { id } = useParams(); // Venue-ID fra URL
+  const [venue, setVenue] = useState(null);
+  const [dateRange, setDateRange] = useState({ start: null, end: null, guests: 1 });
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    async function fetchBookings() {
+    async function fetchVenue() {
       try {
-        const res = await fetch(`https://api.noroff.dev/api/v1/holidaze/profiles/${name}/bookings`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!res.ok) throw new Error("Kunne ikke hente bookinger");
-
+        const res = await fetch(`https://api.noroff.dev/api/v1/holidaze/venues/${id}`);
         const data = await res.json();
-        setBookings(data);
+        setVenue(data);
       } catch (err) {
-        console.error("Feil ved henting av bookinger:", err);
-      } finally {
-        setLoading(false);
+        console.error("Feil ved henting av venue:", err);
       }
     }
 
-    if (token && name) fetchBookings();
-  }, [token, name]);
+    window.scrollTo(0, 0);
+    fetchVenue();
+  }, [id]);
 
-  if (loading) {
-    return <p className="text-center mt-20 text-gray-500">Laster bookinger...</p>;
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const { start, end, guests } = dateRange;
+
+    if (!start || !end) return setError("Datoene må fylles ut.");
+    if (start >= end) return setError("Utsjekksdato må være etter innsjekksdato.");
+    if (guests < 1 || guests > (venue?.maxGuests || 10)) {
+      return setError(`Antall gjester må være mellom 1 og ${venue?.maxGuests || 10}.`);
+    }
+
+    setError("");
+    setLoading(true);
+
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      setLoading(false);
+      return setError("Du må være logget inn for å booke.");
+    }
+
+    const bookingData = {
+      dateFrom: start.toISOString(),
+      dateTo: end.toISOString(),
+      venueId: id,
+      guests,
+    };
+
+    try {
+      const res = await fetch("https://api.noroff.dev/api/v1/holidaze/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(bookingData),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || "Booking feilet.");
+      }
+
+      setSuccess(true);
+      setTimeout(() => navigate("/profile"), 2000);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (!venue) {
+    return <div className="text-center mt-[120px] text-gray-600">Laster sted ...</div>;
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-12 mt-[120px] font-sans">
-      <h1 className="text-3xl font-bold mb-8 text-center">Mine bookinger</h1>
+    <div className="min-h-screen bg-[#1c1c1c] text-black pt-[120px] pb-20 px-4">
+      <div className="max-w-2xl mx-auto bg-[#f4f1ea] p-8 rounded-lg shadow-lg">
+        <h1 className="text-2xl font-bold mb-4 text-center">{venue.name}</h1>
 
-      {bookings.length === 0 ? (
-        <p className="text-center text-gray-500">Du har ingen bookinger ennå.</p>
-      ) : (
-        <ul className="space-y-6">
-          {bookings.map((booking) => {
-            const venue = booking.venue;
+        {success ? (
+          <p className="text-green-700 text-center font-medium">Booking fullført! Du sendes videre ...</p>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <CalenderRange
+  dateRange={dateRange}
+  onDateChange={setDateRange}
+  maxGuests={venue.maxGuests}
+  venueId={venue.id}
+/>
 
-            return (
-              <li
-                key={booking.id}
-                className="bg-white border rounded-xl shadow p-6 hover:shadow-md transition"
-              >
-                {venue ? (
-                  <>
-                    <h2 className="text-xl font-semibold mb-2">{venue.name}</h2>
-                    <p className="text-gray-600">
-                      {new Date(booking.dateFrom).toLocaleDateString()} –{" "}
-                      {new Date(booking.dateTo).toLocaleDateString()}
-                    </p>
-                    <p className="text-sm text-gray-500 mt-1">Gjester: {booking.guests}</p>
-                  </>
-                ) : (
-                  <>
-                    <h2 className="text-lg font-semibold text-red-600">Venue ikke tilgjengelig</h2>
-                    <p className="text-sm text-gray-500">Booking-ID: {booking.id}</p>
-                  </>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      )}
+            {error && <p className="text-red-600 text-sm text-center">{error}</p>}
+
+            <PrimaryButton
+              type="submit"
+              text={loading ? "Sender ..." : "Bekreft booking"}
+              full
+              disabled={loading}
+            />
+          </form>
+        )}
+      </div>
     </div>
   );
 }

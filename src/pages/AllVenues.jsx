@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import VenueGridCard from "../components/VenueGridCard"; // Husk å opprette denne
+import VenueGridCard from "../components/venue/VenueGridCard"; 
 
 export default function AllVenues() {
   const [venues, setVenues] = useState([]);

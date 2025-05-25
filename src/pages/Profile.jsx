@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ProfileHeader from "../components/ProfileHeader";
-import ProfileButtons from "../components/ProfileButtons";
-import VenueCard from "../components/VenueCard";
-import BookingCard from "../components/BookingCard";
+import ProfileHeader from "../components/profile/ProfileHeader";
+import ProfileButtons from "../components/common/ui/buttons/ProfileButtons";
+import VenueCard from "../components/venue/VenueCard";
+import BookingCard from "../components/common/booking/BookingCard";
 
 export default function Profile() {
   const [profile, setProfile] = useState(null);
@@ -15,10 +15,7 @@ export default function Profile() {
     const token = localStorage.getItem("accessToken");
     const name = localStorage.getItem("userName");
 
-    if (!token || !name) {
-      console.warn("Token eller brukernavn mangler.");
-      return;
-    }
+    if (!token || !name) return;
 
     async function fetchProfileData() {
       try {
@@ -27,7 +24,7 @@ export default function Profile() {
         const [profileRes, venuesRes, bookingsRes] = await Promise.all([
           fetch(`https://api.noroff.dev/api/v1/holidaze/profiles/${name}`, { headers }),
           fetch(`https://api.noroff.dev/api/v1/holidaze/profiles/${name}/venues`, { headers }),
-          fetch(`https://api.noroff.dev/api/v1/holidaze/profiles/${name}/bookings`, { headers }),
+          fetch(`https://api.noroff.dev/api/v1/holidaze/profiles/${name}/bookings?_venue=true`, { headers }),
         ]);
 
         if (!profileRes.ok || !venuesRes.ok || !bookingsRes.ok) {
@@ -70,12 +67,15 @@ export default function Profile() {
         )}
       </section>
 
-      <section>
-        <h2 className="text-xl font-semibold mb-4 border-b pb-1">Dine bookinger</h2>
+      <section className="mt-16">
+        <h2 className="text-xl font-semibold mb-4 border-b border-black pb-1 text-gray-800">
+          Dine bookinger
+        </h2>
+
         {bookings.length === 0 ? (
-          <p className="text-gray-500">Ingen bookinger funnet.</p>
+          <p className="text-gray-600 text-sm italic">Du har ingen bookinger registrert.</p>
         ) : (
-          <ul className="space-y-4">
+          <ul className="space-y-6">
             {bookings.map((booking) => (
               <BookingCard key={booking.id} booking={booking} />
             ))}

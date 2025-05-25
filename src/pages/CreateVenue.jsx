@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import PrimaryButton from "../components/PrimaryButton";
+import PrimaryButton from "../components/common/ui/buttons/PrimaryButton";
 import { useNavigate } from "react-router-dom";
 
 export default function CreateVenue() {
