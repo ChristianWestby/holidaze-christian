@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import adminVenueIds from "../../../data/AdminVenuesId";
+import adminVenueIds from "@data/AdminVenuesId";
 
 export default function FrontpageCarousel() {
   const [venues, setVenues] = useState([]);

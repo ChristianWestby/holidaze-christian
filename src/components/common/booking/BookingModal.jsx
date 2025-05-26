@@ -1,6 +1,6 @@
 import { useState } from "react";
-import CalenderRange from "./CalenderRange";
-import PrimaryButton from "../ui/buttons/PrimaryButton";
+import CalenderRange from "@components/common/booking/CalenderRange";
+import PrimaryButton from "@components/common/ui/buttons/PrimaryButton";
 
 export default function BookingModal({ venue, bookings = [], onClose }) {
   const [dateRange, setDateRange] = useState({ start: null, end: null, guests: 1 });

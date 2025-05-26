@@ -1,13 +1,14 @@
 export default function BookingCard({ booking }) {
   const venue = booking.venue;
+  const fallbackImage = "/fallback.jpg"; // legg denne i /public hvis den ikke finnes
 
   return (
     <li className="bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden">
       {venue ? (
         <>
           <img
-            src={venue.media?.[0]}
-            alt={venue.name}
+            src={venue.media?.[0] || fallbackImage}
+            alt={venue.name || "Bilde mangler"}
             className="w-full h-48 object-cover rounded-t-xl"
           />
           <div className="p-4">

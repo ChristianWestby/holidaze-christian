@@ -1,9 +1,10 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import FrontpageCarousel from "../components/common/carousel/FrontpageCarousel";
-import FrontpageCarouselAll from "../components/common/carousel/FrontpageCarouselAll";
-import BookingModal from "../components/common/booking/BookingModal";
-import PrimaryButton from "../components/common/ui/buttons/PrimaryButton";
+
+import FrontpageCarousel from "@components/common/carousel/FrontpageCarousel";
+import FrontpageCarouselAll from "@components/common/carousel/FrontpageCarouselAll";
+import BookingModal from "@components/common/booking/BookingModal";
+import PrimaryButton from "@components/common/ui/buttons/PrimaryButton";
 
 export default function VenueDetail() {
   const { id } = useParams();

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import adminVenueIds from "../../data/AdminVenuesId";
-import PrimaryButton from "../common/ui/buttons/PrimaryButton"; 
+import adminVenueIds from "@data/AdminVenuesId";
+import PrimaryButton from "@components/common/ui/buttons/PrimaryButton";
 
 export default function HighlightedVenues() {
   const [venues, setVenues] = useState([]);

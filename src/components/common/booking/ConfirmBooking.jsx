@@ -1,4 +1,4 @@
-import PrimaryButton from "../PrimaryButton";
+import PrimaryButton from "@components/common/ui/buttons/PrimaryButton";
 
 export default function ConfirmBooking({ dateRange, onConfirm, loading }) {
   const { start, end, guests } = dateRange;

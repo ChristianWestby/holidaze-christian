@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { X } from "lucide-react";
-import { useAuth } from "../../context/AuthContext";
-import LogoHolidaze from "../common/ui/LogoHolidaze";
+import { useAuth } from "@utils/auth/AuthContext";
+import LogoHolidaze from "@components/common/ui/LogoHolidaze";
 
 export default function DropdownMenu({ onClose }) {
   const { user } = useAuth();
@@ -43,17 +43,18 @@ export default function DropdownMenu({ onClose }) {
         <Link to="/venues" onClick={onClose} className="py-4 hover:underline text-lg font-medium">
           Alle steder
         </Link>
-        <Link to="/my-venues" onClick={onClose} className="py-4 hover:underline text-lg font-medium">
-          Våre utvalgte steder
-        </Link>
+        <Link to="/venues/highlighted" onClick={onClose} className="py-4 hover:underline text-lg font-medium">
+  Våre utvalgte steder
+</Link>
         <Link to="/" onClick={onClose} className="py-4 hover:underline text-lg font-medium">
           Til forsiden
         </Link>
-        {user && (
-          <Link to="/profile" onClick={onClose} className="py-4 hover:underline text-lg font-medium">
-            Min profil
-          </Link>
-        )}
+       {user && (
+        <Link to="/profile" onClick={onClose} className="py-4 hover:underline text-lg font-medium">
+          Min profil
+        </Link>
+     )}
+        
         {user && (
          <Link to="/my-bookings" onClick={onClose} className="py-4 hover:underline text-lg font-medium">
           Mine bookinger
