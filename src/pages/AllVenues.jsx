@@ -36,66 +36,68 @@ export default function AllVenues() {
   const totalPages = Math.ceil(filtered.length / venuesPerPage);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10 mt-[120px]">
-      <h1 className="text-3xl font-bold mb-4 border-b border-black pb-2">Alle steder</h1>
+    <div className="min-h-screen bg-[#1c1c1c] text-white px-4 py-10 mt-[120px]">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-3xl font-bold mb-6 border-b border-white/20 pb-2">Alle steder</h1>
 
-      {/* Søk og filter */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-6">
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Søk..."
-          className="w-full sm:w-1/2 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-black"
-        />
+        {/* Søk og filter */}
+        <div className="flex flex-col sm:flex-row gap-4 mb-8">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Søk..."
+            className="w-full sm:w-1/2 px-4 py-2 bg-white/10 text-white border border-white/20 rounded placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+          />
 
-        <select
-          value={continent}
-          onChange={(e) => setContinent(e.target.value)}
-          className="w-full sm:w-1/2 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-black"
-        >
-          <option value="">Alle verdensdeler</option>
-          <option value="Europa">Europa</option>
-          <option value="Asia">Asia</option>
-          <option value="Afrika">Afrika</option>
-          <option value="Nord-Amerika">Nord-Amerika</option>
-          <option value="Sør-Amerika">Sør-Amerika</option>
-          <option value="Oseania">Oseania</option>
-        </select>
-      </div>
-
-      {/* Tilbake-lenke øverst */}
-      <Link to="/" className="text-sm underline hover:text-black mb-6 block">
-        ← Tilbake til meny
-      </Link>
-
-      {/* Kortvisning */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {currentVenues.map((venue) => (
-          <VenueGridCard key={venue.id} venue={venue} />
-        ))}
-      </div>
-
-      {/* Paginering + Tilbake-lenke nederst */}
-      <div className="flex flex-col items-center mt-10 gap-4">
-        <div className="flex flex-wrap justify-center gap-2">
-          {Array.from({ length: totalPages }, (_, i) => (
-            <button
-              key={i + 1}
-              onClick={() => setCurrentPage(i + 1)}
-              className={`px-4 py-2 border text-sm rounded transition-all ${
-                currentPage === i + 1
-                  ? "bg-black text-white border-black"
-                  : "bg-white text-black border-gray-300 hover:bg-gray-100"
-              }`}
-            >
-              {i + 1}
-            </button>
-          ))}
+          <select
+            value={continent}
+            onChange={(e) => setContinent(e.target.value)}
+            className="w-full sm:w-1/2 px-4 py-2 bg-white/10 text-white border border-white/20 rounded focus:outline-none focus:ring-2 focus:ring-white/30"
+          >
+            <option value="">Alle verdensdeler</option>
+            <option value="Europa">Europa</option>
+            <option value="Asia">Asia</option>
+            <option value="Afrika">Afrika</option>
+            <option value="Nord-Amerika">Nord-Amerika</option>
+            <option value="Sør-Amerika">Sør-Amerika</option>
+            <option value="Oseania">Oseania</option>
+          </select>
         </div>
-        <Link to="/" className="text-sm underline hover:text-black">
+
+        <Link to="/" className="text-sm underline hover:text-white/80 mb-8 block">
           ← Tilbake til meny
         </Link>
+
+        {/* Kortvisning */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {currentVenues.map((venue) => (
+            <VenueGridCard key={venue.id} venue={venue} />
+          ))}
+        </div>
+
+        {/* Paginering */}
+        <div className="flex flex-col items-center mt-12 gap-4">
+          <div className="flex flex-wrap justify-center gap-2">
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i + 1}
+                onClick={() => setCurrentPage(i + 1)}
+                className={`px-4 py-2 text-sm rounded transition-all ${
+                  currentPage === i + 1
+                    ? "bg-white text-black"
+                    : "bg-white/10 text-white border border-white/20 hover:bg-white/20"
+                }`}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
+
+          <Link to="/" className="text-sm underline hover:text-white/80">
+            ← Tilbake til meny
+          </Link>
+        </div>
       </div>
     </div>
   );

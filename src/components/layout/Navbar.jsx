@@ -52,15 +52,17 @@ export default function Navbar() {
         <div className="relative">
           <button onClick={() => setMenuOpen(true)} className="flex items-center gap-2">
             <Menu className="w-5 h-5" />
-            <Globe className="w-5 h-5" />
+            <Link to="/map">
+            <Globe className="w-5 h-5 hover:text-white/80 transition" title="Utforsk kart" />
+            </Link>
           </button>
           {menuOpen && <DropdownMenu onClose={() => setMenuOpen(false)} />}
         </div>
 
         {/* Logo */}
-        <div className="flex items-center gap-4 flex-1 justify-center">
-          <LogoHolidaze scrolled={scrolled} />
-        </div>
+        <div className="absolute left-1/2 transform -translate-x-1/2">
+  <LogoHolidaze scrolled={scrolled} />
+</div>
 
         {/* Høyre brukerikon / pålogging */}
         <div className="flex items-center gap-4 text-sm" ref={dropdownRef}>
@@ -74,14 +76,14 @@ export default function Navbar() {
                 <UserPlus className="w-4 h-4" />
                 Registrer
               </Link>
-              <Link
-                to="/login"
-                className={`px-4 py-1 rounded transition ${
-                  scrolled ? "bg-black text-white hover:bg-gray-900" : "bg-white text-black hover:bg-gray-200"
-                }`}
-              >
-                Book nå
-              </Link>
+             <Link
+  to={user ? "/booking" : "/login"}
+  className={`px-4 py-1 rounded transition ${
+    scrolled ? "bg-black text-white hover:bg-gray-900" : "bg-white text-black hover:bg-gray-200"
+  }`}
+>
+  Book nå
+</Link>
             </>
           ) : (
             <>
