@@ -9,7 +9,7 @@ import PrimaryButton from "@components/common/ui/buttons/PrimaryButton";
 export default function VenueDetail() {
   const { id } = useParams();
   const [venue, setVenue] = useState(null);
-  const [bookings, setBookings] = useState([]); // <-- Ny
+  const [bookings, setBookings] = useState([]);
   const [mainImageIndex, setMainImageIndex] = useState(1);
   const [showBooking, setShowBooking] = useState(false);
   const navigate = useNavigate();
@@ -67,80 +67,81 @@ export default function VenueDetail() {
         </div>
       )}
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-6 mt-8">
-          <h2 className="text-xl sm:text-2xl font-medium text-gray-700">
+      <div className="container mx-auto px-4 py-12">
+        <div className="bg-[#f4f1ea] rounded-xl shadow-inner p-6 md:p-10 mb-12 border border-black/10">
+          <h2 className="text-xl sm:text-2xl font-medium text-gray-700 mb-6">
             {venue.location.city}, {venue.location.country}
           </h2>
-        </div>
 
-        {venue.media?.[mainImageIndex] && (
-          <div className="relative max-w-3xl mx-auto mb-6">
-            <img
-              src={venue.media[mainImageIndex]}
-              alt="Hovedbilde"
-              className="w-full h-auto rounded-sm shadow-lg"
+          {venue.media?.[mainImageIndex] && (
+            <div className="relative max-w-3xl mx-auto mb-6">
+              <img
+                src={venue.media[mainImageIndex]}
+                alt="Hovedbilde"
+                className="w-full h-auto rounded-md shadow-lg"
+              />
+              <button
+                onClick={handlePrevImage}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white text-black w-10 h-10 flex items-center justify-center rounded-full shadow hover:bg-black hover:text-white transition"
+                aria-label="Forrige bilde"
+              >
+                ❮
+              </button>
+              <button
+                onClick={handleNextImage}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white text-black w-10 h-10 flex items-center justify-center rounded-full shadow hover:bg-black hover:text-white transition"
+                aria-label="Neste bilde"
+              >
+                ❯
+              </button>
+            </div>
+          )}
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+            {venue.media.slice(1).map((url, index) => (
+              <img
+                key={index + 1}
+                src={url}
+                alt={`Thumbnail ${index + 1}`}
+                className={`w-full h-auto rounded-md cursor-pointer p-1 transition border ${mainImageIndex === index + 1 ? "border-black" : "border-transparent"}`}
+                onClick={() => handleThumbnailClick(index + 1)}
+              />
+            ))}
+          </div>
+
+          <p className="text-gray-700 text-lg mb-6 leading-relaxed border-t pt-6 border-black/20">
+            {venue.description}
+          </p>
+
+          <div className="grid sm:grid-cols-2 gap-4 mb-6 text-sm text-gray-800 border-t pt-6 border-black/20">
+            <div>
+              <p><span className="font-semibold">Pris:</span> {venue.price} NOK / natt</p>
+              <p><span className="font-semibold">Maks gjester:</span> {venue.maxGuests}</p>
+            </div>
+            <div>
+              <p><span className="font-semibold">Wifi:</span> {venue.meta.wifi ? "Ja" : "Nei"}</p>
+              <p><span className="font-semibold">Parkering:</span> {venue.meta.parking ? "Ja" : "Nei"}</p>
+              <p><span className="font-semibold">Frokost:</span> {venue.meta.breakfast ? "Ja" : "Nei"}</p>
+              <p><span className="font-semibold">Kjæledyr:</span> {venue.meta.pets ? "Ja" : "Nei"}</p>
+            </div>
+          </div>
+
+          <div className="flex gap-4 flex-wrap items-center mb-4">
+            <PrimaryButton
+              text="Book nå"
+              onClick={() => navigate(`/booking/${venue.id}`)}
+              variant="secondary"
             />
-          <button
-  onClick={handlePrevImage}
-  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-black text-white w-10 h-10 flex items-center justify-center rounded-full shadow hover:bg-gray-800 transition"
-  aria-label="Forrige bilde"
->
-  &larr;
-</button>
-
-<button
-  onClick={handleNextImage}
-  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-black text-white w-10 h-10 flex items-center justify-center rounded-full shadow hover:bg-gray-800 transition"
-  aria-label="Neste bilde"
->
-  &rarr;
-</button>
           </div>
-        )}
-
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-          {venue.media.slice(1).map((url, index) => (
-            <img
-              key={index + 1}
-              src={url}
-              alt={`Thumbnail ${index + 1}`}
-              className={`w-full h-auto rounded-sm cursor-pointer p-1 transition ${mainImageIndex === index + 1 ? "ring-2 ring-black" : ""}`}
-              onClick={() => handleThumbnailClick(index + 1)}
-            />
-          ))}
-        </div>
-
-        <p className="text-gray-600 text-lg mb-6">{venue.description}</p>
-
-        <div className="grid sm:grid-cols-2 gap-4 mb-6 text-sm text-gray-700">
-          <div>
-            <p><span className="font-semibold">Pris:</span> {venue.price} NOK / natt</p>
-            <p><span className="font-semibold">Maks gjester:</span> {venue.maxGuests}</p>
-          </div>
-          <div>
-            <p><span className="font-semibold">Wifi:</span> {venue.meta.wifi ? "Ja" : "Nei"}</p>
-            <p><span className="font-semibold">Parkering:</span> {venue.meta.parking ? "Ja" : "Nei"}</p>
-            <p><span className="font-semibold">Frokost:</span> {venue.meta.breakfast ? "Ja" : "Nei"}</p>
-            <p><span className="font-semibold">Kjæledyr:</span> {venue.meta.pets ? "Ja" : "Nei"}</p>
-          </div>
-        </div>
-
-        <div className="flex gap-4 flex-wrap items-center mb-12">
-          <PrimaryButton
-            text="Book nå"
-            onClick={() => navigate(`/booking/${venue.id}`)}
-            variant="secondary"
-          />
         </div>
 
         {showBooking && (
-  <BookingModal
-    venue={venue}
-    bookings={bookings}
-    onClose={() => setShowBooking(false)}
-  />
-)}
+          <BookingModal
+            venue={venue}
+            bookings={bookings}
+            onClose={() => setShowBooking(false)}
+          />
+        )}
 
         <div className="mt-12 mb-4">
           <Link to="/" className="text-sm text-gray-500 underline hover:text-black">

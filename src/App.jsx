@@ -14,6 +14,7 @@ import CreateVenue from "@pages/CreateVenue";
 import Settings from "@pages/Settings";
 import AllVenues from "@pages/AllVenues";
 import MyBookings from "@pages/MyBookings";
+import MapPage from "@pages/MapPage";
 
 import ProtectedRoute from "@utils/ProtectedRoute";
 
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/stories/bali" element={<Stories />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="map" element={<MapPage />} />
           
 
           <Route

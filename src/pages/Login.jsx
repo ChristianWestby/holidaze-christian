@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
-
 import { useAuth } from "@auth/AuthContext";
 
 export default function Login() {
@@ -36,50 +35,59 @@ export default function Login() {
   }
 
   return (
-    <div className="max-w-md mx-auto mt-[120px] bg-white p-6 rounded shadow">
-      <h1 className="text-2xl font-bold mb-4 text-center">Logg inn</h1>
-      {error && <p className="text-red-600 mb-4 text-center">{error}</p>}
+    <div
+      className="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4"
+      style={{
+        backgroundImage: "url('/images/holidaze-auth-bg.jpg')",
+      }}
+    >
+      <div className="max-w-md w-full bg-black/70 text-white p-8 rounded-2xl shadow-xl backdrop-blur font-sans mt-[120px]">
+        <h1 className="text-2xl font-semibold mb-6 text-center tracking-wide">Velkommen tilbake</h1>
+        {error && <p className="text-red-400 mb-4 text-center text-sm">{error}</p>}
 
-      <form onSubmit={handleLogin} className="space-y-4">
-        <div>
-          <label className="block mb-1">E-post:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full border px-3 py-2 rounded"
-          />
-        </div>
-
-        <div>
-          <label className="block mb-1">Passord:</label>
-          <div className="relative">
+        <form onSubmit={handleLogin} className="space-y-6">
+          <div>
+            <label className="block mb-1 text-sm text-white/80">E-postadresse</label>
             <input
-              type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full border px-3 py-2 rounded pr-10"
+              className="w-full bg-white/10 text-white border border-white/20 px-4 py-2 rounded-lg placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/30"
+              placeholder="din@epost.no"
             />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-500 hover:text-black"
-              aria-label={showPassword ? "Skjul passord" : "Vis passord"}
-            >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-            </button>
           </div>
-        </div>
 
-        <button
-          type="submit"
-          className="text-sm bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition"
-        >
-          Logg inn
-        </button>
-      </form>
+          <div>
+            <label className="block mb-1 text-sm text-white/80">Passord</label>
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full bg-white/10 text-white border border-white/20 px-4 py-2 pr-10 rounded-lg placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/30"
+                placeholder="••••••••"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute top-1/2 right-3 -translate-y-1/2 text-white/50 hover:text-white transition"
+                aria-label={showPassword ? "Skjul passord" : "Vis passord"}
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-white text-black font-semibold py-2 rounded-lg hover:bg-white/90 transition"
+          >
+            Logg inn
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
