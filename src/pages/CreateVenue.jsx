@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import PrimaryButton from "../components/common/ui/buttons/PrimaryButton";
 import { useNavigate } from "react-router-dom";
+
+import PrimaryButton from "@components/common/ui/buttons/PrimaryButton";
 
 export default function CreateVenue() {
   const [name, setName] = useState("");

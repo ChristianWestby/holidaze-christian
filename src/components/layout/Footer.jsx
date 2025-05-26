@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
-import LogoHolidaze from "../common/ui/LogoHolidaze";
-import FooterLinker from "../common/links/FooterLinker";
-import { SocialLinks } from "../common/links/SocialLinks";
-import { ContactInfo } from "../common/forms/ContactInfo";
-import { NewsletterForm } from "../common/forms/NewsletterForm";
+import LogoHolidaze from "@components/common/ui/LogoHolidaze";
+import FooterLinker from "@components/common/links/FooterLinker";
+import { SocialLinks } from "@components/common/links/SocialLinks";
+import { ContactInfo } from "@components/common/forms/ContactInfo";
+import { NewsletterForm } from "@components/common/forms/NewsletterForm";
 
 export default function Footer() {
   return (
@@ -24,7 +24,7 @@ export default function Footer() {
 
         {/* Navigasjon */}
         <div className="flex-1 min-w-[250px]">
-          <FooterNav />
+          <FooterLinker />
         </div>
 
         {/* Kontakt oss */}

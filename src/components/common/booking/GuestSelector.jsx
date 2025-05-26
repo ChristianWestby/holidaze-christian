@@ -1,4 +1,4 @@
-// components/GuestSelector.jsx
+
 export default function GuestSelector({ guests, setGuests, maxGuests = 10 }) {
   function handleChange(e) {
     const value = parseInt(e.target.value);

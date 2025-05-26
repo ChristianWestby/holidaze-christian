@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import HeroButton from "../common/ui/buttons/HeroButton";
+import HeroButton from "@components/common/ui/buttons/HeroButton";
 
 const videos = ["/videos/snøfjell.mp4", "/videos/feterewawes.mp4"];
 

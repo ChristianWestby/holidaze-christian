@@ -1,19 +1,21 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Layout from "./components/layout/Layout";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import VenueDetail from "./pages/VenueDetail";
-import HighlightedVenues from "./components/layout/HighlightedVenues";
-import Stories from "./pages/Stories";
-import Profile from "./pages/Profile";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import ProtectedRoute from "./utils/ProtectedRoute";
-import BookingPage from "./pages/BookingPage";
-import CreateVenue from "./pages/CreateVenue";
-import Settings from "./pages/Settings";
-import AllVenues from "./pages/AllVenues";
-import MyBookings from "./pages/MyBookings";
+import Layout from "@components/layout/Layout";
+import HighlightedVenues from "@components/layout/HighlightedVenues";
+
+import Home from "@pages/Home";
+import About from "@pages/About";
+import VenueDetail from "@pages/VenueDetail";
+import Stories from "@pages/Stories";
+import Profile from "@pages/Profile";
+import Login from "@pages/Login";
+import Register from "@pages/Register";
+import BookingPage from "@pages/BookingPage";
+import CreateVenue from "@pages/CreateVenue";
+import Settings from "@pages/Settings";
+import AllVenues from "@pages/AllVenues";
+import MyBookings from "@pages/MyBookings";
+
+import ProtectedRoute from "@utils/ProtectedRoute";
 
 export default function App() {
   return (

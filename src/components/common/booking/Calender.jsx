@@ -16,14 +16,15 @@ export default function CalendarPicker() {
         onChange={(date) => setStartDate(date)}
         inline
         calendarClassName="!bg-white !text-black rounded-xl p-4 shadow"
-        dayClassName={(date) =>
-          "hover:bg-black hover:text-white transition duration-200 rounded-full px-2 py-1"
-        }
-        dayClassName={(date) =>
-          startDate?.toDateString() === date.toDateString()
+        dayClassName={(date) => {
+          const isSelected = startDate?.toDateString() === date.toDateString();
+          const baseClasses =
+            "hover:bg-black hover:text-white transition duration-200 rounded-full px-2 py-1";
+
+          return isSelected
             ? "bg-black text-white rounded-full px-2 py-1"
-            : "hover:bg-black hover:text-white transition duration-200 rounded-full px-2 py-1"
-        }
+            : baseClasses;
+        }}
         popperPlacement="bottom"
       />
     </div>

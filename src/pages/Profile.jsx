@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ProfileHeader from "../components/profile/ProfileHeader";
-import ProfileButtons from "../components/common/ui/buttons/ProfileButtons";
-import VenueCard from "../components/venue/VenueCard";
-import BookingCard from "../components/common/booking/BookingCard";
+import ProfileHeader from "@components/profile/ProfileHeader";
+import ProfileButtons from "@components/common/ui/buttons/ProfileButtons";
+import VenueCard from "@components/venue/VenueCard";
+import BookingCard from "@components/common/booking/BookingCard";
 
 export default function Profile() {
   const [profile, setProfile] = useState(null);
@@ -15,7 +15,10 @@ export default function Profile() {
     const token = localStorage.getItem("accessToken");
     const name = localStorage.getItem("userName");
 
-    if (!token || !name) return;
+    if (!token || !name) {
+      console.warn("Token eller brukernavn mangler.");
+      return;
+    }
 
     async function fetchProfileData() {
       try {
@@ -47,17 +50,19 @@ export default function Profile() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-12 mt-[120px] bg-[#f4f1ea] shadow-md rounded-lg font-sans">
+    <div className="max-w-7xl mx-auto px-6 py-16 mt-[120px] bg-[#f4f1ea] shadow-xl rounded-2xl font-sans">
       <ProfileHeader profile={profile} />
 
-      <section className="mt-10 mb-16 flex flex-wrap gap-4 justify-center">
+      <section className="mt-12 mb-20 flex flex-wrap gap-4 justify-center">
         <ProfileButtons venueManager={profile.venueManager} />
       </section>
 
-      <section className="mb-12">
-        <h2 className="text-xl font-semibold mb-4 border-b pb-1">Dine venues</h2>
+      <section className="mb-16">
+        <h2 className="text-xl font-semibold mb-4 border-b border-black/40 pb-2">
+          Dine venues
+        </h2>
         {venues.length === 0 ? (
-          <p className="text-gray-500">Du har ingen venues enda.</p>
+          <p className="text-gray-500 italic">Du har ingen venues enda.</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {venues.map((venue) => (
@@ -67,15 +72,14 @@ export default function Profile() {
         )}
       </section>
 
-      <section className="mt-16">
-        <h2 className="text-xl font-semibold mb-4 border-b border-black pb-1 text-gray-800">
+      <section className="bg-[#e8e3da] rounded-xl p-6 shadow-md">
+        <h2 className="text-xl font-semibold mb-4 border-b border-black/40 pb-2">
           Dine bookinger
         </h2>
-
         {bookings.length === 0 ? (
-          <p className="text-gray-600 text-sm italic">Du har ingen bookinger registrert.</p>
+          <p className="text-gray-600 italic">Ingen bookinger funnet.</p>
         ) : (
-          <ul className="space-y-6">
+          <ul className="space-y-4">
             {bookings.map((booking) => (
               <BookingCard key={booking.id} booking={booking} />
             ))}

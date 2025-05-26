@@ -1,10 +1,10 @@
 import { useState } from "react";
-import BookingModal from "../components/common/booking/BookingModal";
-import VenueImage from "./components/venue/VenueImage";
-import VenueInfo from "./VenueInfo";
-import VenueButtons from "../components/common/booking/BookingCard";
+import BookingModal from "@components/common/booking/BookingModal";
+import VenueImage from "@components/venue/VenueImage";
+import VenueInfo from "@components/venue/VenueInfo";
+import VenueButtons from "@components/common/ui/buttons/VenueButtons";
 
-export default function VenueCard({ venue }) {s
+export default function VenueCard({ venue }) {
   const [isOpen, setIsOpen] = useState(false);
 
   function handleOpen() {

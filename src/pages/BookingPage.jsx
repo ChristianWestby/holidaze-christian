@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import CalenderRange from "../components/common/booking/CalenderRange";
-import PrimaryButton from "../components/common/ui/buttons/PrimaryButton";
+import CalenderRange from "@components/common/booking/CalenderRange";
+import PrimaryButton from "@components/common/ui/buttons/PrimaryButton";
 
 export default function BookingPage() {
-  const { id } = useParams(); // Venue-ID fra URL
+  const { id } = useParams(); 
   const [venue, setVenue] = useState(null);
   const [dateRange, setDateRange] = useState({ start: null, end: null, guests: 1 });
   const [error, setError] = useState("");

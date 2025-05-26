@@ -1,17 +1,16 @@
-// Navbar.jsx
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, Globe, LogIn, UserPlus } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { useAuth } from "../../context/AuthContext";
-import LogoHolidaze from "../common/ui/LogoHolidaze";
-import DropdownMenu from "./DropdownMenu";
+import { useAuth } from "@utils/auth/AuthContext";
+import LogoHolidaze from "@components/common/ui/LogoHolidaze";
+import DropdownMenu from "@components/layout/DropdownMenu";
+import UserDropdown from "@components/layout/UserDropdown";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const { user, logout } = useAuth();
-
+  const { user } = useAuth();
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -49,7 +48,7 @@ export default function Navbar() {
           scrolled ? "bg-[#f4f1ea] text-black" : "bg-black bg-opacity-40 text-white"
         }`}
       >
-        {/* Venstre meny */}
+        {/* Venstre menyknapp */}
         <div className="relative">
           <button onClick={() => setMenuOpen(true)} className="flex items-center gap-2">
             <Menu className="w-5 h-5" />
@@ -63,7 +62,7 @@ export default function Navbar() {
           <LogoHolidaze scrolled={scrolled} />
         </div>
 
-        {/* Høyre brukerikon */}
+        {/* Høyre brukerikon / pålogging */}
         <div className="flex items-center gap-4 text-sm" ref={dropdownRef}>
           {!user ? (
             <>
@@ -85,37 +84,24 @@ export default function Navbar() {
               </Link>
             </>
           ) : (
-            <div className="relative">
+            <>
               <button
-                onClick={() => setDropdownOpen((prev) => !prev)}
-                className={`w-8 h-8 rounded-full overflow-hidden flex items-center justify-center border-2 ${
+                onClick={() => setDropdownOpen(true)}
+                className={`w-9 h-9 rounded-full overflow-hidden flex items-center justify-center border-2 transition ${
                   user.venueManager ? "border-orange-500 bg-orange-100" : "border-gray-300 bg-white"
                 }`}
               >
                 {user.avatar ? (
                   <img src={user.avatar} alt={user.name} className="w-full h-full object-cover rounded-full" />
                 ) : (
-                  <span className={`font-bold ${user.venueManager ? "text-orange-700" : "text-black"}`}>
+                  <span className={`font-bold text-sm ${user.venueManager ? "text-orange-700" : "text-black"}`}>
                     {user.name?.[0]?.toUpperCase() || "?"}
                   </span>
                 )}
               </button>
 
-              {dropdownOpen && (
-                <div className="absolute right-0 mt-2 w-52 bg-white/90 text-black rounded-md border border-gray-300 shadow-lg py-2 z-50 backdrop-blur-sm">
-                  {user.venueManager && (
-                    <div className="px-4 py-2 bg-orange-100 text-orange-800 text-xs font-semibold rounded-t-md border-b border-gray-300">
-                      Du er manager
-                    </div>
-                  )}
-                  <Link to="/profile" onClick={() => setDropdownOpen(false)} className="block px-4 py-2 hover:bg-gray-100 transition">Min profil</Link>
-                  {user.venueManager && (
-                    <Link to="/create" onClick={() => setDropdownOpen(false)} className="block px-4 py-2 hover:bg-gray-100 transition">Opprett venue</Link>
-                  )}
-                  <button onClick={() => { logout(); setDropdownOpen(false); }} className="w-full text-left px-4 py-2 hover:bg-gray-100 transition">Logg ut</button>
-                </div>
-              )}
-            </div>
+              {dropdownOpen && <UserDropdown onClose={() => setDropdownOpen(false)} />}
+            </>
           )}
         </div>
       </nav>
