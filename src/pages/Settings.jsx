@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@utils/auth/AuthContext";
 
 export default function Settings() {
   const [avatar, setAvatar] = useState("");
   const [bio, setBio] = useState("");
-  const token = localStorage.getItem("accessToken");
-  const name = localStorage.getItem("userName");
+  const { token, user } = useAuth();
   const navigate = useNavigate();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
@@ -14,7 +14,7 @@ export default function Settings() {
     e.preventDefault();
     setError("");
     try {
-      const response = await fetch(`https://api.noroff.dev/api/v1/holidaze/profiles/${name}`, {
+      const response = await fetch(`https://api.noroff.dev/api/v1/holidaze/profiles/${user.name}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

@@ -1,51 +1,39 @@
-import { createContext, useState, useEffect, useContext, useCallback } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
-export const AuthContext = createContext();
+const AuthContext = createContext();
 
-export function AuthProvider({ children }) {
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    const name = localStorage.getItem("userName");
-    const email = localStorage.getItem("userEmail");
-    const avatar = localStorage.getItem("avatar") || "";
-    const venueManager = localStorage.getItem("venueManager") === "true";
-
-    if (accessToken && name) {
-      setUser({ accessToken, name, email, venueManager, avatar });
+    const storedUser = localStorage.getItem("user");
+    const storedToken = localStorage.getItem("accessToken");
+    if (storedUser && storedToken) {
+      setUser(JSON.parse(storedUser));
+      setToken(storedToken);
     }
   }, []);
 
-  const login = useCallback((data) => {
-    localStorage.setItem("accessToken", data.accessToken);
-    localStorage.setItem("userName", data.name);
-    localStorage.setItem("userEmail", data.email);
-    localStorage.setItem("venueManager", data.venueManager);
-    localStorage.setItem("avatar", data.avatar || "");
+  const login = (userData, token) => {
+    localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem("accessToken", token);
+    setUser(userData);
+    setToken(token);
+  };
 
-    setUser({
-      accessToken: data.accessToken,
-      name: data.name,
-      email: data.email,
-      venueManager: data.venueManager,
-      avatar: data.avatar || "",
-    });
-  }, []);
-
-  const logout = useCallback(() => {
-    localStorage.clear();
+  const logout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("accessToken");
     setUser(null);
-  }, []);
+    setToken(null);
+  };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
-}
+};
 
-// Tilgang via custom hook
-export function useAuth() {
-  return useContext(AuthContext);
-}
+export const useAuth = () => useContext(AuthContext);

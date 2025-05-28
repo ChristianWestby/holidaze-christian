@@ -1,14 +1,14 @@
 import { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { X } from "lucide-react";
 import { useAuth } from "@utils/auth/AuthContext";
 import LogoHolidaze from "@components/common/ui/LogoHolidaze";
 
 export default function DropdownMenu({ onClose }) {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const menuRef = useRef();
 
-  // Lukk meny ved klikk utenfor
   useEffect(() => {
     function handleClickOutside(e) {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -18,6 +18,15 @@ export default function DropdownMenu({ onClose }) {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [onClose]);
+
+  function handleBookNowClick() {
+    if (user) {
+      navigate("/venues");
+    } else {
+      navigate("/login");
+    }
+    onClose();
+  }
 
   return (
     <div
@@ -44,21 +53,20 @@ export default function DropdownMenu({ onClose }) {
           Alle steder
         </Link>
         <Link to="/venues/highlighted" onClick={onClose} className="py-4 hover:underline text-lg font-medium">
-  Våre utvalgte steder
-</Link>
+          Våre utvalgte steder
+        </Link>
         <Link to="/" onClick={onClose} className="py-4 hover:underline text-lg font-medium">
           Til forsiden
         </Link>
-       {user && (
-        <Link to="/profile" onClick={onClose} className="py-4 hover:underline text-lg font-medium">
-          Min profil
-        </Link>
-     )}
-        
         {user && (
-         <Link to="/my-bookings" onClick={onClose} className="py-4 hover:underline text-lg font-medium">
-          Mine bookinger
-         </Link>
+          <Link to="/profile" onClick={onClose} className="py-4 hover:underline text-lg font-medium">
+            Min profil
+          </Link>
+        )}
+        {user && (
+          <Link to="/my-bookings" onClick={onClose} className="py-4 hover:underline text-lg font-medium">
+            Mine bookinger
+          </Link>
         )}
         <Link to="/about" onClick={onClose} className="py-4 hover:underline text-lg font-medium">
           Om oss
@@ -66,6 +74,14 @@ export default function DropdownMenu({ onClose }) {
         <a href="mailto:kontakt@holidaze.no" onClick={onClose} className="py-4 hover:underline text-lg font-medium">
           Kontakt oss
         </a>
+
+        {/* Book nå */}
+        <button
+          onClick={handleBookNowClick}
+          className="mt-8 py-4 hover:underline text-lg font-medium text-left"
+        >
+          Book nå
+        </button>
       </nav>
 
       {/* Footer-tekst */}

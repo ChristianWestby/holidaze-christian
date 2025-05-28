@@ -15,6 +15,7 @@ import Settings from "@pages/Settings";
 import AllVenues from "@pages/AllVenues";
 import MyBookings from "@pages/MyBookings";
 import MapPage from "@pages/MapPage";
+import EditVenue from "@pages/EditVenue";
 
 import ProtectedRoute from "@utils/ProtectedRoute";
 
@@ -32,7 +33,6 @@ export default function App() {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="map" element={<MapPage />} />
-          
 
           <Route
             path="profile"
@@ -59,14 +59,6 @@ export default function App() {
             }
           />
           <Route
-            path="booking"
-            element={
-              <ProtectedRoute>
-                <BookingPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
             path="booking/:id"
             element={
               <ProtectedRoute>
@@ -74,16 +66,22 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-            <Route
+          <Route
             path="my-bookings"
             element={
-           <ProtectedRoute>
-           <MyBookings />
-           </ProtectedRoute>
-       }
-
+              <ProtectedRoute>
+                <MyBookings />
+              </ProtectedRoute>
+            }
           />
-
+          <Route
+            path="edit/:id"
+            element={
+              <ProtectedRoute>
+                <EditVenue />
+              </ProtectedRoute>
+            }
+          />
           <Route path="*" element={<h1>404 - Page not found</h1>} />
         </Route>
       </Routes>

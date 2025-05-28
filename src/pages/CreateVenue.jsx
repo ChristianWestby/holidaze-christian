@@ -41,7 +41,7 @@ export default function CreateVenue() {
     e.preventDefault();
     setError("");
 
-    const token = localStorage.getItem("accessToken");
+    const { token } = useAuth();
 
     const venueData = {
       name: name.trim(),
