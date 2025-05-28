@@ -1,10 +1,12 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useAuth } from "@utils/auth/AuthContext";
 
 import FrontpageCarousel from "@components/common/carousel/FrontpageCarousel";
 import FrontpageCarouselAll from "@components/common/carousel/FrontpageCarouselAll";
 import BookingModal from "@components/common/booking/BookingModal";
 import PrimaryButton from "@components/common/ui/buttons/PrimaryButton";
+import VenueAvailability from "@components/venue/VenueAvailability";
 
 export default function VenueDetail() {
   const { id } = useParams();
@@ -14,15 +16,27 @@ export default function VenueDetail() {
   const [showBooking, setShowBooking] = useState(false);
   const navigate = useNavigate();
 
+  const { token } = useAuth(); 
+
   useEffect(() => {
     async function fetchVenueAndBookings() {
       try {
         const [venueRes, bookingsRes] = await Promise.all([
           fetch(`https://api.noroff.dev/api/v1/holidaze/venues/${id}`),
-          fetch(`https://api.noroff.dev/api/v1/holidaze/venues/${id}/bookings`)
+          fetch(`https://api.noroff.dev/api/v1/holidaze/venues/${id}/bookings`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }),
         ]);
+
+        if (!venueRes.ok || !bookingsRes.ok) {
+          throw new Error("Kunne ikke hente venue eller bookings.");
+        }
+
         const venueData = await venueRes.json();
         const bookingsData = await bookingsRes.json();
+
         setVenue(venueData);
         setBookings(bookingsData);
       } catch (error) {
@@ -30,8 +44,10 @@ export default function VenueDetail() {
       }
     }
 
-    fetchVenueAndBookings();
-  }, [id]);
+    if (token) {
+      fetchVenueAndBookings();
+    }
+  }, [id, token]);
 
   useEffect(() => {
     setMainImageIndex(1);
@@ -40,14 +56,15 @@ export default function VenueDetail() {
   }, [id]);
 
   const handleThumbnailClick = (index) => setMainImageIndex(index);
-  const handlePrevImage = () => setMainImageIndex((prev) => (prev === 1 ? venue.media.length - 1 : prev - 1));
-  const handleNextImage = () => setMainImageIndex((prev) => (prev === venue.media.length - 1 ? 1 : prev + 1));
+  const handlePrevImage = () =>
+    setMainImageIndex((prev) => (prev === 1 ? venue.media.length - 1 : prev - 1));
+  const handleNextImage = () =>
+    setMainImageIndex((prev) => (prev === venue.media.length - 1 ? 1 : prev + 1));
 
   if (!venue) return <p>Laster detaljer...</p>;
 
   return (
     <div className="venue-detail">
-      {/* Hero */}
       {venue.media?.[0] && (
         <div className="relative h-[70vh] overflow-hidden">
           <img
@@ -142,6 +159,8 @@ export default function VenueDetail() {
             onClose={() => setShowBooking(false)}
           />
         )}
+
+        <VenueAvailability bookings={bookings} />
 
         <div className="mt-12 mb-4">
           <Link to="/" className="text-sm text-gray-500 underline hover:text-black">

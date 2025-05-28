@@ -36,12 +36,12 @@ export default function Login() {
 
   return (
     <div
-      className="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4"
+      className="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center"
       style={{
         backgroundImage: "url('/images/holidaze-auth-bg.jpg')",
       }}
     >
-      <div className="max-w-md w-full bg-black/70 text-white p-8 rounded-2xl shadow-xl backdrop-blur font-sans mt-[120px]">
+      <div className="max-w-md w-full bg-black/70 text-white p-8 shadow-xl backdrop-blur font-sans mt-[120px]">
         <h1 className="text-2xl font-semibold mb-6 text-center tracking-wide">Velkommen tilbake</h1>
         {error && <p className="text-red-400 mb-4 text-center text-sm">{error}</p>}
 
@@ -82,7 +82,7 @@ export default function Login() {
 
           <button
             type="submit"
-            className="w-full bg-white text-black font-semibold py-2 rounded-lg hover:bg-white/90 transition"
+            className="w-full bg-white text-black font-semibold py-2 rounded-md border border-transparent hover:bg-black hover:text-white hover:border-white transition"
           >
             Logg inn
           </button>

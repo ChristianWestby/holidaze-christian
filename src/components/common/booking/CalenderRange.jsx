@@ -1,39 +1,71 @@
+import { useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-export default function CalenderRange({ dateRange, onDateChange, maxGuests = 10, bookings = [] }) {
-  const disabledRanges = bookings.map((booking) => ({
-    start: new Date(booking.dateFrom),
-    end: new Date(booking.dateTo),
-  }));
+export default function CalenderRange({
+  dateRange,
+  onDateChange,
+  bookings = [],
+  setOverlapWarning,
+}) {
+  const disabledRanges = Array.isArray(bookings)
+    ? bookings.map((booking) => ({
+        start: new Date(booking.dateFrom),
+        end: new Date(booking.dateTo),
+      }))
+    : [];
+
+  // Overlapp-sjekk
+  useEffect(() => {
+    const { start, end } = dateRange;
+    if (!start || !end) return setOverlapWarning(false);
+
+    const hasOverlap = disabledRanges.some(({ start: bStart, end: bEnd }) => {
+      return start <= bEnd && end >= bStart;
+    });
+
+    setOverlapWarning(hasOverlap);
+  }, [dateRange, disabledRanges, setOverlapWarning]);
+
+  // Disable datoer
+  const isDisabled = (date) =>
+    disabledRanges.some(({ start, end }) => date >= start && date <= end);
+
+  // Stil for datoer
+  const dayClassName = (date) =>
+    isDisabled(date) ? "bg-red-500 text-white rounded-full" : undefined;
 
   return (
-    <div className="bg-white text-black rounded p-4 shadow space-y-4">
-      <div>
-        <label className="block font-medium mb-1">Velg dato</label>
+    <div className="bg-gray-300 mt-2 text-black p-6 shadow max-w-2xl mx-auto">
+      <label className="block text-center font-semibold text-lg mb-4">
+        Velg datoer
+      </label>
+      <div className="flex justify-center">
         <DatePicker
           selectsRange
           startDate={dateRange.start}
           endDate={dateRange.end}
           onChange={([start, end]) => onDateChange({ ...dateRange, start, end })}
-          excludeDateIntervals={disabledRanges}
+          filterDate={(date) => !isDisabled(date)}
+          dayClassName={dayClassName}
           inline
+          monthsShown={2}
         />
       </div>
 
-      <div>
-        <label className="block font-medium mb-1">Antall gjester</label>
-        <input
-          type="number"
-          min="1"
-          max={maxGuests}
-          value={dateRange.guests}
-          onChange={(e) =>
-            onDateChange({ ...dateRange, guests: Number(e.target.value) })
-          }
-          className="w-full border border-[#d2c6b2] px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-black"
-        />
-      </div>
+      {disabledRanges.length > 0 && (
+        <div className="mt-6 bg-white border border-gray-400 p-4 rounded shadow-inner text-sm">
+          <p className="font-medium mb-2">Allerede booket:</p>
+          <ul className="list-disc list-inside space-y-1 text-gray-700">
+            {disabledRanges.map((range, index) => (
+              <li key={index}>
+                {range.start.toLocaleDateString("no-NO")} –{" "}
+                {range.end.toLocaleDateString("no-NO")}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

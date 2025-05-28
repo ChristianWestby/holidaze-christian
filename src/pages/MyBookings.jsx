@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import BookingCard from "@components/common/booking/BookingCard";
+import { useAuth } from "@utils/auth/AuthContext";
 
 export default function MyBookings() {
   const [bookings, setBookings] = useState([]);
@@ -7,10 +8,10 @@ export default function MyBookings() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchBookings = async () => {
-      const token = localStorage.getItem("accessToken");
-      const userName = localStorage.getItem("userName");
-      if (!token || !userName) return;
+  const fetchBookings = async () => {
+    const { token, user } = useAuth();
+    if (!token || !user?.name) return;
+   
 
       try {
        const res = await fetch(

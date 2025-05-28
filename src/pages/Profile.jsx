@@ -1,3 +1,4 @@
+import { useAuth } from "@utils/auth/AuthContext";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProfileHeader from "@components/profile/ProfileHeader";
@@ -11,39 +12,38 @@ export default function Profile() {
   const [bookings, setBookings] = useState([]);
   const navigate = useNavigate();
 
+  const { token, user } = useAuth();
+
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    const name = localStorage.getItem("userName");
+  if (!token || !user?.name) {
+    console.warn("Token eller brukernavn mangler.");
+    return;
+  }
 
-    if (!token || !name) {
-      console.warn("Token eller brukernavn mangler.");
-      return;
-    }
+  async function fetchProfileData() {
+    try {
+      const headers = { Authorization: `Bearer ${token}` };
 
-    async function fetchProfileData() {
-      try {
-        const headers = { Authorization: `Bearer ${token}` };
+      const [profileRes, venuesRes, bookingsRes] = await Promise.all([
+        fetch(`https://api.noroff.dev/api/v1/holidaze/profiles/${user.name}`, { headers }),
+        fetch(`https://api.noroff.dev/api/v1/holidaze/profiles/${user.name}/venues`, { headers }),
+        fetch(`https://api.noroff.dev/api/v1/holidaze/profiles/${user.name}/bookings?_venue=true`, { headers }),
+      ]);
 
-        const [profileRes, venuesRes, bookingsRes] = await Promise.all([
-          fetch(`https://api.noroff.dev/api/v1/holidaze/profiles/${name}`, { headers }),
-          fetch(`https://api.noroff.dev/api/v1/holidaze/profiles/${name}/venues`, { headers }),
-          fetch(`https://api.noroff.dev/api/v1/holidaze/profiles/${name}/bookings?_venue=true`, { headers }),
-        ]);
-
-        if (!profileRes.ok || !venuesRes.ok || !bookingsRes.ok) {
-          throw new Error("En eller flere forespørsler feilet.");
-        }
-
-        setProfile(await profileRes.json());
-        setVenues(await venuesRes.json());
-        setBookings(await bookingsRes.json());
-      } catch (error) {
-        console.error("Feil ved henting av data:", error);
+      if (!profileRes.ok || !venuesRes.ok || !bookingsRes.ok) {
+        throw new Error("En eller flere forespørsler feilet.");
       }
-    }
 
-    fetchProfileData();
-  }, []);
+      setProfile(await profileRes.json());
+      setVenues(await venuesRes.json());
+      setBookings(await bookingsRes.json());
+    } catch (error) {
+      console.error("Feil ved henting av data:", error);
+    }
+  }
+
+  fetchProfileData();
+}, [token, user?.name]);
 
   if (!profile) {
     return <p className="text-center mt-20 text-gray-500 font-sans">Laster profil...</p>;
