@@ -1,24 +1,48 @@
+import PropTypes from "prop-types";
 
-export default function GuestSelector({ guests, setGuests, maxGuests = 10 }) {
-  function handleChange(e) {
-    const value = parseInt(e.target.value);
-    if (value >= 1 && value <= maxGuests) {
-      setGuests(value);
+export default function GuestSelector({ guests, maxGuests, onChange }) {
+  const minGuests = 1;
+
+  function handleDecrease() {
+    if (guests > minGuests) {
+      onChange(guests - 1);
+    }
+  }
+
+  function handleIncrease() {
+    if (guests < maxGuests) {
+      onChange(guests + 1);
     }
   }
 
   return (
-    <div className="flex flex-col items-start w-full">
-      <label className="block mb-1 font-medium text-gray-800">Antall gjester</label>
-      <input
-        type="number"
-        value={guests}
-        onChange={handleChange}
-        min="1"
-        max={maxGuests}
-        className="w-full border border-[#d2c6b2] bg-white text-black px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-black"
-      />
-      <p className="text-sm text-gray-500 mt-1">Maks {maxGuests} gjester</p>
+    <div className="flex items-center justify-between bg-white p-3 border shadow">
+      <label className="font-semibold">Antall gjester</label>
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          className="px-3 py-1 bg-black text-white rounded disabled:opacity-30"
+          onClick={handleDecrease}
+          disabled={guests <= minGuests}
+        >
+          −
+        </button>
+        <span className="w-6 text-center">{guests}</span>
+        <button
+          type="button"
+          className="px-3 py-1 bg-black text-white rounded disabled:opacity-30"
+          onClick={handleIncrease}
+          disabled={guests >= maxGuests}
+        >
+          +
+        </button>
+      </div>
     </div>
   );
 }
+
+GuestSelector.propTypes = {
+  guests: PropTypes.number.isRequired,
+  maxGuests: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired,
+};

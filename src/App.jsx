@@ -17,6 +17,7 @@ import MyBookings from "@pages/MyBookings";
 import MapPage from "@pages/MapPage";
 import EditVenue from "@pages/EditVenue";
 
+
 import ProtectedRoute from "@utils/ProtectedRoute";
 
 export default function App() {

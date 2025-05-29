@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { format } from "date-fns";
+import { nb } from "date-fns/locale";
 
 export default function CalenderRange({
   dateRange,
@@ -32,8 +34,7 @@ export default function CalenderRange({
     disabledRanges.some(({ start, end }) => date >= start && date <= end);
 
   // Stil for datoer
-  const dayClassName = (date) =>
-    isDisabled(date) ? "bg-red-500 text-white rounded-full" : undefined;
+  const dayClassName = (date) => (isDisabled(date) ? "unavailable-day" : undefined);
 
   return (
     <div className="bg-gray-300 mt-2 text-black p-6 shadow max-w-2xl mx-auto">
@@ -50,6 +51,8 @@ export default function CalenderRange({
           dayClassName={dayClassName}
           inline
           monthsShown={2}
+          locale={nb} 
+          dateFormat="yyyy/MM/dd"
         />
       </div>
 
@@ -59,8 +62,8 @@ export default function CalenderRange({
           <ul className="list-disc list-inside space-y-1 text-gray-700">
             {disabledRanges.map((range, index) => (
               <li key={index}>
-                {range.start.toLocaleDateString("no-NO")} –{" "}
-                {range.end.toLocaleDateString("no-NO")}
+                {format(range.start, "d. MMM yyyy", { locale: nb })} –{" "}
+                {format(range.end, "d. MMM yyyy", { locale: nb })}
               </li>
             ))}
           </ul>

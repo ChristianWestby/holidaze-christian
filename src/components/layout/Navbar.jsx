@@ -49,15 +49,23 @@ export default function Navbar() {
         }`}
       >
         {/* Venstre menyknapp */}
-        <div className="relative">
-          <button onClick={() => setMenuOpen(true)} className="flex items-center gap-2">
-            <Menu className="w-5 h-5" />
-            <Link to="/map">
-            <Globe className="w-5 h-5 hover:text-white/80 transition" title="Utforsk kart" />
-            </Link>
-          </button>
-          {menuOpen && <DropdownMenu onClose={() => setMenuOpen(false)} />}
-        </div>
+<div className="relative flex items-center gap-4">
+  {/* Meny-knapp som åpner dropdown */}
+  <button
+    onClick={() => setMenuOpen(true)}
+    className="flex items-center gap-2 hover:text-white/80 transition"
+    aria-label="Åpne meny"
+  >
+    <Menu className="w-5 h-5" />
+  </button>
+
+  {/* Kart-link ved siden av */}
+  <Link to="/map" className="hover:text-white/80 transition" title="Utforsk kart">
+    <Globe className="w-5 h-5" />
+  </Link>
+
+  {menuOpen && <DropdownMenu onClose={() => setMenuOpen(false)} />}
+</div>
 
         {/* Logo */}
         <div className="absolute left-1/2 transform -translate-x-1/2">

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useAuth } from "@/utils/auth/AuthContext";
-import PrimaryButton from "@/components/common/ui/buttons/PrimaryButton";
+import { useAuth } from "@utils/auth/AuthContext";
+import PrimaryButton from "@components/common/ui/buttons/PrimaryButton";
 
 export default function EditVenue() {
   const { id } = useParams();
