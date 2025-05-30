@@ -17,24 +17,25 @@ import MyBookings from "@pages/MyBookings";
 import MapPage from "@pages/MapPage";
 import EditVenue from "@pages/EditVenue";
 
-
 import ProtectedRoute from "@utils/ProtectedRoute";
 
 export default function App() {
   return (
     <Router>
       <Routes>
+        {/* Layout som wrapper alle sidene */}
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="venues" element={<AllVenues />} />
           <Route path="venues/highlighted" element={<HighlightedVenues />} />
           <Route path="venues/:id" element={<VenueDetail />} />
-          <Route path="/stories/bali" element={<Stories />} />
+          <Route path="stories/bali" element={<Stories />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="map" element={<MapPage />} />
 
+          {/* Beskyttede ruter */}
           <Route
             path="profile"
             element={
@@ -83,6 +84,8 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+
+          {/* Fallback 404 */}
           <Route path="*" element={<h1>404 - Page not found</h1>} />
         </Route>
       </Routes>

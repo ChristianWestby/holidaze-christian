@@ -17,7 +17,8 @@ import BackToHomeLink from "@components/common/navigation/BackToHomeLink";
 import PageSectionOne from "@components/layout/PageSectionOne";
 import PageSectionTwo from "@components/layout/PageSectionTwo";
 import VenueStorySection from "../components/layout/VeneuStorySection";
-import PageSectionOne from "@components/layout/PageSectionOne";
+import FallbackLoader from "@components/common/FallbackLoader";
+
 
 export default function VenueDetail() {
   const { id } = useParams();
