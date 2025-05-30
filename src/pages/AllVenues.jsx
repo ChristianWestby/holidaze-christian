@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { backgroundImages } from "../assets/image/images";  
-
+import { backgroundImages } from "../assets/image/images";
 
 import VenueGridCard from "@components/venue/VenueGridCard";
 import BackToMenuButton from "@components/common/ui/buttons/BackToMenuButton";
 import VenueSearchFilter from "../components/venue/VenueSearchFilter";
 import Pagination from "../components/common/navigation/Pagination";
-
 
 export default function AllVenues() {
   const [venues, setVenues] = useState([]);
@@ -20,8 +17,9 @@ export default function AllVenues() {
     async function fetchVenues() {
       try {
         const res = await fetch("https://api.noroff.dev/api/v1/holidaze/venues");
+        if (!res.ok) throw new Error("Feil ved henting av venues");
         const data = await res.json();
-        setVenues(data);
+        setVenues(data.data || data); // ta høyde for data i .data eller direkte
       } catch (err) {
         console.error("Feil ved henting av venues:", err);
       }
@@ -43,15 +41,12 @@ export default function AllVenues() {
   const totalPages = Math.ceil(filtered.length / venuesPerPage);
 
   return (
-    
-
-
-  <div
-    className="min-h-screen bg-fixed bg-cover bg-center relative pt-[120px] pb-20 px-4"
-    style={{
-      backgroundImage: `url("${backgroundImages.allvenuesbilde}")`,
-    }}
-  >
+    <div
+      className="min-h-screen bg-fixed bg-cover bg-center relative pt-[120px] pb-20 px-4"
+      style={{
+        backgroundImage: `url("${backgroundImages.allvenuesbilde}")`,
+      }}
+    >
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
 
@@ -63,11 +58,11 @@ export default function AllVenues() {
 
         {/* Søk og filter */}
         <VenueSearchFilter
-         searchTerm={searchTerm}
-         setSearchTerm={setSearchTerm}
-         continent={continent}
-         setContinent={setContinent}
-       />
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          continent={continent}
+          setContinent={setContinent}
+        />
 
         <BackToMenuButton />
 
@@ -80,11 +75,11 @@ export default function AllVenues() {
 
         {/* Paginering */}
         <Pagination
-         totalPages={totalPages}
-         currentPage={currentPage}
-         onPageChange={setCurrentPage}
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
         />
-       </div>
-       </div>
-      );
-    }
+      </div>
+    </div>
+  );
+}

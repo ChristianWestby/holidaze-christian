@@ -4,8 +4,8 @@ import { useAuth } from "@utils/auth/AuthContext";
 import useBookingSubmit from "@hooks/useBookingSubmit";
 import useVenueAndBookingsResult from "@hooks/useVenueAndBookingsResult";
 
-import VenueHeader from "@components/common/venue/VenueHeader";
-import VenueInfoBox from "@components/common/venue/VenueInfoBox";
+import VenueHeader from "@components/venue/VenueHeader";
+import VenueInfoBox from "@components/venue/VenueInfoBox";
 import BookingWrapper from "@components/common/booking/BookingWrapper";
 import BookingFormContainer from "@components/common/booking/BookingFormContainer";
 import FallbackLoader from "@components/common/ui/feedback/FallbackLoader";

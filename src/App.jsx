@@ -5,26 +5,28 @@ import Layout from "@components/layout/Layout";
 import Home from "@pages/Home";
 import About from "@pages/About";
 import CreateVenue from "@pages/CreateVenue";
-import Login from "@pages/Login"; 
+import Login from "@pages/Login";
 import Profile from "@pages/Profile";
+import AllVenues from "@pages/AllVenues";
+import HighlightedVenuesPage from "@pages/HighlightedVenuesPage";
+import VenueDetail from "@pages/VenueDetail";
+import BookingPage from "@pages/BookingPage";
 
 // Utils
 import ProtectedRoute from "@utils/ProtectedRoute";
-
-// Dummy-sider midlertidig
-const AllVenues = () => <div>All Venues</div>;
 
 export default function App() {
   return (
     <Router>
       <Routes>
-        {/* Layout som wrapper alle sidene */}
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="venues" element={<AllVenues />} />
+          <Route path="booking/:venueId" element={<BookingPage />} />
+          <Route path="venues/:id" element={<VenueDetail />} /> {/* Viktig */}
+          <Route path="highlighted-venues" element={<HighlightedVenuesPage />} />
           <Route path="login" element={<Login />} />
-
           <Route
             path="profile"
             element={
@@ -33,8 +35,6 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-
-          {/* Fallback 404 */}
           <Route path="*" element={<h1>404 - Page not found</h1>} />
         </Route>
       </Routes>

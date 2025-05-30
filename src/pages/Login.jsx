@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@auth/AuthContext";
 
+import { backgroundImages } from "../assets/image/images";  
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,7 +44,7 @@ export default function Login() {
     <div
       className="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center"
       style={{
-        backgroundImage: "url('/images/holidaze-auth-bg.jpg')",
+      backgroundImage: `url("${backgroundImages.holidazeauth}")`,
       }}
     >
       <div className="max-w-md w-full bg-black/70 text-white p-8 shadow-xl backdrop-blur font-sans mt-[120px]">

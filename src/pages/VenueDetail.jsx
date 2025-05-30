@@ -1,38 +1,33 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useAuth } from "@utils/auth/AuthContext";
+import { useNavigate } from "react-router-dom";
 import useVenueAndBookingsResult from "@hooks/useVenueAndBookingsResult";
 
 import VenueHeroImage from "@components/venue/VenueHeroImage";
 import VenueImageGallery from "@components/venue/VenueImageGallery";
-import FrontpageCarousel from "@components/common/carousel/FrontpageCarousel";
-import FrontpageCarouselAll from "@components/common/carousel/FrontpageCarouselAll";
-import BookingModal from "@components/common/booking/BookingModal";
 import VenueBookingButton from "@components/venue/VenueBookingButton";
 import VenueAvailability from "@components/venue/VenueAvailability";
-import VenueLocationTitle from "@components/venue/VenueLocationTitle";
+import VenueLocationTitle from "@components/venue/form/VenueLocationTitle";
 import VenueDescription from "@components/venue/VenueDescription";
 import VenueDetailInfo from "@components/venue/VenueDetailInfo";
-import BackToHomeLink from "@components/common/navigation/BackToHomeLink";
+import BackToLink from "@components/common/navigation/BackToLink";
 import PageSectionOne from "@components/layout/PageSectionOne";
 import PageSectionTwo from "@components/layout/PageSectionTwo";
-import VenueStorySection from "../components/layout/VeneuStorySection";
-import FallbackLoader from "@components/common/FallbackLoader";
-
+import VenueStorySection from "@components/layout/VeneuStorySection";
+import FrontpageCarousel from "@components/common/carousel/FrontpageCarousel";
+import FrontpageCarouselAll from "@components/common/carousel/FrontpageCarouselAll";
+import FallbackLoader from "@components/common/ui/feedback/FallbackLoader";
 
 export default function VenueDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { token } = useAuth();
 
   const { venue, bookings } = useVenueAndBookingsResult(id, navigate);
 
   const [mainImageIndex, setMainImageIndex] = useState(1);
-  const [showBooking, setShowBooking] = useState(false);
 
   useEffect(() => {
     setMainImageIndex(1);
-    setShowBooking(false);
     window.scrollTo(0, 0);
   }, [id]);
 
@@ -54,25 +49,21 @@ export default function VenueDetail() {
 
       <VenueDetailInfo venue={venue} />
 
-      <VenueBookingButton venueId={venue.id} />
-
-      {showBooking && (
-        <BookingModal
-          venue={venue}
-          bookings={bookings}
-          onClose={() => setShowBooking(false)}
-        />
-      )}
+      <VenueBookingButton
+        venueId={venue.id}
+        onClick={() => navigate(`/booking/${venue.id}`)}
+      />
 
       <VenueAvailability bookings={bookings} />
 
-      <BackToHomeLink />
+      <BackToLink to="/" label="← Tilbake til forsiden" />
 
       <PageSectionTwo>
         <FrontpageCarouselAll />
       </PageSectionTwo>
 
-     <VenueStorySection />
+      <VenueStorySection />
+
       <PageSectionOne>
         <FrontpageCarousel />
       </PageSectionOne>

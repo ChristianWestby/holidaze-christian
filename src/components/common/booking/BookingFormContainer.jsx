@@ -7,7 +7,7 @@ import BookingOverlapWarning from "./BookingOverlapWarning";
 import PrimaryButton from "@components/common/ui/buttons/PrimaryButton";
 import GoBackButton from "@components/common/ui/buttons/GoBackButton";
 import ErrorMessage from "@components/common/ui/feedback/ErrorMessage";
-import UserInfoBox from "@components/common/ui/user/UserInfoBox";
+import UserInfoBox from "@components/common/ui/UserInfoBox";
 import BookingDatePickerField from "@components/common/booking/BookingDatePickerField";
 
 export default function BookingFormContainer({

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import adminVenueIds from "@data/AdminVenuesId";
-import PrimaryButton from "@components/common/ui/buttons/PrimaryButton";
+import ExploreButton from "@components/common/ui/buttons/ExploreButton";
+import BackToLink from "@components/common/navigation/BackToLink";
 
 export default function HighlightedVenues() {
   const [venues, setVenues] = useState([]);
@@ -30,14 +31,14 @@ export default function HighlightedVenues() {
         {venues.map((venue) => (
           <div
             key={venue.id}
-            className="bg-[#f4f1ea] rounded-xl shadow-md hover:shadow-lg transition overflow-hidden flex flex-col"
+            className="bg-[#f4f1ea] rounded-lg shadow-md hover:shadow-lg transition overflow-hidden flex flex-col"
           >
             <img
               src={venue.media?.[0] || "/fallback.jpg"}
               alt={venue.name}
-              className="w-full h-40 object-cover"
+              className="w-full h-40 object-cover rounded-t-lg"
             />
-            <div className="p-4 flex flex-col justify-between h-full">
+            <div className="p-4 flex flex-col justify-between flex-grow">
               <div>
                 <h2 className="font-semibold text-lg mb-1 line-clamp-1">{venue.name}</h2>
                 <p className="text-sm text-gray-600 line-clamp-1">
@@ -46,7 +47,7 @@ export default function HighlightedVenues() {
                 <p className="text-sm text-black mt-2 font-medium">{venue.price} NOK / natt</p>
               </div>
               <div className="mt-4">
-                <PrimaryButton to={`/venues/${venue.id}`} label="Utforsk stedet" />
+                <ExploreButton to={`/venues/${venue.id}`}>Utforsk stedet</ExploreButton>
               </div>
             </div>
           </div>
@@ -54,10 +55,8 @@ export default function HighlightedVenues() {
       </div>
 
       <div className="mt-10">
-        <Link to="/" className="text-sm underline hover:text-black">
-          ← Tilbake til meny
-        </Link>
-      </div>
+  <BackToLink to="/" label="← Tilbake til meny" />
+</div>
     </div>
   );
 }
