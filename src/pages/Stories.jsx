@@ -20,10 +20,10 @@ export default function Stories() {
       </div>
 
       <img
-  src="https://i.ibb.co/JWQNH5Fx/image.png"
-  alt="Bali strender"
-  className="w-full h-auto rounded-md shadow mb-8"
-/>
+       src="https://i.ibb.co/JWQNH5Fx/image.png"
+       alt="Bali strender"
+       className="w-full h-auto rounded-md shadow mb-8"
+     />
 
       <div className="text-gray-700 leading-relaxed space-y-6">
         <p>

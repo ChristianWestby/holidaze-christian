@@ -13,6 +13,11 @@ import VenueAvailability from "@components/venue/VenueAvailability";
 import VenueLocationTitle from "@components/venue/VenueLocationTitle";
 import VenueDescription from "@components/venue/VenueDescription";
 import VenueDetailInfo from "@components/venue/VenueDetailInfo";
+import BackToHomeLink from "@components/common/navigation/BackToHomeLink";
+import PageSectionOne from "@components/layout/PageSectionOne";
+import PageSectionTwo from "@components/layout/PageSectionTwo";
+import VenueStorySection from "../components/layout/VeneuStorySection";
+import PageSectionOne from "@components/layout/PageSectionOne";
 
 export default function VenueDetail() {
   const { id } = useParams();
@@ -33,74 +38,43 @@ export default function VenueDetail() {
   if (!venue) return <FallbackLoader />;
 
   return (
-   <section className="sectionmain venue-detail"> 
-      <VenueHeroImage
-      media={venue.media} 
-      name={venue.name} 
-      location={venue.location} 
+    <section className="sectionmain venue-detail">
+      <VenueHeroImage media={venue.media} name={venue.name} location={venue.location} />
+
+      <VenueLocationTitle location={venue.location} />
+
+      <VenueImageGallery
+        media={venue.media}
+        mainImageIndex={mainImageIndex}
+        setMainImageIndex={setMainImageIndex}
       />
 
-     <VenueLocationTitle location={venue.location}>
+      <VenueDescription description={venue.description} />
 
-    <VenueImageGallery
-     media={venue.media}
-     mainImageIndex={mainImageIndex}
-    setMainImageIndex={setMainImageIndex}
-    />
+      <VenueDetailInfo venue={venue} />
 
-         
-    <VenueDescription description={venue.description} />
+      <VenueBookingButton venueId={venue.id} />
 
-         <VenueDetailInfo venue={venue} />
+      {showBooking && (
+        <BookingModal
+          venue={venue}
+          bookings={bookings}
+          onClose={() => setShowBooking(false)}
+        />
+      )}
 
-          <VenueBookingButton venueId={venue.id} />
-    
+      <VenueAvailability bookings={bookings} />
 
-        {showBooking && (
-          <BookingModal
-            venue={venue}
-            bookings={bookings}
-            onClose={() => setShowBooking(false)}
-          />
-        )}
+      <BackToHomeLink />
 
-        <VenueAvailability bookings={bookings} />
+      <PageSectionTwo>
+        <FrontpageCarouselAll />
+      </PageSectionTwo>
 
-        <div className="mt-12 mb-4">
-          <Link to="/" className="text-sm text-gray-500 underline hover:text-black">
-            ← Tilbake til forside
-          </Link>
-        </div>
-
-        <div className="bg-[#f4f1ea] py-10 px-4 rounded-lg shadow-inner">
-          <FrontpageCarouselAll />
-        </div>
-
-        <div className="mt-12 bg-white border-t border-gray-200 py-10 px-4 sm:px-6">
-          <div className="max-w-3xl mx-auto text-center">
-            <img
-              src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
-              alt="Reportasje"
-              className="w-full h-auto rounded-md shadow mb-6"
-            />
-            <h3 className="text-2xl font-semibold mb-2">Magiske minner fra Bali</h3>
-            <p className="text-gray-600 mb-4">
-              Bli med bak kulissene på en av våre mest eksklusive reiser, der tropiske netter og eventyrlige opplevelser møtes.
-            </p>
-            <Link
-              to="/stories/bali"
-              className="inline-block border border-black px-4 py-2 text-sm uppercase tracking-wide hover:bg-black hover:text-white transition"
-            >
-              Les reportasjen
-            </Link>
-          </div>
-        </div>
-
-        <div className="bg-[#f4f1ea] py-10 px-4 rounded-lg shadow-inner">
-          <FrontpageCarousel />
-        </div>
-      </div>
-    
+     <VenueStorySection />
+      <PageSectionOne>
+        <FrontpageCarousel />
+      </PageSectionOne>
     </section>
   );
 }
