@@ -27,7 +27,11 @@ export default function Login() {
       }
 
       const data = await response.json();
-      login(data);
+
+      console.log("Login response data:", data);  // Sjekk struktur
+
+      login(data);  // Send hele data-objektet til login
+
       navigate("/");
     } catch (err) {
       setError(err.message);

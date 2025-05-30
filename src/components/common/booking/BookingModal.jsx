@@ -3,20 +3,21 @@ import CalenderRange from "@components/common/booking/CalenderRange";
 import PrimaryButton from "@components/common/ui/buttons/PrimaryButton";
 
 export default function BookingModal({ venue, bookings = [], onClose }) {
-  const [dateRange, setDateRange] = useState({ start: null, end: null, guests: 1 });
+  const [dateRange, setDateRange] = useState({ start: null, end: null });
+  const [guests, setGuests] = useState(1);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const { start, end, guests } = dateRange;
+    const { start, end } = dateRange;
 
-    if (!start || !end) return setError("Datoene må fylles ut.");
-    if (start >= end) return setError("Utsjekksdato må være etter innsjekksdato.");
-    if (guests < 1 || guests > (venue.maxGuests || 10)) {
-      return setError(`Antall gjester må være mellom 1 og ${venue.maxGuests || 10}.`);
-    }
+if (!start || !end) return setError("Datoene må fylles ut.");
+if (start >= end) return setError("Utsjekksdato må være etter innsjekksdato.");
+if (guests < 1 || guests > (venue.maxGuests || 10)) {
+  return setError(`Antall gjester må være mellom 1 og ${venue.maxGuests || 10}.`);
+}
 
     setError("");
     setLoading(true);
@@ -77,15 +78,29 @@ export default function BookingModal({ venue, bookings = [], onClose }) {
         <h2 className="text-xl font-semibold mb-4 text-center">{venue.name}</h2>
 
         {success ? (
-          <p className="text-green-700 text-center font-medium">Takk for booking! Du blir videresendt...</p>
+          <p className="text-green-700 text-center font-medium">
+            Takk for booking! Du blir videresendt...
+          </p>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
             <CalenderRange
               dateRange={dateRange}
               onDateChange={setDateRange}
-              maxGuests={venue.maxGuests}
-              bookings={bookings} 
+              bookings={bookings}
+              setOverlapWarning={() => {}}
             />
+
+           <label className="block text-sm font-medium">
+  Antall gjester:
+  <input
+    type="number"
+    min={1}
+    max={venue.maxGuests || 10}
+    value={guests}
+    onChange={(e) => setGuests(Number(e.target.value))}
+    className="w-full mt-1 border rounded px-3 py-1"
+  />
+</label>
 
             {error && <p className="text-red-600 text-sm text-center">{error}</p>}
 

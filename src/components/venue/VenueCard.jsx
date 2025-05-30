@@ -1,7 +1,7 @@
 import { useState } from "react";
 import BookingModal from "@components/common/booking/BookingModal";
 import VenueImage from "@components/venue/VenueImage";
-import VenueInfo from "@components/venue/VenueInfo";
+import VenueInfo from "@components/venue/VenueInfoBox";
 import VenueButtons from "@components/common/ui/buttons/VenueButtons";
 
 export default function VenueCard({ venue }) {

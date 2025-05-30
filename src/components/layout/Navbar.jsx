@@ -85,9 +85,9 @@ export default function Navbar() {
                 Registrer
               </Link>
              <Link
-  to={user ? "/booking" : "/login"}
-  className={`px-4 py-1 rounded transition ${
-    scrolled ? "bg-black text-white hover:bg-gray-900" : "bg-white text-black hover:bg-gray-200"
+               to={user ? "/booking" : "/login"}
+               className={`px-4 py-1 rounded transition ${
+               scrolled ? "bg-black text-white hover:bg-gray-900" : "bg-white text-black hover:bg-gray-200"
   }`}
 >
   Book nå

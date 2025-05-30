@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
-import { nb } from "date-fns/locale";
+
 
 export default function CalenderRange({
   dateRange,
@@ -10,6 +10,7 @@ export default function CalenderRange({
   bookings = [],
   setOverlapWarning,
 }) {
+  
   const disabledRanges = Array.isArray(bookings)
     ? bookings.map((booking) => ({
         start: new Date(booking.dateFrom),

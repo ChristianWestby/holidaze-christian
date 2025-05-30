@@ -4,7 +4,6 @@ import App from './App.jsx';
 
 
 import './index.css';
-import '@css/Calender.css';
 import '@fontsource/dm-sans/latin.css';
 import '@fontsource/playfair-display/latin.css';
 
