@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "@utils/auth/AuthContext";
 import useBookingSubmit from "@hooks/useBookingSubmit";
@@ -19,7 +19,9 @@ export default function BookingPage() {
   const [guests, setGuests] = useState(1);
   const [overlapWarning, setOverlapWarning] = useState(false);
 
-  const { venue, bookings } = useVenueAndBookingsResult(id, navigate);
+  // 👇 Vent med hook til token finnes
+  if (!token) return <FallbackLoader />;
+  const { venue, bookings } = useVenueAndBookingsResult(id, navigate, token);
 
   const {
     handleSubmit,
@@ -37,13 +39,21 @@ export default function BookingPage() {
     navigate,
   });
 
-  
+  useEffect(() => {
+    console.log("📌 BookingPage mounted");
+    console.log("🆔 id:", id);
+    console.log("🔐 token:", token);
+    console.log("👤 user:", user);
+    console.log("🏠 venue:", venue);
+    console.log("📅 bookings:", bookings);
+  }, [id, token, user, venue, bookings]);
+
   if (!venue) return <FallbackLoader />;
 
   return (
     <BookingWrapper>
-    <VenueHeader name={venue.name} location={venue.location} />
-    <VenueInfoBox venue={venue} />
+      <VenueHeader name={venue.name} location={venue.location} />
+      <VenueInfoBox venue={venue} />
       <BookingFormContainer
         venue={venue}
         bookings={bookings}
@@ -60,6 +70,6 @@ export default function BookingPage() {
         success={success}
         handleSubmit={handleSubmit}
       />
-      </BookingWrapper>
+    </BookingWrapper>
   );
 }

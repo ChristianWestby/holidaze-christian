@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { format } from "date-fns";
-
+import { format, subDays } from "date-fns";
+import { nb } from "date-fns/locale"; // ✅ Viktig!
 
 export default function CalenderRange({
   dateRange,
@@ -10,15 +10,13 @@ export default function CalenderRange({
   bookings = [],
   setOverlapWarning,
 }) {
-  
   const disabledRanges = Array.isArray(bookings)
     ? bookings.map((booking) => ({
         start: new Date(booking.dateFrom),
-        end: new Date(booking.dateTo),
+        end: subDays(new Date(booking.dateTo), 1),
       }))
     : [];
 
-  // Overlapp-sjekk
   useEffect(() => {
     const { start, end } = dateRange;
     if (!start || !end) return setOverlapWarning(false);
@@ -30,12 +28,11 @@ export default function CalenderRange({
     setOverlapWarning(hasOverlap);
   }, [dateRange, disabledRanges, setOverlapWarning]);
 
-  // Disable datoer
   const isDisabled = (date) =>
     disabledRanges.some(({ start, end }) => date >= start && date <= end);
 
-  // Stil for datoer
-  const dayClassName = (date) => (isDisabled(date) ? "unavailable-day" : undefined);
+  const dayClassName = (date) =>
+    isDisabled(date) ? "unavailable-day" : undefined;
 
   return (
     <div className="bg-gray-300 mt-2 text-black p-6 shadow max-w-2xl mx-auto">
@@ -52,7 +49,7 @@ export default function CalenderRange({
           dayClassName={dayClassName}
           inline
           monthsShown={2}
-          locale={nb} 
+          locale={nb} // ✅ fungerer nå
           dateFormat="yyyy/MM/dd"
         />
       </div>

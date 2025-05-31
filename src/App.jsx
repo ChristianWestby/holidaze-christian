@@ -23,7 +23,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="venues" element={<AllVenues />} />
-          <Route path="booking/:venueId" element={<BookingPage />} />
+          <Route path="/booking/:id" element={<BookingPage />} />
           <Route path="venues/:id" element={<VenueDetail />} /> {/* Viktig */}
           <Route path="highlighted-venues" element={<HighlightedVenuesPage />} />
           <Route path="login" element={<Login />} />

@@ -1,45 +1,59 @@
-// src/hooks/useVenueAndBookingsResult.js
+import { useState, useEffect } from "react";
 
-import { useEffect, useState } from "react";
-
-export default function useVenueAndBookingsResult(id, navigate) {
+export default function useVenueAndBookingsResult(id, navigate, token) {
   const [venue, setVenue] = useState(null);
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!id) return;
+    let isMounted = true;
 
     async function fetchData() {
+      if (!id || !token) {
+        console.warn("⛔️ Mangler id eller token", { id, token });
+        return;
+      }
+
+      setLoading(true);
       try {
-        const [venueRes, bookingsRes] = await Promise.all([
-          fetch(`https://api.noroff.dev/api/v1/holidaze/venues/${id}`),
-          fetch(`https://api.noroff.dev/api/v1/holidaze/venues/${id}/bookings`),
-        ]);
+        console.log("🎯 Fetching venue with ID:", id);
+        console.log("🪪 Token:", token);
 
+        const venueRes = await fetch(`https://api.noroff.dev/api/v1/holidaze/venues/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!venueRes.ok) throw new Error("Kunne ikke hente venue");
         const venueData = await venueRes.json();
-        const venueBookings = await bookingsRes.json();
 
-        if (!venueData.id) {
-          setError("Fant ikke stedet.");
-          return navigate("/venues");
+        const bookingsRes = await fetch(
+          "https://api.noroff.dev/api/v1/holidaze/bookings?limit=100&_venue=true",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        if (!bookingsRes.ok) throw new Error("Kunne ikke hente bookings");
+        const bookingsData = await bookingsRes.json();
+
+        const venueBookings = bookingsData.filter(
+          (b) => b.venue?.id === id
+        );
+
+        if (isMounted) {
+          setVenue(venueData);
+          setBookings(venueBookings);
+          console.log("✅ Venue og bookings satt:", { venueData, venueBookings });
         }
-
-        setVenue(venueData);
-        setBookings(Array.isArray(venueBookings) ? venueBookings : []);
-      } catch (err) {
-        console.error("Feil ved henting av data:", err);
-        setError("Noe gikk galt med lasting av data.");
-        navigate("/venues");
+      } catch (error) {
+        console.error("🚨 Fetch error:", error);
+        if (navigate && isMounted) navigate("/404");
       } finally {
-        setLoading(false);
-        window.scrollTo(0, 0);
+        if (isMounted) setLoading(false);
       }
     }
 
     fetchData();
-  }, [id, navigate]);
+    return () => { isMounted = false };
+  }, [id, token, navigate]);
 
-  return { venue, bookings, loading, error };
+  return { venue, bookings, loading };
 }

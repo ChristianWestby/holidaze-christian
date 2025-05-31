@@ -12,6 +12,7 @@
 .disabled-day,
 .unavailable-day {
   cursor: not-allowed !important;
+  pointer-events: none; /* gjør dem ikke-klikkbare */
 }
 
 .disabled-day {
@@ -24,4 +25,16 @@
   background-color: #f87171 !important; /* red-300 */
   color: #3f3f46 !important; /* gray-700 */
   text-decoration: line-through !important;
+  border-radius: 0.375rem !important; /* litt avrundet for konsistens */
+}
+
+/* Responsiv tilpasning */
+@media (max-width: 640px) {
+  .disabled-day,
+  .unavailable-day {
+    width: 1.75rem !important;
+    height: 1.75rem !important;
+    line-height: 1.75rem !important;
+    font-size: 0.7rem !important;
+  }
 }

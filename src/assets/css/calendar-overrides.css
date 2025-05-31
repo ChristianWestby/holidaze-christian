@@ -1,0 +1,27 @@
+/* calendar-overrides.css */
+
+.react-datepicker {
+  /* Juster standardstiler her hvis du vil */
+}
+
+@media (max-width: 640px) {
+  .react-datepicker {
+    font-size: 0.75rem;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+  .react-datepicker__day {
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+  }
+  .react-datepicker__header {
+    padding: 0.5rem;
+  }
+}
+
+.react-datepicker__day--highlighted-booked {
+  background-color: #ef4444 !important; /* Tailwind red-500 */
+  color: white !important;
+  border-radius: 9999px !important; /* Rund */
+}
