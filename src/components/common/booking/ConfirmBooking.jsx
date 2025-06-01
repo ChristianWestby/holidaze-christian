@@ -1,7 +1,8 @@
+import PropTypes from "prop-types";
 import PrimaryButton from "@components/common/ui/buttons/PrimaryButton";
 
-export default function ConfirmBooking({ dateRange, onConfirm, loading }) {
-  const { start, end, guests } = dateRange;
+export default function ConfirmBooking({ dateRange, guests, onConfirm, loading }) {
+  const { start, end } = dateRange;
 
   if (!start || !end || guests < 1) return null;
 
@@ -15,14 +16,18 @@ export default function ConfirmBooking({ dateRange, onConfirm, loading }) {
         <p><span className="font-medium">Gjester:</span> {guests}</p>
       </div>
 
-      <div className="mt-5">
-        <PrimaryButton
-          text={loading ? "Sender..." : "Bekreft booking"}
-          onClick={onConfirm}
-          disabled={loading}
-          full={true}
-        />
+     
       </div>
-    </div>
+    
   );
 }
+
+ConfirmBooking.propTypes = {
+  dateRange: PropTypes.shape({
+    start: PropTypes.instanceOf(Date),
+    end: PropTypes.instanceOf(Date),
+  }).isRequired,
+  guests: PropTypes.number.isRequired,
+  onConfirm: PropTypes.func, // Ikke i bruk her
+  loading: PropTypes.bool,
+};
