@@ -16,27 +16,25 @@ export default function AllVenues() {
   useEffect(() => {
     async function fetchAllVenues() {
       const allVenues = [];
-      let offset = 0;
       const limit = 100;
-      let moreData = true;
+      let offset = 0;
+      let fetched = [];
 
       try {
-        while (moreData) {
-          const res = await fetch(`https://api.noroff.dev/api/v1/holidaze/venues?limit=${limit}&offset=${offset}`);
-          if (!res.ok) throw new Error("Feil ved henting av venues");
-          const data = await res.json();
-
-          if (Array.isArray(data) && data.length > 0) {
-            allVenues.push(...data);
-            offset += limit;
-          } else {
-            moreData = false;
-          }
-        }
+        do {
+          const response = await fetch(
+            `https://api.noroff.dev/api/v1/holidaze/venues?limit=${limit}&offset=${offset}`
+          );
+          if (!response.ok) throw new Error("Klarte ikke hente venues");
+          const data = await response.json();
+          fetched = data;
+          allVenues.push(...data);
+          offset += limit;
+        } while (fetched.length === limit);
 
         setVenues(allVenues);
-      } catch (err) {
-        console.error("Feil ved henting av venues:", err);
+      } catch (error) {
+        console.error("Feil ved henting av venues:", error);
       }
     }
 
