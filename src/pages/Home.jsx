@@ -22,7 +22,7 @@ export default function Home() {
       </section>
 
       {/* Reportasjeseksjon */}
-      <section className="mt-20 bg-gray-600 border-gray-200 py-10 px-4 sm:px-6">
+      <section className="bg-gray-600 mt-20 border-gray-200 py-10 px-4 sm:px-6">
         <div className="max-w-3xl mx-auto text-center">
           <img
             src={repotasjeImages.bali}

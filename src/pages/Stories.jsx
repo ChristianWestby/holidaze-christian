@@ -10,9 +10,9 @@ export default function Stories() {
   }, []);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12 mt-[120px]">
+    <div className="bg-[#1c293a] max-w-4xl mx-auto px-4 py-12 mt-[120px]">
       <div className="mb-8">
-        <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-center">Magiske minner fra Bali</h1>
+        <h1 className="text-3xl sm:text-4xl font- mb-4 text-center">Magiske minner fra Bali</h1>
         <p className="text-gray-600 text-center max-w-2xl mx-auto">
           En reise til hjertet av Indonesia med sand mellom tærne, rolig rislyd i palmene, og
           solnedganger som får tiden til å stå stille.
