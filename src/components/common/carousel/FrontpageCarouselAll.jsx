@@ -7,34 +7,18 @@ export default function FrontpageCarouselAll() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    async function fetchUserVenues() {
-      const token = localStorage.getItem("accessToken");
-      const userName = localStorage.getItem("userName");
-
-      if (!token || !userName) return;
-
+    async function fetchVenues() {
       try {
-        const res = await fetch(
-          `https://api.noroff.dev/api/v1/holidaze/profiles/${userName}/venues`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (!res.ok) {
-          throw new Error("Klarte ikke hente dine venues");
-        }
-
+        const res = await fetch(`https://api.noroff.dev/api/v1/holidaze/venues?limit=15`);
+        if (!res.ok) throw new Error("Klarte ikke hente venues");
         const data = await res.json();
         setVenues(data);
       } catch (err) {
-        console.error("Feil ved henting av brukerens venues:", err);
+        console.error("Feil ved henting av venues:", err);
       }
     }
 
-    fetchUserVenues();
+    fetchVenues();
   }, []);
 
   function prevSlide() {
@@ -48,7 +32,10 @@ export default function FrontpageCarouselAll() {
   if (venues.length === 0 || !venues[currentIndex]) return null;
 
   const current = venues[currentIndex];
-  const image = current?.media?.[0];
+  const image =
+    typeof current.media?.[0] === "string"
+      ? current.media[0]
+      : current.media?.[0]?.url;
 
   return (
     <section className="max-w-6xl mx-auto px-6 relative">

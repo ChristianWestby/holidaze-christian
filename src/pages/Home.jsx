@@ -42,8 +42,9 @@ export default function Home() {
       </section>
      
       {/* Karusell 2 – Alle relevante steder */}
-      <section className="bg-[#f4f1ea] py-10 px-4 rounded-lg shadow-inner mt-12">
-        <h2 className="text-2xl font-semibold mb-6 text-center">Alle relevante steder</h2>
+      <section className="bg-[#1c293a] py-10 px-4 rounded-lg shadow-inner mt-12">
+        <h2 className="text-white text-2xl font-thin mb-6 text-center">Alle relevante steder</h2>
+         <div className="border-t border-white/20 mb-6"></div>
         <FrontpageCarouselAll />
       </section>
     </>
