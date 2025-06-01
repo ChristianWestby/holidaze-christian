@@ -5,6 +5,7 @@ import { useAuth } from "@utils/auth/AuthContext";
 import LogoHolidaze from "@components/common/ui/LogoHolidaze";
 import DropdownMenu from "@components/layout/DropdownMenu";
 import UserDropdown from "@components/layout/UserDropdown";
+import MapPage from "@pages/MapPage";  
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -59,10 +60,9 @@ export default function Navbar() {
     <Menu className="w-5 h-5" />
   </button>
 
-  {/* Kart-link ved siden av */}
-  <Link to="/map" className="hover:text-white/80 transition" title="Utforsk kart">
-    <Globe className="w-5 h-5" />
-  </Link>
+ <Link to="/map" className="hover:text-white/80 transition" title="Utforsk kart">
+  <Globe className="w-5 h-5" />
+</Link>
 
   {menuOpen && <DropdownMenu onClose={() => setMenuOpen(false)} />}
 </div>

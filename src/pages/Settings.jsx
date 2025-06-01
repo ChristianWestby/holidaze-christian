@@ -35,16 +35,16 @@ export default function Settings() {
 
   return (
     <div
-      className="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4"
+      className="min-h-screen w-full bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 py-12"
       style={{ backgroundImage: `url('${backgroundImages.editprofileimage}')` }}
     >
-      <div className="w-full max-w-xl bg-[#1c293a] text-white p-6 rounded shadow-md">
-        <h1 className="text-2xl font-bold mb-4 text-center">Endre profil</h1>
+      <div className="w-full max-w-xl bg-[#1c293a] text-white p-6 sm:p-8 rounded shadow-lg">
+        <h1 className="text-2xl sm:text-3xl font-light text-center mb-6">Endre profil</h1>
 
         {success && <p className="text-green-400 mb-4 text-center">Profil oppdatert!</p>}
         {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label className="block mb-1 text-sm text-white/80">Ny avatar-URL</label>
             <input
@@ -52,29 +52,31 @@ export default function Settings() {
               value={avatar}
               onChange={(e) => setAvatar(e.target.value)}
               placeholder="https://..."
-              className="w-full border border-white/20 bg-white/10 text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="w-full border border-white/20 bg-white/10 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-white/30"
             />
           </div>
+
           <div>
             <label className="block mb-1 text-sm text-white/80">Bio (kort tekst)</label>
             <textarea
               value={bio}
               onChange={(e) => setBio(e.target.value)}
               rows="3"
-              className="w-full border border-white/20 bg-white/10 text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="w-full border border-white/20 bg-white/10 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-white/30"
             />
           </div>
-          <div className="flex justify-between gap-4 pt-2">
+
+          <div className="flex flex-col sm:flex-row justify-between gap-4 pt-4">
             <button
               type="button"
               onClick={() => navigate("/profile")}
-              className="w-1/2 bg-white/10 text-white py-2 rounded hover:bg-white/20 transition"
+              className="w-full sm:w-1/2 bg-white/10 text-white py-2 rounded hover:bg-white/20 transition"
             >
               Tilbake
             </button>
             <button
               type="submit"
-              className="w-1/2 bg-white text-black py-2 rounded hover:bg-white/90 transition"
+              className="w-full sm:w-1/2 bg-white text-black py-2 rounded hover:bg-white/90 transition"
             >
               Oppdater
             </button>

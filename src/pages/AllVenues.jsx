@@ -19,9 +19,9 @@ export default function AllVenues() {
         const res = await fetch("https://api.noroff.dev/api/v1/holidaze/venues");
         if (!res.ok) throw new Error("Feil ved henting av venues");
         const data = await res.json();
-        setVenues(data.data || data); // ta høyde for data i .data eller direkte
+        setVenues(data.data || data);
       } catch (err) {
-        console.error("Feil ved henting av venues:", err);
+        // Error allerede synlig i UI hvis data ikke vises
       }
     }
     fetchVenues();
@@ -43,20 +43,15 @@ export default function AllVenues() {
   return (
     <div
       className="min-h-screen bg-fixed bg-cover bg-center relative pt-[120px] pb-20 px-4"
-      style={{
-        backgroundImage: `url("${backgroundImages.allvenuesbilde}")`,
-      }}
+      style={{ backgroundImage: `url("${backgroundImages.holidazeauth}")` }}
     >
-      {/* Overlay */}
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
 
-      {/* Innhold */}
       <div className="relative z-10 max-w-7xl mx-auto text-white">
         <h1 className="text-3xl font-light mb-6 border-b border-white/20 pb-2">
           Alle våre eksklusive og fantastiske opplevelser
         </h1>
 
-        {/* Søk og filter */}
         <VenueSearchFilter
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
@@ -66,14 +61,12 @@ export default function AllVenues() {
 
         <BackToMenuButton />
 
-        {/* Venuekort */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {currentVenues.map((venue) => (
             <VenueGridCard key={venue.id} venue={venue} />
           ))}
         </div>
 
-        {/* Paginering */}
         <Pagination
           totalPages={totalPages}
           currentPage={currentPage}

@@ -61,39 +61,37 @@ export default function Profile() {
       className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col"
       style={{ backgroundImage: `url("${backgroundImages.profile}")` }}
     >
-      <div className="max-w-7xl mx-auto px-4 py-12 font-sans text-white mt-[120px] w-full">
+      <div className="w-full max-w-7xl mx-auto px-4 py-12 text-white mt-[120px]">
         <ProfileHeader profile={profile} />
 
-        <section className="mt-10 mb-16 flex flex-wrap gap-4 justify-center bg-[#1c293a] p-6 shadow-md">
+        <section className="mt-10 mb-16 bg-[#1c293a] p-6 rounded-lg shadow-md">
           <ProfileButtons venueManager={profile.venueManager} />
         </section>
 
-        <div className="border-t border-black/80 mb-6"></div>
-
-        <div className="flex flex-col sm:flex-row gap-8">
-         {/* Venues */}
-<section className="w-full sm:w-1/2 bg-[#1c293a] p-6 shadow-md text-white">
-  <h2 className="text-xl font-semibold mb-4 border-b border-white/40 pb-2">Dine venues</h2>
-  {paginatedVenues.length === 0 ? (
-    <p className="text-white/60 italic">Du har ingen venues enda.</p>
-  ) : (
-    <>
-      <div className="grid grid-cols-1 gap-6">
-        {paginatedVenues.map((venue) => (
-          <VenueCard key={venue.id} venue={venue} editable={true} />
-        ))}
-      </div>
-      <Pagination
-        totalPages={Math.ceil(venues.length / itemsPerPage)}
-        currentPage={venuePage}
-        onPageChange={setVenuePage}
-      />
-    </>
-  )}
-</section>
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Venues */}
+          <section className="w-full lg:w-1/2 bg-[#1c293a] p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-4 border-b border-white/40 pb-2">Dine venues</h2>
+            {paginatedVenues.length === 0 ? (
+              <p className="text-white/60 italic">Du har ingen venues enda.</p>
+            ) : (
+              <>
+                <div className="grid grid-cols-1 gap-6">
+                  {paginatedVenues.map((venue) => (
+                    <VenueCard key={venue.id} venue={venue} editable={true} />
+                  ))}
+                </div>
+                <Pagination
+                  totalPages={Math.ceil(venues.length / itemsPerPage)}
+                  currentPage={venuePage}
+                  onPageChange={setVenuePage}
+                />
+              </>
+            )}
+          </section>
 
           {/* Bookings */}
-          <section className="w-full sm:w-1/2 bg-[#1c293a] p-6 shadow-md text-white">
+          <section className="w-full lg:w-1/2 bg-[#1c293a] p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-semibold mb-4 border-b border-white/40 pb-2">Dine bookinger</h2>
             {paginatedBookings.length === 0 ? (
               <p className="text-white/60 italic">Ingen bookinger funnet.</p>

@@ -28,15 +28,13 @@ export default function useVenueAndBookingsResult(id, navigate, token) {
         if (!bookingsRes.ok) throw new Error("Kunne ikke hente bookings");
         const bookingsData = await bookingsRes.json();
 
-        const venueBookings = bookingsData.filter(
-          (b) => b.venue?.id === id
-        );
+        const venueBookings = bookingsData.filter((b) => b.venue?.id === id);
 
         if (isMounted) {
           setVenue(venueData);
           setBookings(venueBookings);
         }
-      } catch (error) {
+      } catch {
         if (navigate && isMounted) navigate("/404");
       } finally {
         if (isMounted) setLoading(false);
@@ -44,7 +42,9 @@ export default function useVenueAndBookingsResult(id, navigate, token) {
     }
 
     fetchData();
-    return () => { isMounted = false };
+    return () => {
+      isMounted = false;
+    };
   }, [id, token, navigate]);
 
   return { venue, bookings, loading };

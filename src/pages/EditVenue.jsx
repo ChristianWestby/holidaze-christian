@@ -49,7 +49,6 @@ export default function EditVenue() {
         });
 
         if (!res.ok) throw new Error("Venue finnes ikke");
-
         const data = await res.json();
 
         if (data.owner?.name !== user?.name) {
@@ -82,7 +81,6 @@ export default function EditVenue() {
           },
         });
       } catch (err) {
-        console.error("Feil under henting:", err);
         setError("Kunne ikke hente data for stedet.");
       }
     }
@@ -123,7 +121,7 @@ export default function EditVenue() {
     }));
   }
 
-   async function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     setError(null);
 
@@ -137,19 +135,14 @@ export default function EditVenue() {
         },
         body: JSON.stringify({
           ...formData,
-          media: formData.media.map((m) => m.url), // ← viktig fix
+          media: formData.media.map((m) => m.url),
         }),
       });
 
-      if (!res.ok) {
-        const errData = await res.json();
-        console.error("API-feil:", errData);
-        throw new Error("Kunne ikke oppdatere venue");
-      }
+      if (!res.ok) throw new Error("Kunne ikke oppdatere venue");
 
       navigate(`/venues/${id}`);
-    } catch (err) {
-      console.error(err);
+    } catch {
       setError("Oppdatering feilet. Sjekk feltene.");
     }
   }
@@ -159,14 +152,15 @@ export default function EditVenue() {
       className="min-h-screen bg-cover bg-center flex items-center justify-center pt-[120px] px-4"
       style={{ backgroundImage: `url('${backgroundImages.editvenueimage}')` }}
     >
-      <div className="w-full max-w-3xl bg-[#1c293a] text-white shadow-lg p-8">
+      <div className="w-full max-w-3xl bg-[#1c293a] text-white shadow-lg p-6 sm:p-8 rounded-xl font-sans">
         <h1 className="text-3xl font-light mb-6 text-center">Rediger sted</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           {error && <p className="text-red-500">{error}</p>}
-          <input name="name" value={formData.name} onChange={handleChange} placeholder="Navn" className="w-full p-2 rounded text-black" required />
-          <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Beskrivelse" className="w-full p-2 rounded text-black" rows={3} />
-          <input name="price" type="number" value={formData.price} onChange={handleChange} placeholder="Pris" className="w-full p-2 rounded text-black" />
-          <input name="maxGuests" type="number" value={formData.maxGuests} onChange={handleChange} placeholder="Gjester" className="w-full p-2 rounded text-black" />
+
+          <input name="name" value={formData.name} onChange={handleChange} placeholder="Navn" required className="w-full p-3 rounded-lg text-black" />
+          <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Beskrivelse" rows={3} className="w-full p-3 rounded-lg text-black" />
+          <input name="price" type="number" value={formData.price} onChange={handleChange} placeholder="Pris" className="w-full p-3 rounded-lg text-black" />
+          <input name="maxGuests" type="number" value={formData.maxGuests} onChange={handleChange} placeholder="Gjester" className="w-full p-3 rounded-lg text-black" />
 
           <textarea
             name="media"
@@ -174,10 +168,10 @@ export default function EditVenue() {
             onChange={handleMediaChange}
             placeholder="Bildelenker (én per linje)"
             rows={4}
-            className="w-full p-2 rounded text-black"
+            className="w-full p-3 rounded-lg text-black"
           />
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {["address", "city", "zip", "country", "continent"].map((field) => (
               <input
                 key={field}
@@ -185,14 +179,14 @@ export default function EditVenue() {
                 value={formData.location[field]}
                 onChange={handleChange}
                 placeholder={field}
-                className="p-2 rounded text-black"
+                className="p-3 rounded-lg text-black"
               />
             ))}
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
             {Object.entries(formData.meta).map(([key, value]) => (
-              <label key={key} className="flex items-center space-x-2 text-sm">
+              <label key={key} className="flex items-center space-x-2">
                 <input type="checkbox" name={key} checked={value} onChange={handleChange} className="accent-white" />
                 <span>{key}</span>
               </label>

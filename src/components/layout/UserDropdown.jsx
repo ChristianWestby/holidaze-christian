@@ -60,7 +60,7 @@ export default function UserDropdown({ onClose }) {
 
       {/* Info-topp */}
       {user.venueManager && (
-        <div className="mb-6 px-4 py-2 bg-orange-100 text-orange-800 text-xs font-semibold rounded-md border border-orange-200">
+        <div className="mb-6 px-4 py-2 bg-orange-100 text-orange-800 text-xs font-semibold border border-orange-200">
           Du er venue manager
         </div>
       )}

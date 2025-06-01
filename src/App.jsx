@@ -15,6 +15,7 @@ import BookingPage from "@pages/BookingPage";
 import EditVenue from "@pages/EditVenue";
 import Settings from "@pages/Settings";
 import Stories from "@pages/Stories";  
+import MapPage from "@pages/MapPage"; 
 
 // Utils
 import ProtectedRoute from "@utils/ProtectedRoute";
@@ -34,6 +35,7 @@ export default function App() {
           <Route path="highlighted-venues" element={<HighlightedVenuesPage />} />
           <Route path="login" element={<Login />} />
           <Route path="stories" element={<Stories />} />
+          <Route path="map" element={<MapPage />} /> 
 
           {/* Beskyttede ruter */}
           <Route

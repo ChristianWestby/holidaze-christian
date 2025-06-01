@@ -2,7 +2,7 @@ import HighlightedVenues from "@layout/HighlightedVenues";
 
 export default function HighlightedVenuesPage() {
   return (
-    <main className="max-w-7xl mx-auto px-4 py-10 mt-[120px]">
+    <main className="mt-[120px] px-4 md:px-6 lg:px-8 py-10 max-w-7xl mx-auto font-sans">
       <HighlightedVenues />
     </main>
   );

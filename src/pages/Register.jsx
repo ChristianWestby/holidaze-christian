@@ -41,16 +41,15 @@ export default function Register() {
 
   return (
     <div
-      className="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4"
-      style={{
-  backgroundImage: "url('/images/holidaze-auth-bg.jpg')",
-}}
+      className="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 py-12"
+      style={{ backgroundImage: "url('/images/holidaze-auth-bg.jpg')" }}
     >
-      <div className="max-w-md w-full bg-black/70 text-white p-8 rounded-2xl shadow-xl backdrop-blur font-sans mt-[120px]">
-        <h1 className="text-2xl font-semibold mb-6 text-center tracking-wide">Opprett konto</h1>
+      <div className="w-full max-w-md bg-black/70 text-white p-6 sm:p-8 rounded-2xl shadow-xl backdrop-blur mt-[120px]">
+        <h1 className="text-2xl sm:text-3xl font-light text-center mb-6">Opprett konto</h1>
+
         {error && <p className="text-red-400 mb-4 text-center text-sm">{error}</p>}
 
-        <form onSubmit={handleRegister} className="space-y-6">
+        <form onSubmit={handleRegister} className="space-y-5">
           <div>
             <label className="block mb-1 text-sm text-white/80">Navn (unikt)</label>
             <input
@@ -58,7 +57,7 @@ export default function Register() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full bg-white/10 text-white border border-white/20 px-4 py-2 rounded-lg placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="w-full bg-white/10 text-white border border-white/20 px-4 py-2 rounded placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/30"
               placeholder="f.eks. sofiejones"
             />
           </div>
@@ -70,7 +69,7 @@ export default function Register() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full bg-white/10 text-white border border-white/20 px-4 py-2 rounded-lg placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="w-full bg-white/10 text-white border border-white/20 px-4 py-2 rounded placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/30"
               placeholder="din@stud.noroff.no"
             />
           </div>
@@ -82,7 +81,7 @@ export default function Register() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full bg-white/10 text-white border border-white/20 px-4 py-2 rounded-lg placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="w-full bg-white/10 text-white border border-white/20 px-4 py-2 rounded placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/30"
               placeholder="••••••••"
             />
           </div>
@@ -94,7 +93,7 @@ export default function Register() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
-              className="w-full bg-white/10 text-white border border-white/20 px-4 py-2 rounded-lg placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="w-full bg-white/10 text-white border border-white/20 px-4 py-2 rounded placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/30"
               placeholder="••••••••"
             />
             <label className="text-sm mt-2 flex items-center gap-2 text-white/70">
@@ -114,7 +113,7 @@ export default function Register() {
               type="url"
               value={avatar}
               onChange={(e) => setAvatar(e.target.value)}
-              className="w-full bg-white/10 text-white border border-white/20 px-4 py-2 rounded-lg placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="w-full bg-white/10 text-white border border-white/20 px-4 py-2 rounded placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/30"
               placeholder="https://..."
             />
           </div>
@@ -131,7 +130,7 @@ export default function Register() {
 
           <button
             type="submit"
-            className="w-full bg-white text-black font-semibold py-2 rounded-lg hover:bg-white/90 transition"
+            className="w-full bg-white text-black font-semibold py-2 rounded hover:bg-white/90 transition"
           >
             Registrer
           </button>

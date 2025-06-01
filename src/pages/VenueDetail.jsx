@@ -19,12 +19,12 @@ import FrontpageCarousel from "@components/common/carousel/FrontpageCarousel";
 import FrontpageCarouselAll from "@components/common/carousel/FrontpageCarouselAll";
 import FallbackLoader from "@components/common/ui/feedback/FallbackLoader";
 import ShareLink from "@components/common/ui/ShareLink";
-import PrimaryButton from "@components/common/ui/buttons/PrimaryButton"; // ✅
+import PrimaryButton from "@components/common/ui/buttons/PrimaryButton";
 
 export default function VenueDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { token, user } = useAuth(); // ✅
+  const { token, user } = useAuth();
 
   const { venue, bookings, loading } = useVenueAndBookingsResult(id, navigate, token);
   const [mainImageIndex, setMainImageIndex] = useState(0);
@@ -38,7 +38,7 @@ export default function VenueDetail() {
   if (!venue) return <p className="text-center mt-10">Fant ikke sted.</p>;
 
   return (
-    <section className="venue-detail sectionmain">
+    <section className="venue-detail bg-[#f4f1ea] min-h-screen pt-[100px] pb-16 px-4 sm:px-6 lg:px-8">
       <VenueHeroImage
         image={venue.media?.[0]}
         name={venue.name}
@@ -51,8 +51,8 @@ export default function VenueDetail() {
         setMainImageIndex={setMainImageIndex}
       />
 
-      <div className="max-w-5xl mx-auto mt-8 p-6 bg-gray-800 rounded-lg shadow-lg text-white">
-        <div className="flex flex-col md:flex-row gap-10">
+      <div className="max-w-5xl mx-auto mt-8 p-4 sm:p-6 bg-gray-800 rounded-lg shadow-lg text-white">
+        <div className="flex flex-col lg:flex-row gap-10">
           {/* Venstre kolonne */}
           <div className="flex-1">
             <VenueDescription description={venue.description} />
@@ -64,7 +64,6 @@ export default function VenueDetail() {
                 onClick={() => navigate(`/booking/${venue.id}`)}
               />
 
-              {/* ✅ Kun vis redigeringsknapp hvis innlogget bruker er eier */}
               {user?.name === venue?.owner?.name && (
                 <PrimaryButton
                   label="Rediger venue"
@@ -83,7 +82,7 @@ export default function VenueDetail() {
         </div>
       </div>
 
-      <div className="mt-16 mb-10 px-4 md:px-6">
+      <div className="mt-16 mb-10 px-4 sm:px-6 text-center">
         <BackToLink to="/" label="← Tilbake til forsiden" />
       </div>
 

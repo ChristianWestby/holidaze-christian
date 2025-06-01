@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 
 import './index.css';
-import "@css/calendar-overrides.css";   // <-- legg til her
+import "@css/calendar-overrides.css";  
 
 import '@fontsource/dm-sans/latin.css';
 import '@fontsource/playfair-display/latin.css';

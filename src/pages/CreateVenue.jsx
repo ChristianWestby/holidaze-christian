@@ -25,9 +25,10 @@ export default function CreateVenue() {
       style={{ backgroundImage: `url('${backgroundImages.createvenueimage}')` }}
     >
       <div className="flex-grow flex items-center justify-center pt-[120px] px-4">
-        <div className="w-full max-w-3xl bg-[#1c293a] text-white shadow-lg p-8">
+        <div className="w-full max-w-3xl bg-[#1c293a] text-white shadow-lg p-6 sm:p-8 rounded-xl font-sans">
           <h1 className="text-2xl sm:text-3xl font-thin mb-6 text-center">Opprett nytt sted</h1>
-           <div className="border-t border-white/20 my-6"></div>
+          <div className="border-t border-white/20 mb-6"></div>
+
           {error && <p className="text-red-400 mb-4 text-center">{error}</p>}
           {success && <p className="text-green-400 mb-4 text-center">Sted opprettet! Du sendes videre...</p>}
 
@@ -40,7 +41,7 @@ export default function CreateVenue() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="w-full border border-gray-300 p-2 rounded text-black"
+                className="w-full border border-white/20 bg-white/10 text-white placeholder-white/70 p-3 rounded"
               />
             </div>
 
@@ -51,7 +52,7 @@ export default function CreateVenue() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 required
-                className="w-full border border-gray-300 p-2 rounded text-black"
+                className="w-full border border-white/20 bg-white/10 text-white placeholder-white/70 p-3 rounded"
               />
             </div>
 
@@ -60,7 +61,7 @@ export default function CreateVenue() {
             <VenueLocationFieldset location={location} setLocation={setLocation} />
             <VenueMetaFieldset meta={meta} setMeta={setMeta} />
 
-            <PrimaryButton text="Opprett sted" type="submit" full={true} />
+            <PrimaryButton text="Opprett sted" type="submit" full />
           </form>
         </div>
       </div>

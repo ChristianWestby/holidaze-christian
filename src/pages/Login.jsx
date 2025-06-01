@@ -2,8 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@auth/AuthContext";
-
-import { backgroundImages } from "@assets/image/images";  
+import { backgroundImages } from "@assets/image/images";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -24,16 +23,10 @@ export default function Login() {
         body: JSON.stringify({ email, password }),
       });
 
-      if (!response.ok) {
-        throw new Error("Feil brukernavn eller passord");
-      }
+      if (!response.ok) throw new Error("Feil brukernavn eller passord");
 
       const data = await response.json();
-
-      console.log("Login response data:", data);  // Sjekk struktur
-
-      login(data);  // Send hele data-objektet til login
-
+      login(data);
       navigate("/");
     } catch (err) {
       setError(err.message);
@@ -42,12 +35,12 @@ export default function Login() {
 
   return (
     <div
-      className="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center"
+      className="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4"
       style={{
-      backgroundImage: `url("${backgroundImages.holidazeauth}")`,
+        backgroundImage: `url("${backgroundImages.holidazeauth}")`,
       }}
     >
-      <div className="max-w-md w-full bg-black/70 text-white p-8 shadow-xl backdrop-blur font-sans mt-[120px]">
+      <div className="max-w-md w-full bg-black/70 text-white p-8 shadow-xl backdrop-blur-lg font-sans mt-[120px] rounded-2xl">
         <h1 className="text-2xl font-semibold mb-6 text-center tracking-wide">Velkommen tilbake</h1>
         {error && <p className="text-red-400 mb-4 text-center text-sm">{error}</p>}
 

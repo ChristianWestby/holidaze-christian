@@ -27,7 +27,6 @@ export default function MapPage() {
         const res = await fetch("https://api.noroff.dev/api/v1/holidaze/venues");
         const data = await res.json();
 
-        // Legg inn dummy lat/lng hvis mangler
         const withCoords = data.map((venue, i) => ({
           ...venue,
           lat: venue.location?.lat ?? (59.91 + i * 0.01),
@@ -47,14 +46,16 @@ export default function MapPage() {
     : venues;
 
   return (
-    <div className="mt-[120px] h-[calc(100vh-120px)] relative">
+    <div className="mt-[120px] h-[calc(100vh-120px)] relative font-sans">
       {/* Filterpanel */}
-      <div className="absolute top-8 left-1/2 -translate-x-1/2 z-[500] bg-white/90 backdrop-blur-sm text-black px-4 py-2 rounded shadow text-sm w-60">
-        <label className="block mb-1 font-medium">Filtrer verdensdel:</label>
+      <div className="absolute top-6 left-1/2 -translate-x-1/2 z-[500] bg-black/70 text-white px-4 py-3 rounded-xl shadow backdrop-blur-md w-[90%] max-w-xs md:max-w-sm">
+        <label className="block mb-2 text-sm font-light tracking-wide">
+          Filtrer etter verdensdel
+        </label>
         <select
           value={continent}
           onChange={(e) => setContinent(e.target.value)}
-          className="w-full px-3 py-1 rounded border border-gray-300 focus:outline-none"
+          className="w-full px-3 py-2 rounded-lg bg-white/10 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 text-sm"
         >
           <option value="">Alle</option>
           <option value="Europa">Europa</option>
@@ -66,29 +67,29 @@ export default function MapPage() {
         </select>
       </div>
 
-      {/* Kartet */}
+      {/* Kart */}
       <MapContainer
         center={[59.91, 10.75]}
-        zoom={4}
+        zoom={3}
         scrollWheelZoom={true}
         className="h-full w-full z-0"
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
+          attribution="&copy; OpenStreetMap"
         />
 
         {filteredVenues.map((venue) => (
           <Marker key={venue.id} position={[venue.lat, venue.lng]}>
             <Popup>
-              <div className="text-sm">
-                <strong>{venue.name}</strong>
-                <br />
-                {venue.location?.city}, {venue.location?.country}
-                <br />
+              <div className="text-sm text-black">
+                <strong className="block mb-1">{venue.name}</strong>
+                <span className="block mb-1 text-gray-700">
+                  {venue.location?.city}, {venue.location?.country}
+                </span>
                 <button
                   onClick={() => navigate(`/venues/${venue.id}`)}
-                  className="mt-1 text-blue-600 underline hover:text-blue-800"
+                  className="text-blue-600 hover:text-blue-800 underline text-sm"
                 >
                   Vis detaljer
                 </button>

@@ -26,7 +26,7 @@ export default function VenueGridCard({ venue }) {
         </div>
         <Link
           to={`/venues/${venue.id}`}
-          className="mt-4 inline-block text-sm font-medium underline hover:text-white/120 transition"
+          className="mt-4 inline-block text-sm font-medium underline hover:text-white transition"
         >
           Utforsk →
         </Link>

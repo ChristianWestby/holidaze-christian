@@ -28,9 +28,8 @@ export default function useVenueWithBookings(id) {
 
         setVenue(venueData);
         setBookings(Array.isArray(venueBookings) ? venueBookings : []);
-      } catch (err) {
+      } catch {
         setError("Kunne ikke hente data. Prøv igjen.");
-        console.error("Feil ved henting:", err);
         navigate("/venues");
       } finally {
         setLoading(false);

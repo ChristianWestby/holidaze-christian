@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 export default function VenueDetailInfo({ venue }) {
   return (
-    <div className="grid sm:grid-cols-2 gap-4 mb-10 text-sm text-white-800 border-t pt-6 border-white/40 rounded-s-none">
+    <div className="grid sm:grid-cols-2 gap-4 mb-10 text-sm text-white border-t pt-6 border-white/40 rounded-s-none">
       <div>
         <p><span className="font-semibold">Pris:</span> {venue.price} NOK / natt</p>
         <p><span className="font-semibold">Maks gjester:</span> {venue.maxGuests}</p>

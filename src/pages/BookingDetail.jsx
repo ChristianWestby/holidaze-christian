@@ -89,8 +89,6 @@ export default function BookingDetail() {
           <p className="font-bold mt-2">Totalpris: {total || 0} NOK</p>
         </div>
 
-       
-
         <Link
           to={`/venues/${venue.id}`}
           className="text-sm bg-white text-black px-4 py-2 rounded hover:bg-gray-600"
@@ -100,4 +98,4 @@ export default function BookingDetail() {
       </div>
     </div>
   );
-} 
+}

@@ -10,14 +10,14 @@ export default function Stories() {
   }, []);
 
   return (
-    <div className="bg-[#1c293a] text-white min-h-screen w-full pt-[120px] pb-12 px-4">
+    <div className="bg-[#1c293a] text-white min-h-screen w-full pt-[120px] pb-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl sm:text-4xl font-light text-center mb-4">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-thin text-center mb-4">
             Magiske minner fra Bali
           </h1>
           <div className="border-t border-white/20 mb-6"></div>
-          <p className="text-white text-center max-w-2xl mx-auto">
+          <p className="text-white text-center max-w-2xl mx-auto px-2">
             En reise til hjertet av Indonesia med sand mellom tærne, rolig rislyd i palmene, og
             solnedganger som får tiden til å stå stille.
           </p>
@@ -27,12 +27,12 @@ export default function Stories() {
         <img
           src={repotasjeImages.balibilde2}
           alt="Bali strender"
-          className="w-full h-auto rounded-md shadow mb-8"
+          className="w-full h-auto shadow rounded-md mb-8"
         />
 
         <div className="border-t border-white mb-6"></div>
 
-        <div className="leading-relaxed space-y-6">
+        <div className="leading-relaxed space-y-6 text-sm sm:text-base">
           <p>
             Da vi landet på Bali, var det som å stige inn i en annen verden. Lukten av røkelse og
             havbris blandet seg i den varme luften. Vi ble møtt av smilende fjes og levende farger –
@@ -56,7 +56,7 @@ export default function Stories() {
           <img
             src={repotasjeImages.balibilde3}
             alt="Bali landskap"
-            className="w-full h-auto rounded-md shadow my-8"
+            className="w-full h-auto shadow rounded-md my-8"
           />
 
           <p>

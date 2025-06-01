@@ -8,9 +8,20 @@ export default function useVenueForm() {
   const [media, setMedia] = useState([""]);
   const [price, setPrice] = useState("");
   const [maxGuests, setMaxGuests] = useState(1);
-  const [meta, setMeta] = useState({ wifi: false, parking: false, breakfast: false, pets: false });
+  const [meta, setMeta] = useState({
+    wifi: false,
+    parking: false,
+    breakfast: false,
+    pets: false,
+  });
   const [location, setLocation] = useState({
-    address: "", city: "", zip: "", country: "", continent: "", lat: "", lng: "",
+    address: "",
+    city: "",
+    zip: "",
+    country: "",
+    continent: "",
+    lat: "",
+    lng: "",
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -67,7 +78,6 @@ export default function useVenueForm() {
 
       setSuccess(true);
       resetForm();
-
       setTimeout(() => navigate("/profile"), 2000);
     } catch (err) {
       setError(err.message);
@@ -81,18 +91,35 @@ export default function useVenueForm() {
     setPrice("");
     setMaxGuests(1);
     setMeta({ wifi: false, parking: false, breakfast: false, pets: false });
-    setLocation({ address: "", city: "", zip: "", country: "", continent: "", lat: "", lng: "" });
+    setLocation({
+      address: "",
+      city: "",
+      zip: "",
+      country: "",
+      continent: "",
+      lat: "",
+      lng: "",
+    });
   }
 
   return {
-    name, setName,
-    description, setDescription,
-    media, updateMedia, addMediaField,
-    price, setPrice,
-    maxGuests, setMaxGuests,
-    meta, setMeta,
-    location, setLocation,
-    error, success,
+    name,
+    setName,
+    description,
+    setDescription,
+    media,
+    updateMedia,
+    addMediaField,
+    price,
+    setPrice,
+    maxGuests,
+    setMaxGuests,
+    meta,
+    setMeta,
+    location,
+    setLocation,
+    error,
+    success,
     handleSubmit,
   };
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "@utils/auth/AuthContext";
 import useBookingSubmit from "@hooks/useBookingSubmit";
@@ -19,8 +19,8 @@ export default function BookingPage() {
   const [guests, setGuests] = useState(1);
   const [overlapWarning, setOverlapWarning] = useState(false);
 
-  // 👇 Vent med hook til token finnes
   if (!token) return <FallbackLoader />;
+
   const { venue, bookings } = useVenueAndBookingsResult(id, navigate, token);
 
   const {
@@ -38,15 +38,6 @@ export default function BookingPage() {
     overlapWarning,
     navigate,
   });
-
-  useEffect(() => {
-    console.log("📌 BookingPage mounted");
-    console.log("🆔 id:", id);
-    console.log("🔐 token:", token);
-    console.log("👤 user:", user);
-    console.log("🏠 venue:", venue);
-    console.log("📅 bookings:", bookings);
-  }, [id, token, user, venue, bookings]);
 
   if (!venue) return <FallbackLoader />;
 

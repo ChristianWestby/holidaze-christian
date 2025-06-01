@@ -10,7 +10,6 @@ export default function Footer() {
   return (
     <footer className="bg-[#f4f1ea] text-black px-6 pt-20 pb-10 border-t border-gray-300 mt-20 text-sm">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12 flex-wrap justify-between">
-
         {/* Logo + sosiale medier */}
         <div className="flex-1 min-w-[250px] text-center lg:text-left">
           <div className="mb-12 flex justify-center lg:justify-start">

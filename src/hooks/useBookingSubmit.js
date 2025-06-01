@@ -15,7 +15,6 @@ export default function useBookingSubmit({ token, venue, id, dateRange, guests, 
     if (guests < 1 || guests > (venue?.maxGuests || 10)) {
       return setError(`Antall gjester må være mellom 1 og ${venue?.maxGuests || 10}.`);
     }
-
     if (!token) return setError("Du må være logget inn for å booke.");
 
     const bookingData = {
