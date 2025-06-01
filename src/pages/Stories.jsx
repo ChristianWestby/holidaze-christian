@@ -12,11 +12,13 @@ export default function Stories() {
   return (
     <div className="bg-[#1c293a] text-white max-w-4xl mx-auto px-4 py-12 mt-[120px]">
       <div className="mb-8">
-        <h1 className=" text-white text-3xl sm:text-4xl font-thin mb-4 text-center">Magiske minner fra Bali</h1>
-        <p className="text-gray-600 text-center max-w-2xl mx-auto">
+        <h1 className=" text-white text-3xl font-thin mb-4 text-center">Magiske minner fra Bali</h1>
+        <div className="border-t border-white/20 mb-6"></div>
+        <p className="text-white text-center max-w-2xl mx-auto">
           En reise til hjertet av Indonesia med sand mellom tærne, rolig rislyd i palmene, og
           solnedganger som får tiden til å stå stille.
         </p>
+        <div className="border-t border-white/20 mb-6"></div>
       </div>
 
       <img
@@ -24,8 +26,8 @@ export default function Stories() {
         alt="Bali strender"
         className="w-full h-auto rounded-md shadow mb-8"
       />
-
-      <div className="text-gray-700 leading-relaxed space-y-6">
+      <div className="border-t border-white mb-6"></div>
+      <div className="text-white leading-relaxed space-y-6">
         <p>
           Da vi landet på Bali, var det som å stige inn i en annen verden. Lukten av røkelse og
           havbris blandet seg i den varme luften. Vi ble møtt av smilende fjes og levende farger –
@@ -43,7 +45,7 @@ export default function Stories() {
           klippe med en kopp lokal kaffe og bare lot stillheten omfavne oss. Det er slike øyeblikk
           som gjør at man husker hvorfor man reiser.
         </p>
-
+        <div className="border-t border-white/20 mb-6"></div>
         <img
           src={repotasjeImages.balibilde3}
           alt="Bali landskap"
@@ -61,11 +63,11 @@ export default function Stories() {
           deg til å oppdage ditt eget magiske sted – uansett hvor på kloden det måtte være.
         </p>
       </div>
-
+      <div className="border-t border-white/20 mb-6"></div>
       <div className="mt-12 text-center">
         <button
           onClick={() => navigate(-1)}
-          className="inline-block border border-black px-4 py-2 text-sm uppercase tracking-wide hover:bg-black hover:text-white transition"
+          className="inline-block border border-white text-white px-4 py-2 text-sm uppercase tracking-wide hover:bg-black hover:text-white transition"
         >
           ← Tilbake
         </button>
