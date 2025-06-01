@@ -15,7 +15,7 @@ export default function Home() {
       <Hero />
 
       {/* Karusell 1 */}
-      <section className="bg-[#f4f1ea] py-10 px-4 md:px-6 lg:px-8 rounded-lg shadow-inner mt-12">
+      <section className="bg-[#f4f1ea] py-10 px-4 md:px-6 lg:px-8 rounded-lg shadow-inner mt-12 sm:mt-16 md:mt-20">
         <div className="max-w-6xl mx-auto">
           <div className="border-t border-white/30 mb-6"></div>
           <FrontpageCarousel />
@@ -23,7 +23,7 @@ export default function Home() {
       </section>
 
       {/* Reportasje */}
-      <section className="bg-gray-900 text-white mt-20 border-t border-gray-700 py-12 px-4 md:px-6 lg:px-8">
+      <section className="bg-gray-900 text-white mt-16 sm:mt-20 md:mt-24 border-t border-gray-700 py-12 px-4 md:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
           <h3 className="text-2xl sm:text-3xl md:text-4xl font-light mb-4 tracking-wide">
             Magiske minner fra Bali
@@ -51,7 +51,7 @@ export default function Home() {
       </section>
 
       {/* Karusell 2 */}
-      <section className="bg-[#1c293a] py-10 px-4 md:px-6 lg:px-8 rounded-lg shadow-inner mt-16">
+      <section className="bg-[#1c293a] py-10 px-4 md:px-6 lg:px-8 rounded-lg shadow-inner mt-16 sm:mt-20 md:mt-24">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-white text-xl sm:text-2xl md:text-3xl font-thin mb-6 text-center">
             Alle relevante steder
