@@ -40,8 +40,8 @@ export default function Login() {
         backgroundImage: `url("${backgroundImages.holidazeauth}")`,
       }}
     >
-      <div className="max-w-md w-full bg-black/70 text-white p-8 shadow-xl backdrop-blur-lg font-sans mt-[120px] rounded-2xl">
-        <h1 className="text-2xl font-semibold mb-6 text-center tracking-wide">Velkommen tilbake</h1>
+      <div className="max-w-md w-full bg-black/70 text-white p-8 shadow-xl backdrop-blur-lg font-sans mt-[120px]">
+        <h1 className="text-2xl font-thin mb-6 text-center tracking-wide">Velkommen tilbake</h1>
         {error && <p className="text-red-400 mb-4 text-center text-sm">{error}</p>}
 
         <form onSubmit={handleLogin} className="space-y-6">

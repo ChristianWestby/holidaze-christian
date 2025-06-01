@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { backgroundImages } from "@assets/image/images";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -39,13 +40,15 @@ export default function Register() {
     }
   }
 
+  
+
   return (
     <div
       className="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 py-12"
-      style={{ backgroundImage: "url('/images/holidaze-auth-bg.jpg')" }}
+      style={{ backgroundImage: `url("${backgroundImages.holidazeauth}")` }}
     >
-      <div className="w-full max-w-md bg-black/70 text-white p-6 sm:p-8 rounded-2xl shadow-xl backdrop-blur mt-[120px]">
-        <h1 className="text-2xl sm:text-3xl font-light text-center mb-6">Opprett konto</h1>
+      <div className="w-full max-w-md bg-black/70 text-white p-6 sm:p-8 shadow-xl backdrop-blur mt-[120px]">
+        <h1 className="text-2xl sm:text-3xl font-thin text-center mb-6">Opprett konto</h1>
 
         {error && <p className="text-red-400 mb-4 text-center text-sm">{error}</p>}
 
@@ -130,7 +133,7 @@ export default function Register() {
 
           <button
             type="submit"
-            className="w-full bg-white text-black font-semibold py-2 rounded hover:bg-white/90 transition"
+            className="w-full bg-white text-black font-normal py-2 rounded hover:bg-white/90 transition"
           >
             Registrer
           </button>
