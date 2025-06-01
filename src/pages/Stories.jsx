@@ -10,9 +10,11 @@ export default function Stories() {
   }, []);
 
   return (
-    <div className="bg-[#1c293a] border-white mb-6 text-white max-w-4xl mx-auto px-4 py-12 mt-[120px]">
+    <div className="bg-[#1c293a] border-black mb-6 text-white max-w-4xl mx-auto px-4 py-12 mt-[120px]">
       <div className="text-white mb-8">
-        <h1 className=" text-white text-3xl font-thin mb-4 text-center">Magiske minner fra Bali</h1>
+       <h1 className="text-3xl sm:text-4xl font-light text-center text-white mb-4">
+  Magiske minner fra Bali
+</h1>
         <div className="border-t border-white/20 mb-6"></div>
         <p className="text-white text-center max-w-2xl mx-auto">
           En reise til hjertet av Indonesia med sand mellom tærne, rolig rislyd i palmene, og
