@@ -23,15 +23,17 @@ export default function Home() {
 
       {/* Reportasjeseksjon */}
       <section className="bg-gray-600 mt-20 border-gray-200 py-10 px-4 sm:px-6">
+        <h3 className="text-2xl text-white-600 font-thin mb-2">Magiske minner fra Bali</h3>
+          <div className="border-t border-white/20 mb-6"></div>
         <div className="max-w-3xl mx-auto text-center">
           <img
             src={repotasjeImages.bali}
             alt="Reportasje"
-            className="w-full h-auto rounded-md shadow mb-6"
+            className="w-full h-auto shadow mb-6"
           />
-          <h3 className="text-2xl text-white-600 font-thin mb-2">Magiske minner fra Bali</h3>
+          
           <div className="border-t border-white/20 mb-6"></div>
-          <p className="text-white-600 mb-4">
+          <p className="text-white mb-4">
             Bli med bak kulissene på en av våre mest eksklusive reiser, der tropiske netter og
             eventyrlige opplevelser møtes.
           </p>
