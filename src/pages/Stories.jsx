@@ -10,8 +10,8 @@ export default function Stories() {
   }, []);
 
   return (
-    <div className="bg-[#1c293a] text-white max-w-4xl mx-auto px-4 py-12 mt-[120px]">
-      <div className="mb-8">
+    <div className="bg-[#1c293a] border-white mb-6 text-white max-w-4xl mx-auto px-4 py-12 mt-[120px]">
+      <div className="text-white mb-8">
         <h1 className=" text-white text-3xl font-thin mb-4 text-center">Magiske minner fra Bali</h1>
         <div className="border-t border-white/20 mb-6"></div>
         <p className="text-white text-center max-w-2xl mx-auto">
