@@ -55,14 +55,14 @@ export default function FrontpageCarouselAll() {
 
       <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
         <div className="md:w-1/2 text-center md:text-left">
-          <h3 className="uppercase text-sm tracking-widest text-gray-500 mb-1">Utforsk</h3>
-          <h1 className="text-2xl font-bold mb-3 leading-snug">{current.name}</h1>
-          <p className="text-gray-600 text-sm mb-4">
+          <h3 className="uppercase text-sm tracking-widest text-white-500 mb-1">Utforsk</h3>
+          <h1 className="text-2xl text-white font-bold mb-3 leading-snug">{current.name}</h1>
+          <p className="text-white-600 text-sm mb-4">
             {current.description?.slice(0, 160)}...
           </p>
           <Link
             to={`/venues/${current.id}`}
-            className="inline-block px-4 py-2 border border-black text-black text-sm uppercase tracking-wide hover:bg-black hover:text-white transition"
+            className="inline-block px-4 py-2 border mt-20 border-black text-white text-sm uppercase tracking-wide hover:bg-black hover:text-white transition"
           >
             Utforsk stedet
           </Link>

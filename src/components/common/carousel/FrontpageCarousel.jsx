@@ -38,9 +38,10 @@ export default function FrontpageCarousel() {
 
   return (
     <section className="bg-[#1c1c1c] text-white py-16 px-6 rounded-lg shadow-inner relative max-w-6xl mx-auto">
-      <h2 className="text-2xl font-semibold text-center mb-10 tracking-wide uppercase text-white">
+      <h2 className="text-2xl font-thin text-center mb-10 tracking-wide uppercase text-white">
         NYTT FRA HOLIDAZE
       </h2>
+       <div className="border-t border-white/20 mb-6"></div>
 
       {/* Navigasjonsknapper */}
       <button

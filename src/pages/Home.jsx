@@ -16,6 +16,7 @@ export default function Home() {
 
       {/* Karusell */}
       <section className="bg-[#f4f1ea] py-10 px-4 rounded-lg shadow-inner mt-12">
+        <div className="border-t border-white/20 mb-6"></div>
         <FrontpageCarousel />
       </section>
 
