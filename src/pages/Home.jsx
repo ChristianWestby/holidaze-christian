@@ -21,7 +21,7 @@ export default function Home() {
       </section>
 
       {/* Reportasjeseksjon */}
-      <section className="mt-20 bg-white border-t border-gray-200 py-10 px-4 sm:px-6">
+      <section className="mt-20 bg-gray border-t border-gray-200 py-10 px-4 sm:px-6">
         <div className="max-w-3xl mx-auto text-center">
           <img
             src="https://i.ibb.co/JWQNH5Fx/image.png"
@@ -34,7 +34,7 @@ export default function Home() {
             eventyrlige opplevelser møtes.
           </p>
           <Link
-            to="/stories/bali"
+            to="/stories"
             className="inline-block border border-black px-4 py-2 text-sm uppercase tracking-wide hover:bg-black hover:text-white transition"
           >
             Les reportasjen

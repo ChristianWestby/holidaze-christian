@@ -12,4 +12,6 @@ export const backgroundImages = {
 
 export const repotasjeImages = {
   bali:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+  balibilde2:"https://i.ibb.co/JWQNH5Fx/image.png",
+  balibilde3:"https://i.ibb.co/xKzK1d67/image.png"
 };

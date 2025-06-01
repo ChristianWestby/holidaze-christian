@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { repotasjeImages } from "@assets/image/images";
 
 export default function Stories() {
   const navigate = useNavigate();
@@ -7,7 +8,6 @@ export default function Stories() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-12 mt-[120px]">
@@ -20,10 +20,10 @@ export default function Stories() {
       </div>
 
       <img
-       src="https://i.ibb.co/JWQNH5Fx/image.png"
-       alt="Bali strender"
-       className="w-full h-auto rounded-md shadow mb-8"
-     />
+        src={repotasjeImages.balibilde2}
+        alt="Bali strender"
+        className="w-full h-auto rounded-md shadow mb-8"
+      />
 
       <div className="text-gray-700 leading-relaxed space-y-6">
         <p>
@@ -45,10 +45,10 @@ export default function Stories() {
         </p>
 
         <img
-  src="https://i.ibb.co/xKzK1d67/image.png"
-  alt="Bali landskap"
-  className="w-full h-auto rounded-md shadow my-8"
-/>
+          src={repotasjeImages.balibilde3}
+          alt="Bali landskap"
+          className="w-full h-auto rounded-md shadow my-8"
+        />
 
         <p>
           Vi besøkte også lokale markeder, lærte å lage indonesiske retter med en mesterkokk, og ble
