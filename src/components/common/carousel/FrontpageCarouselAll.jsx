@@ -39,7 +39,7 @@ export default function FrontpageCarouselAll() {
 
   return (
     <section className="max-w-6xl mx-auto px-4 sm:px-6 relative">
-  {/* Navigasjonsknapper – flyttet lenger ut */}
+  
   <button
     onClick={prevSlide}
     className="absolute -left-6 sm:-left-10 top-1/2 -translate-y-1/2 z-20 bg-white border border-black w-10 h-16 flex items-center justify-center hover:bg-black hover:text-white transition"
