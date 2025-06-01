@@ -3,22 +3,28 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global font */
 body {
   @apply font-sans;
 }
 
 /* React Datepicker tilpasning */
 .react-datepicker__day--selected {
-  background-color: #000 !important;
+  background-color: #1c293a !important; /* mørkeblå-grå for Holidaze */
+  color: #fff !important;
+}
+
+.react-datepicker__day--keyboard-selected {
+  background-color: #334155 !important; /* mørkere nyanse */
   color: #fff !important;
 }
 
 .react-datepicker__day:hover {
-  background-color: #e5e5e5 !important;
-  color: #000 !important;
+  background-color: #e2e8f0 !important; /* lys grå-blå hover */
+  color: #0f172a !important;
 }
 
-/* Tilpasset global stil (eksempel på cursor eller font) */
+/* Tilpasset global stil (valgfritt cursor, font m.m.) */
 /* body {
   cursor: url('/custom-cursor.svg'), auto;
 } */

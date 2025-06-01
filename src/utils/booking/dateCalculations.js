@@ -1,9 +1,9 @@
 export function calcDays(start, end) {
-  if (!start || !end) return 0;
-  return Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+  const msPerDay = 1000 * 60 * 60 * 24;
+  return Math.ceil((end - start) / msPerDay);
 }
 
-export function calcTotal(start, end, pricePerNight, guests) {
+export function calcTotal(start, end, guests, pricePerNight) {
   const days = calcDays(start, end);
-  return pricePerNight * days * guests;
+  return days * pricePerNight;
 }

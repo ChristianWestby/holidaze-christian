@@ -4,6 +4,16 @@ export default function Pagination({ totalPages, currentPage, onPageChange }) {
   return (
     <div className="flex flex-col items-center mt-12 gap-4 w-full">
       <div className="flex flex-wrap justify-center gap-2">
+        {/* Venstre pil */}
+        <button
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-3 py-2 text-sm rounded bg-white/10 text-white border border-white/20 hover:bg-white/20 disabled:opacity-30"
+        >
+          ←
+        </button>
+
+        {/* Sidetall */}
         {Array.from({ length: totalPages }, (_, i) => (
           <button
             key={i + 1}
@@ -18,6 +28,15 @@ export default function Pagination({ totalPages, currentPage, onPageChange }) {
             {i + 1}
           </button>
         ))}
+
+        {/* Høyre pil */}
+        <button
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="px-3 py-2 text-sm rounded bg-white/10 text-white border border-white/20 hover:bg-white/20 disabled:opacity-30"
+        >
+          →
+        </button>
       </div>
     </div>
   );

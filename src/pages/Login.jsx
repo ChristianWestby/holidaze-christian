@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@auth/AuthContext";
 
-import { backgroundImages } from "../assets/image/images";  
+import { backgroundImages } from "@assets/image/images";  
 
 export default function Login() {
   const [email, setEmail] = useState("");

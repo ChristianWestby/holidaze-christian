@@ -19,11 +19,12 @@ import FrontpageCarousel from "@components/common/carousel/FrontpageCarousel";
 import FrontpageCarouselAll from "@components/common/carousel/FrontpageCarouselAll";
 import FallbackLoader from "@components/common/ui/feedback/FallbackLoader";
 import ShareLink from "@components/common/ui/ShareLink";
+import PrimaryButton from "@components/common/ui/buttons/PrimaryButton"; // ✅
 
 export default function VenueDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { token } = useAuth();
+  const { token, user } = useAuth(); // ✅
 
   const { venue, bookings, loading } = useVenueAndBookingsResult(id, navigate, token);
   const [mainImageIndex, setMainImageIndex] = useState(0);
@@ -56,13 +57,21 @@ export default function VenueDetail() {
           <div className="flex-1">
             <VenueDescription description={venue.description} />
             <VenueDetailInfo venue={venue} />
-            <div className="mt-6">
+
+            <div className="mt-6 flex flex-col gap-3">
               <VenueBookingButton
                 venueId={venue.id}
                 onClick={() => navigate(`/booking/${venue.id}`)}
               />
-            </div>
-            <div className="mt-4">
+
+              {/* ✅ Kun vis redigeringsknapp hvis innlogget bruker er eier */}
+              {user?.name === venue?.owner?.name && (
+                <PrimaryButton
+                  label="Rediger venue"
+                  onClick={() => navigate(`/venues/edit/${venue.id}`)}
+                />
+              )}
+
               <ShareLink />
             </div>
           </div>

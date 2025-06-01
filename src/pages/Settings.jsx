@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@utils/auth/AuthContext";
+import { backgroundImages } from "@assets/image/images";
 
 export default function Settings() {
   const [avatar, setAvatar] = useState("");
@@ -33,48 +34,53 @@ export default function Settings() {
   }
 
   return (
-    <div className="max-w-xl mx-auto mt-[120px] bg-white p-6 rounded shadow">
-      <h1 className="text-2xl font-bold mb-4 text-center">Endre profil</h1>
+    <div
+      className="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4"
+      style={{ backgroundImage: `url('${backgroundImages.editprofileimage}')` }}
+    >
+      <div className="w-full max-w-xl bg-[#1c293a] text-white p-6 rounded shadow-md">
+        <h1 className="text-2xl font-bold mb-4 text-center">Endre profil</h1>
 
-      {success && <p className="text-green-600 mb-4 text-center">Profil oppdatert!</p>}
-      {error && <p className="text-red-600 mb-4 text-center">{error}</p>}
+        {success && <p className="text-green-400 mb-4 text-center">Profil oppdatert!</p>}
+        {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block mb-1 text-sm">Ny avatar-URL</label>
-          <input
-            type="url"
-            value={avatar}
-            onChange={(e) => setAvatar(e.target.value)}
-            placeholder="https://..."
-            className="w-full border px-3 py-2 rounded"
-          />
-        </div>
-        <div>
-          <label className="block mb-1 text-sm">Bio (kort tekst)</label>
-          <textarea
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-            rows="3"
-            className="w-full border px-3 py-2 rounded"
-          />
-        </div>
-        <div className="flex justify-between gap-4 pt-2">
-          <button
-            type="button"
-            onClick={() => navigate("/profile")}
-            className="w-1/2 bg-gray-200 text-black py-2 rounded hover:bg-gray-300 transition"
-          >
-            Tilbake
-          </button>
-          <button
-            type="submit"
-            className="w-1/2 bg-black text-white py-2 rounded hover:bg-gray-800 transition"
-          >
-            Oppdater
-          </button>
-        </div>
-      </form>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block mb-1 text-sm text-white/80">Ny avatar-URL</label>
+            <input
+              type="url"
+              value={avatar}
+              onChange={(e) => setAvatar(e.target.value)}
+              placeholder="https://..."
+              className="w-full border border-white/20 bg-white/10 text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-white/30"
+            />
+          </div>
+          <div>
+            <label className="block mb-1 text-sm text-white/80">Bio (kort tekst)</label>
+            <textarea
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+              rows="3"
+              className="w-full border border-white/20 bg-white/10 text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-white/30"
+            />
+          </div>
+          <div className="flex justify-between gap-4 pt-2">
+            <button
+              type="button"
+              onClick={() => navigate("/profile")}
+              className="w-1/2 bg-white/10 text-white py-2 rounded hover:bg-white/20 transition"
+            >
+              Tilbake
+            </button>
+            <button
+              type="submit"
+              className="w-1/2 bg-white text-black py-2 rounded hover:bg-white/90 transition"
+            >
+              Oppdater
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

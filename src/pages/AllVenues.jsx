@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { backgroundImages } from "../assets/image/images";
+import { backgroundImages } from "@assets/image/images";
 
 import VenueGridCard from "@components/venue/VenueGridCard";
 import BackToMenuButton from "@components/common/ui/buttons/BackToMenuButton";
-import VenueSearchFilter from "../components/venue/VenueSearchFilter";
-import Pagination from "../components/common/navigation/Pagination";
+import VenueSearchFilter from "@components/venue/VenueSearchFilter";
+import Pagination from "@components/common/navigation/Pagination";
 
 export default function AllVenues() {
   const [venues, setVenues] = useState([]);

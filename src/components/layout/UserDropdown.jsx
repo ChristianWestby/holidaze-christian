@@ -71,13 +71,11 @@ export default function UserDropdown({ onClose }) {
           Min profil
         </Link>
         {user.venueManager && (
-          <Link to="/create" onClick={onClose} className="py-4 hover:underline">
+         <Link to="/create-venue" onClick={onClose} className="py-4 hover:underline">
             Opprett venue
           </Link>
         )}
-        <Link to="/my-bookings" onClick={onClose} className="py-4 hover:underline">
-          Mine bookinger
-        </Link>
+        
         <button
           onClick={() => {
             logout();

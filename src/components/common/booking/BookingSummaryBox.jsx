@@ -2,12 +2,16 @@ import PropTypes from "prop-types";
 import { calcDays, calcTotal } from "@utils/booking/dateCalculations";
 
 export default function BookingSummaryBox({ guests, dateRange, pricePerNight }) {
+  if (!dateRange || !(dateRange.start instanceof Date) || !(dateRange.end instanceof Date)) {
+    return <p className="text-red-500">Ugyldig datoformat</p>;
+  }
+
   const { start, end } = dateRange;
   const days = calcDays(start, end);
   const total = calcTotal(start, end, guests, pricePerNight);
 
   return (
-    <div className="bg-white p-4 border shadow text-sm">
+    <div className="bg-white p-4 border shadow text-sm text-black">
       <p><strong>Dager:</strong> {days || 0}</p>
       <p><strong>Gjester:</strong> {guests}</p>
       <p className="font-bold mt-2">Totalpris: {total || 0} NOK</p>

@@ -5,12 +5,15 @@ import Layout from "@components/layout/Layout";
 import Home from "@pages/Home";
 import About from "@pages/About";
 import CreateVenue from "@pages/CreateVenue";
+import BookingDetail from "@pages/BookingDetail";
 import Login from "@pages/Login";
 import Profile from "@pages/Profile";
 import AllVenues from "@pages/AllVenues";
 import HighlightedVenuesPage from "@pages/HighlightedVenuesPage";
 import VenueDetail from "@pages/VenueDetail";
 import BookingPage from "@pages/BookingPage";
+import EditVenue from "@pages/EditVenue";
+import Settings from "@pages/Settings";
 
 // Utils
 import ProtectedRoute from "@utils/ProtectedRoute";
@@ -20,13 +23,17 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Layout />}>
+          {/* Offentlige sider */}
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
+          <Route path="booking-detail/:id" element={<BookingDetail />} />
           <Route path="venues" element={<AllVenues />} />
-          <Route path="/booking/:id" element={<BookingPage />} />
-          <Route path="venues/:id" element={<VenueDetail />} /> {/* Viktig */}
+          <Route path="venues/:id" element={<VenueDetail />} />
+          <Route path="booking/:id" element={<BookingPage />} />
           <Route path="highlighted-venues" element={<HighlightedVenuesPage />} />
           <Route path="login" element={<Login />} />
+
+          {/* Beskyttede ruter */}
           <Route
             path="profile"
             element={
@@ -35,7 +42,36 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="*" element={<h1>404 - Page not found</h1>} />
+          <Route
+            path="settings"
+            element={
+              <ProtectedRoute>
+                <Settings />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="create-venue"
+            element={
+              <ProtectedRoute requiredRole="manager">
+                <CreateVenue />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="venues/edit/:id"
+            element={
+              <ProtectedRoute requiredRole="manager">
+                <EditVenue />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* 404 fallback */}
+          <Route
+            path="*"
+            element={<h1 className="text-center mt-40 text-xl">404 - Page not found</h1>}
+          />
         </Route>
       </Routes>
     </Router>

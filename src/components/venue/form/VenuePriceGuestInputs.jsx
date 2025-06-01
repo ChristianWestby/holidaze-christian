@@ -4,7 +4,7 @@ export default function VenuePriceGuestInputs({ price, setPrice, maxGuests, setM
   return (
     <div className="grid grid-cols-2 gap-4">
       <div>
-        <label className="block mb-1 font-medium">Pris per natt *</label>
+        <label className="block mb-1 font-thin">Pris per natt *</label>
         <input
           type="number"
           min="1"
@@ -15,7 +15,7 @@ export default function VenuePriceGuestInputs({ price, setPrice, maxGuests, setM
         />
       </div>
       <div>
-        <label className="block mb-1 font-medium">Maks gjester *</label>
+        <label className="block mb-1 font-thin">Maks gjester *</label>
         <input
           type="number"
           min="1"

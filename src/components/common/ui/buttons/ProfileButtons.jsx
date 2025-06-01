@@ -7,9 +7,11 @@ export default function ProfileButtons({ venueManager }) {
   return (
     <>
       <PrimaryButton onClick={() => navigate("/settings")} label="Endre profil" />
-      {venueManager && <PrimaryButton onClick={() => navigate("/create")} label="Opprett nytt venue" />}
+      {venueManager && (
+        <PrimaryButton onClick={() => navigate("/create-venue")} label="Opprett nytt venue" />
+      )}
       <PrimaryButton onClick={() => navigate("/")} label="Til forsiden" />
-      <PrimaryButton onClick={() => navigate("/booking")} label="Booking" />
+      <PrimaryButton onClick={() => navigate("/venues")} label="Finn steder" />
     </>
   );
 }

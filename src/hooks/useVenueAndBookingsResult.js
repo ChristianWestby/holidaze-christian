@@ -9,16 +9,10 @@ export default function useVenueAndBookingsResult(id, navigate, token) {
     let isMounted = true;
 
     async function fetchData() {
-      if (!id || !token) {
-        console.warn("⛔️ Mangler id eller token", { id, token });
-        return;
-      }
+      if (!id || !token) return;
 
       setLoading(true);
       try {
-        console.log("🎯 Fetching venue with ID:", id);
-        console.log("🪪 Token:", token);
-
         const venueRes = await fetch(`https://api.noroff.dev/api/v1/holidaze/venues/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -41,10 +35,8 @@ export default function useVenueAndBookingsResult(id, navigate, token) {
         if (isMounted) {
           setVenue(venueData);
           setBookings(venueBookings);
-          console.log("✅ Venue og bookings satt:", { venueData, venueBookings });
         }
       } catch (error) {
-        console.error("🚨 Fetch error:", error);
         if (navigate && isMounted) navigate("/404");
       } finally {
         if (isMounted) setLoading(false);

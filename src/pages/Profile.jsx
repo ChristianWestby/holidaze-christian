@@ -4,43 +4,34 @@ import ProfileHeader from "@components/profile/ProfileHeader";
 import ProfileButtons from "@components/common/ui/buttons/ProfileButtons";
 import VenueCard from "@components/venue/VenueCard";
 import BookingCard from "@components/common/booking/BookingCard";
+import Pagination from "@components/common/navigation/Pagination";
+import { backgroundImages } from "@assets/image/images";
 
 export default function Profile() {
   const [profile, setProfile] = useState(null);
   const [venues, setVenues] = useState([]);
   const [bookings, setBookings] = useState([]);
 
+  const [venuePage, setVenuePage] = useState(1);
+  const [bookingPage, setBookingPage] = useState(1);
+  const itemsPerPage = 4;
+
   const { token, user } = useAuth();
 
   useEffect(() => {
-    if (!token || !user?.name) {
-      console.warn("Token eller brukernavn mangler.");
-      return;
-    }
+    if (!token || !user?.name) return;
 
     async function fetchProfileData() {
       try {
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-
-        const profileRes = await fetch(
-          `https://api.noroff.dev/api/v1/holidaze/profiles/${user.name}`,
-          { headers }
-        );
-
-        const venuesRes = await fetch(
-          `https://api.noroff.dev/api/v1/holidaze/venues?_owner=${user.name}`,
-          { headers }
-        );
-
-        const bookingsRes = await fetch(
-          `https://api.noroff.dev/api/v1/holidaze/profiles/${user.name}/bookings?_venue=true`,
-          { headers }
-        );
+        const headers = { Authorization: `Bearer ${token}` };
+        const [profileRes, venuesRes, bookingsRes] = await Promise.all([
+          fetch(`https://api.noroff.dev/api/v1/holidaze/profiles/${user.name}`, { headers }),
+          fetch(`https://api.noroff.dev/api/v1/holidaze/venues?_owner=${user.name}`, { headers }),
+          fetch(`https://api.noroff.dev/api/v1/holidaze/profiles/${user.name}/bookings?_venue=true`, { headers }),
+        ]);
 
         if (!profileRes.ok || !venuesRes.ok || !bookingsRes.ok) {
-          throw new Error("En eller flere forespørsler feilet.");
+          throw new Error("Feil ved henting av data");
         }
 
         const profileData = await profileRes.json();
@@ -48,10 +39,10 @@ export default function Profile() {
         const bookingsData = await bookingsRes.json();
 
         setProfile(profileData);
-        setVenues(venuesData.data?.data || venuesData.data || venuesData); 
+        setVenues(venuesData.data?.data || venuesData.data || venuesData);
         setBookings(bookingsData.data || bookingsData);
       } catch (error) {
-        console.error("Feil ved henting av data:", error.message);
+        console.error("Feil:", error.message);
       }
     }
 
@@ -62,39 +53,67 @@ export default function Profile() {
     return <p className="text-center mt-20 text-gray-500 font-sans">Laster profil...</p>;
   }
 
+  const paginatedVenues = venues.slice((venuePage - 1) * itemsPerPage, venuePage * itemsPerPage);
+  const paginatedBookings = bookings.slice((bookingPage - 1) * itemsPerPage, bookingPage * itemsPerPage);
+
   return (
-    <div className="max-w-7xl mx-auto px-6 py-16 mt-[120px] bg-[#f4f1ea] shadow-xl rounded-2xl font-sans"> 
-      <ProfileHeader profile={profile} />
+    <div
+      className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col"
+      style={{ backgroundImage: `url("${backgroundImages.profile}")` }}
+    >
+      <div className="max-w-7xl mx-auto px-4 py-12 font-sans text-white mt-[120px] w-full">
+        <ProfileHeader profile={profile} />
 
-      <section className="mt-12 mb-20 flex flex-wrap gap-4 justify-center">
-        <ProfileButtons venueManager={profile.venueManager} />
-      </section>
+        <section className="mt-10 mb-16 flex flex-wrap gap-4 justify-center bg-[#1c293a] p-6 shadow-md">
+          <ProfileButtons venueManager={profile.venueManager} />
+        </section>
 
-      <section className="mb-16">
-        <h2 className="text-xl font-semibold mb-4 border-b border-black/40 pb-2">Dine venues</h2>
-        {venues.length === 0 ? (
-          <p className="text-gray-500 italic">Du har ingen venues enda.</p>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {venues.map((venue) => (
-              <VenueCard key={venue.id} venue={venue} />
-            ))}
-          </div>
-        )}
-      </section>
+        <div className="border-t border-black/80 mb-6"></div>
 
-      <section className="bg-[#e8e3da] rounded-xl p-6 shadow-md">
-        <h2 className="text-xl font-semibold mb-4 border-b border-black/40 pb-2">Dine bookinger</h2>
-        {bookings.length === 0 ? (
-          <p className="text-gray-600 italic">Ingen bookinger funnet.</p>
-        ) : (
-          <ul className="space-y-4">
-            {bookings.map((booking) => (
-              <BookingCard key={booking.id} booking={booking} />
-            ))}
-          </ul>
-        )}
-      </section>
+        <div className="flex flex-col sm:flex-row gap-8">
+         {/* Venues */}
+<section className="w-full sm:w-1/2 bg-[#1c293a] p-6 shadow-md text-white">
+  <h2 className="text-xl font-semibold mb-4 border-b border-white/40 pb-2">Dine venues</h2>
+  {paginatedVenues.length === 0 ? (
+    <p className="text-white/60 italic">Du har ingen venues enda.</p>
+  ) : (
+    <>
+      <div className="grid grid-cols-1 gap-6">
+        {paginatedVenues.map((venue) => (
+          <VenueCard key={venue.id} venue={venue} editable={true} />
+        ))}
+      </div>
+      <Pagination
+        totalPages={Math.ceil(venues.length / itemsPerPage)}
+        currentPage={venuePage}
+        onPageChange={setVenuePage}
+      />
+    </>
+  )}
+</section>
+
+          {/* Bookings */}
+          <section className="w-full sm:w-1/2 bg-[#1c293a] p-6 shadow-md text-white">
+            <h2 className="text-xl font-semibold mb-4 border-b border-white/40 pb-2">Dine bookinger</h2>
+            {paginatedBookings.length === 0 ? (
+              <p className="text-white/60 italic">Ingen bookinger funnet.</p>
+            ) : (
+              <>
+                <div className="grid grid-cols-1 gap-6">
+                  {paginatedBookings.map((booking) => (
+                    <BookingCard key={booking.id} booking={booking} />
+                  ))}
+                </div>
+                <Pagination
+                  totalPages={Math.ceil(bookings.length / itemsPerPage)}
+                  currentPage={bookingPage}
+                  onPageChange={setBookingPage}
+                />
+              </>
+            )}
+          </section>
+        </div>
+      </div>
     </div>
   );
 }

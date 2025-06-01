@@ -15,10 +15,12 @@ export default function ProfileHeader({ profile }) {
           </span>
         )}
       </div>
-      <div>
+      <div className="flex flex-col justify-center">
+        <p className="text-3xl font-thin text-white">Velkommen tilbake,</p>
+        
         <h1 className="text-3xl font-bold tracking-wide">{profile.name}</h1>
         {profile.bio && <p className="text-gray-600 mt-1">{profile.bio}</p>}
-        <p className="text-sm text-gray-400 mt-2">{profile.email}</p>
+        <p className="text-3xl font-thin text-white">{profile.email}</p>
       </div>
     </section>
   );
