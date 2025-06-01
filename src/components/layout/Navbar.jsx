@@ -50,30 +50,34 @@ export default function Navbar() {
         }`}
       >
         {/* Venstre menyknapp */}
-<div className="relative flex items-center gap-4">
-  {/* Meny-knapp som åpner dropdown */}
-  <button
-    onClick={() => setMenuOpen(true)}
-    className="flex items-center gap-2 hover:text-white/80 transition"
-    aria-label="Åpne meny"
-  >
-    <Menu className="w-5 h-5" />
-  </button>
+        <div className="relative flex items-center gap-4">
+          <button
+            onClick={() => setMenuOpen(true)}
+            className="flex items-center gap-2 hover:text-white/80 transition"
+            aria-label="Åpne meny"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
 
- <Link to="/map" className="hover:text-white/80 transition" title="Utforsk kart">
-  <Globe className="w-5 h-5" />
-</Link>
+          <Link to="/map" className="hover:text-white/80 transition" title="Utforsk kart">
+            <Globe className="w-5 h-5" />
+          </Link>
 
-  {menuOpen && <DropdownMenu onClose={() => setMenuOpen(false)} />}
-</div>
+          {menuOpen && (
+          <DropdownMenu
+           onClose={() => setMenuOpen(false)}
+          setMenuOpen={setMenuOpen}
+         />
+      )}
+        </div>
 
         {/* Logo */}
         <div className="absolute left-1/2 transform -translate-x-1/2">
-  <LogoHolidaze scrolled={scrolled} />
-</div>
+          <LogoHolidaze scrolled={scrolled} />
+        </div>
 
         {/* Høyre brukerikon / pålogging */}
-        <div className="flex items-center gap-4 text-sm" ref={dropdownRef}>
+        <div className="hidden sm:flex items-center gap-4 text-sm" ref={dropdownRef}>
           {!user ? (
             <>
               <Link to="/login" className="hover:underline flex items-center gap-1">
@@ -84,14 +88,7 @@ export default function Navbar() {
                 <UserPlus className="w-4 h-4" />
                 Registrer
               </Link>
-             <Link
-               to={user ? "/booking" : "/login"}
-               className={`px-4 py-1 rounded transition ${
-               scrolled ? "bg-black text-white hover:bg-gray-900" : "bg-white text-black hover:bg-gray-200"
-  }`}
->
-  Book nå
-</Link>
+             
             </>
           ) : (
             <>
@@ -114,6 +111,20 @@ export default function Navbar() {
             </>
           )}
         </div>
+
+        {/* Mobilmeny for auth */}
+        {!user && (
+          <div className="flex sm:hidden items-center gap-2">
+            <button
+              onClick={() => setDropdownOpen(true)}
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-white text-black"
+              aria-label="Meny for bruker"
+            >
+              ☰
+            </button>
+            {dropdownOpen && <UserDropdown onClose={() => setDropdownOpen(false)} />}
+          </div>
+        )}
       </nav>
     </>
   );

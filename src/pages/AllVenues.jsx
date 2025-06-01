@@ -14,17 +14,33 @@ export default function AllVenues() {
   const venuesPerPage = 12;
 
   useEffect(() => {
-    async function fetchVenues() {
+    async function fetchAllVenues() {
+      const allVenues = [];
+      let offset = 0;
+      const limit = 100;
+      let moreData = true;
+
       try {
-        const res = await fetch("https://api.noroff.dev/api/v1/holidaze/venues");
-        if (!res.ok) throw new Error("Feil ved henting av venues");
-        const data = await res.json();
-        setVenues(data.data || data);
+        while (moreData) {
+          const res = await fetch(`https://api.noroff.dev/api/v1/holidaze/venues?limit=${limit}&offset=${offset}`);
+          if (!res.ok) throw new Error("Feil ved henting av venues");
+          const data = await res.json();
+
+          if (Array.isArray(data) && data.length > 0) {
+            allVenues.push(...data);
+            offset += limit;
+          } else {
+            moreData = false;
+          }
+        }
+
+        setVenues(allVenues);
       } catch (err) {
-        // Error allerede synlig i UI hvis data ikke vises
+        console.error("Feil ved henting av venues:", err);
       }
     }
-    fetchVenues();
+
+    fetchAllVenues();
   }, []);
 
   const filtered = venues.filter(

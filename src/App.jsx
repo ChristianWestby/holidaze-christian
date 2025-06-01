@@ -16,6 +16,7 @@ import EditVenue from "@pages/EditVenue";
 import Settings from "@pages/Settings";
 import Stories from "@pages/Stories";  
 import MapPage from "@pages/MapPage"; 
+import Register from "@pages/Register";
 
 // Utils
 import ProtectedRoute from "@utils/ProtectedRoute";
@@ -36,6 +37,7 @@ export default function App() {
           <Route path="login" element={<Login />} />
           <Route path="stories" element={<Stories />} />
           <Route path="map" element={<MapPage />} /> 
+          <Route path="register" element={<Register />} />
 
           {/* Beskyttede ruter */}
           <Route

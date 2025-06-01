@@ -19,6 +19,7 @@ L.Icon.Default.mergeOptions({
 export default function MapPage() {
   const [venues, setVenues] = useState([]);
   const [continent, setContinent] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false); // <-- Ny state
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,25 +48,27 @@ export default function MapPage() {
 
   return (
     <div className="mt-[120px] h-[calc(100vh-120px)] relative font-sans">
-      {/* Filterpanel */}
-      <div className="absolute top-6 left-1/2 -translate-x-1/2 z-[500] bg-black/70 text-white px-4 py-3 rounded-xl shadow backdrop-blur-md w-[90%] max-w-xs md:max-w-sm">
-        <label className="block mb-2 text-sm font-light tracking-wide">
-          Filtrer etter verdensdel
-        </label>
-        <select
-          value={continent}
-          onChange={(e) => setContinent(e.target.value)}
-          className="w-full px-3 py-2 rounded-lg bg-white/10 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 text-sm"
-        >
-          <option value="">Alle</option>
-          <option value="Europa">Europa</option>
-          <option value="Asia">Asia</option>
-          <option value="Afrika">Afrika</option>
-          <option value="Nord-Amerika">Nord-Amerika</option>
-          <option value="Sør-Amerika">Sør-Amerika</option>
-          <option value="Oseania">Oseania</option>
-        </select>
-      </div>
+      {/* Filterpanel – skjules når meny er åpen */}
+      {!menuOpen && (
+        <div className="absolute top-6 left-1/2 -translate-x-1/2 z-[500] bg-black/70 text-white px-4 py-3 rounded-xl shadow backdrop-blur-md w-[90%] max-w-xs md:max-w-sm">
+          <label className="block mb-2 text-sm font-light tracking-wide">
+            Filtrer etter verdensdel
+          </label>
+          <select
+            value={continent}
+            onChange={(e) => setContinent(e.target.value)}
+            className="w-full px-3 py-2 rounded-lg bg-white/10 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 text-sm"
+          >
+            <option value="">Alle</option>
+            <option value="Europa">Europa</option>
+            <option value="Asia">Asia</option>
+            <option value="Afrika">Afrika</option>
+            <option value="Nord-Amerika">Nord-Amerika</option>
+            <option value="Sør-Amerika">Sør-Amerika</option>
+            <option value="Oseania">Oseania</option>
+          </select>
+        </div>
+      )}
 
       {/* Kart */}
       <MapContainer

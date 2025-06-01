@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 import { useAuth } from "@utils/auth/AuthContext";
 import LogoHolidaze from "@components/common/ui/LogoHolidaze";
 
-export default function DropdownMenu({ onClose }) {
+export default function DropdownMenu({ onClose, setMenuOpen }) {
   const { user } = useAuth();
   const navigate = useNavigate();
   const menuRef = useRef();
@@ -12,29 +12,30 @@ export default function DropdownMenu({ onClose }) {
   useEffect(() => {
     function handleClickOutside(e) {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
-        onClose();
+        handleClose();
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [onClose]);
+  }, []);
 
   function handleBookNowClick() {
-    if (user) {
-      navigate("/venues");
-    } else {
-      navigate("/login");
-    }
+    handleClose();
+    navigate(user ? "/venues" : "/login");
+  }
+
+  function handleClose() {
+    setMenuOpen(false);
     onClose();
   }
 
   return (
     <div
       ref={menuRef}
-      className="fixed top-0 left-0 h-full max-w-[90%] sm:max-w-[500px] bg-[#1c1c1c] text-white z-50 flex flex-col px-8 py-10 overflow-y-auto shadow-lg"
+      className="fixed top-0 left-0 min-h-screen max-w-[90%] sm:max-w-[500px] bg-[#1c1c1c] text-white z-50 flex flex-col px-8 py-10 overflow-y-auto shadow-lg"
     >
       <button
-        onClick={onClose}
+        onClick={handleClose}
         className="absolute top-6 right-6 text-white hover:text-gray-400"
         aria-label="Lukk meny"
       >
@@ -46,37 +47,44 @@ export default function DropdownMenu({ onClose }) {
       </div>
 
       <nav className="flex flex-col divide-y divide-white/20 text-left">
-        <Link to="/venues" onClick={onClose} className="py-4 hover:underline text-lg font-medium">
+        <Link to="/venues" onClick={handleClose} className="py-4 hover:underline text-lg font-medium">
           Alle steder
         </Link>
-        <Link to="/highlighted-venues" onClick={onClose} className="py-4 hover:underline text-lg font-medium">
+        <Link to="/highlighted-venues" onClick={handleClose} className="py-4 hover:underline text-lg font-medium">
           Våre utvalgte steder
         </Link>
-        <Link to="/" onClick={onClose} className="py-4 hover:underline text-lg font-medium">
+        <Link to="/" onClick={handleClose} className="py-4 hover:underline text-lg font-medium">
           Til forsiden
         </Link>
-        {user && (
-          <Link to="/profile" onClick={onClose} className="py-4 hover:underline text-lg font-medium">
-            Min profil
-          </Link>
+
+        {user ? (
+          <>
+            <Link to="/profile" onClick={handleClose} className="py-4 hover:underline text-lg font-medium">
+              Min profil
+            </Link>
+            <Link to="/profile#bookings" onClick={handleClose} className="py-4 hover:underline text-lg font-medium">
+              Mine bookinger
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link to="/login" onClick={handleClose} className="py-4 hover:underline text-lg font-medium">
+              Logg inn
+            </Link>
+            <Link to="/register" onClick={handleClose} className="py-4 hover:underline text-lg font-medium">
+              Registrer
+            </Link>
+          </>
         )}
-        {user && (
-          <Link to="/profile" onClick={onClose} className="py-4 hover:underline text-lg font-medium">
-            Mine bookinger
-          </Link>
-        )}
-        <Link to="/about" onClick={onClose} className="py-4 hover:underline text-lg font-medium">
+
+        <Link to="/about" onClick={handleClose} className="py-4 hover:underline text-lg font-medium">
           Om oss
         </Link>
-        <a href="mailto:kontakt@holidaze.no" onClick={onClose} className="py-4 hover:underline text-lg font-medium">
+        <a href="mailto:kontakt@holidaze.no" onClick={handleClose} className="py-4 hover:underline text-lg font-medium">
           Kontakt oss
         </a>
-        <button
-          onClick={handleBookNowClick}
-          className="mt-8 py-4 hover:underline text-lg font-medium text-left"
-        >
-          Book nå
-        </button>
+
+       
       </nav>
 
       <div className="mt-16 border-t border-white/20 pt-6 text-center text-xs text-white/60">
