@@ -4,12 +4,13 @@ import { useAuth } from "@utils/auth/AuthContext";
 import PrimaryButton from "@components/common/ui/buttons/PrimaryButton";
 import { backgroundImages } from "@assets/image/images";
 
+const API_KEY = "227d4ff6-0c0b-4587-8d71-a0ca6528e73f";
+
 export default function EditVenue() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { token, user } = useAuth();
+  const { user, token } = useAuth();
 
-  const [venue, setVenue] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -32,35 +33,38 @@ export default function EditVenue() {
       pets: false,
     },
   });
+
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!id || !user?.name) return;
+    if (!id || !token) return;
 
     async function fetchVenue() {
       try {
-        const res = await fetch(`https://api.noroff.dev/api/v1/holidaze/venues/${id}?_owner=true`);
+        const res = await fetch(`https://api.noroff.dev/api/v1/holidaze/venues/${id}?_owner=true`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "X-Noroff-API-Key": API_KEY,
+          },
+        });
+
         if (!res.ok) throw new Error("Venue finnes ikke");
 
         const data = await res.json();
 
-        if (!data.owner?.name || data.owner.name !== user.name) {
-          setError("Du har ikke tilgang til å redigere dette venue.");
+        if (data.owner?.name !== user?.name) {
+          setError("Du har ikke tilgang til å redigere dette stedet.");
           return;
         }
 
-        setVenue(data);
         setFormData({
           name: data.name || "",
           description: data.description || "",
           price: data.price || 0,
           maxGuests: data.maxGuests || 1,
-          media: Array.isArray(data.media)
-            ? data.media.map((m) => ({
-                url: typeof m === "string" ? m : m.url,
-                alt: typeof m === "object" && m.alt ? m.alt : "Venue image",
-              }))
-            : [],
+          media: (data.media || []).map((m) =>
+            typeof m === "string" ? { url: m, alt: "Venue image" } : m
+          ),
           location: {
             address: data.location?.address || "",
             city: data.location?.city || "",
@@ -78,16 +82,17 @@ export default function EditVenue() {
           },
         });
       } catch (err) {
-        console.error("Feil ved henting:", err);
-        setError("Kunne ikke laste venue.");
+        console.error("Feil under henting:", err);
+        setError("Kunne ikke hente data for stedet.");
       }
     }
 
     fetchVenue();
-  }, [id, user?.name]);
+  }, [id, token, user?.name]);
 
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
+
     if (["wifi", "parking", "breakfast", "pets"].includes(name)) {
       setFormData((prev) => ({
         ...prev,
@@ -106,96 +111,90 @@ export default function EditVenue() {
     }
   }
 
-  async function handleSubmit(e) {
+  function handleMediaChange(e) {
+    const lines = e.target.value
+      .split("\n")
+      .map((url) => url.trim())
+      .filter(Boolean);
+
+    setFormData((prev) => ({
+      ...prev,
+      media: lines.map((url) => ({ url, alt: "Venue image" })),
+    }));
+  }
+
+   async function handleSubmit(e) {
     e.preventDefault();
+    setError(null);
+
     try {
-      const body = {
-        ...formData,
-        media: formData.media.map((item) => ({
-          url: typeof item === "string" ? item.trim() : item.url.trim(),
-          alt: item.alt?.trim() || "Venue image",
-        })),
-      };
-
-      console.log("Body som sendes til API:", body);
-
       const res = await fetch(`https://api.noroff.dev/api/v1/holidaze/venues/${id}`, {
-        method: "Post",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
+          "X-Noroff-API-Key": API_KEY,
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify({
+          ...formData,
+          media: formData.media.map((m) => m.url), // ← viktig fix
+        }),
       });
 
       if (!res.ok) {
-        const errorData = await res.json();
-        console.error("API-feil:", JSON.stringify(errorData, null, 2));
+        const errData = await res.json();
+        console.error("API-feil:", errData);
         throw new Error("Kunne ikke oppdatere venue");
       }
 
       navigate(`/venues/${id}`);
     } catch (err) {
       console.error(err);
-      setError("Noe gikk galt. Prøv igjen.");
+      setError("Oppdatering feilet. Sjekk feltene.");
     }
   }
 
-  if (error) return <p className="text-center mt-20 text-red-500">{error}</p>;
-  if (!venue) return <p className="text-center mt-20 text-gray-500">Laster venue...</p>;
-
   return (
     <div
-      className="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center pt-[120px] px-4"
+      className="min-h-screen bg-cover bg-center flex items-center justify-center pt-[120px] px-4"
       style={{ backgroundImage: `url('${backgroundImages.editvenueimage}')` }}
     >
       <div className="w-full max-w-3xl bg-[#1c293a] text-white shadow-lg p-8">
-        <h1 className="text-3xl font-thin mb-6 text-center">Rediger sted</h1>
-        <div className="border-t border-white/20 my-6"></div>
-
+        <h1 className="text-3xl font-light mb-6 text-center">Rediger sted</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
-          <input type="text" name="name" placeholder="Navn" value={formData.name} onChange={handleChange} className="w-full border border-gray-300 rounded px-4 py-2 text-black" required />
-          <textarea name="description" placeholder="Beskrivelse" value={formData.description} onChange={handleChange} rows="4" className="w-full border border-gray-300 rounded px-4 py-2 text-black" />
-          <input type="number" name="price" placeholder="Pris per natt" value={formData.price} onChange={handleChange} className="w-full border border-gray-300 rounded px-4 py-2 text-black" />
-          <input type="number" name="maxGuests" placeholder="Maks antall gjester" value={formData.maxGuests} onChange={handleChange} className="w-full border border-gray-300 rounded px-4 py-2 text-black" />
+          {error && <p className="text-red-500">{error}</p>}
+          <input name="name" value={formData.name} onChange={handleChange} placeholder="Navn" className="w-full p-2 rounded text-black" required />
+          <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Beskrivelse" className="w-full p-2 rounded text-black" rows={3} />
+          <input name="price" type="number" value={formData.price} onChange={handleChange} placeholder="Pris" className="w-full p-2 rounded text-black" />
+          <input name="maxGuests" type="number" value={formData.maxGuests} onChange={handleChange} placeholder="Gjester" className="w-full p-2 rounded text-black" />
 
           <textarea
             name="media"
-            placeholder="Bildelenker (én per linje)"
             value={formData.media.map((m) => m.url).join("\n")}
-            onChange={(e) =>
-              setFormData((prev) => ({
-                ...prev,
-                media: e.target.value
-                  .split("\n")
-                  .map((url) => ({ url: url.trim(), alt: "Venue image" }))
-                  .filter((m) => m.url),
-              }))
-            }
-            rows={5}
-            className="w-full border border-gray-300 rounded px-4 py-2 text-black"
+            onChange={handleMediaChange}
+            placeholder="Bildelenker (én per linje)"
+            rows={4}
+            className="w-full p-2 rounded text-black"
           />
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {["address", "city", "zip", "country", "continent"].map((field) => (
               <input
                 key={field}
-                type="text"
                 name={field}
-                placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
                 value={formData.location[field]}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded px-4 py-2 text-black"
-                required
+                placeholder={field}
+                className="p-2 rounded text-black"
               />
             ))}
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {["wifi", "parking", "breakfast", "pets"].map((key) => (
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {Object.entries(formData.meta).map(([key, value]) => (
               <label key={key} className="flex items-center space-x-2 text-sm">
-                <input type="checkbox" name={key} checked={formData.meta[key]} onChange={handleChange} className="accent-white" />
-                <span className="capitalize">{key}</span>
+                <input type="checkbox" name={key} checked={value} onChange={handleChange} className="accent-white" />
+                <span>{key}</span>
               </label>
             ))}
           </div>
